@@ -1,0 +1,53 @@
+---
+description: Guidelines for effectively analyzing Jam bug reports using MCP tools
+globs:
+alwaysApply: true
+---
+
+# Jam Bug Analysis
+
+When working with Jam bug reports, follow these guidelines to investigate issues effectively.
+
+## Getting Started
+
+- Always start with `getDetails` when given a Jam URL or ID — it provides the bug report overview, device info, and investigation guidance.
+- Follow the **Investigation Guide** returned by `getDetails` — it recommends which tools to call next based on signals detected in the report.
+
+## Jam Identifiers
+
+- Jam URLs look like `https://jam.dev/c/<shortId>` or contain a UUID.
+- You can pass either a full URL or a UUID to any tool's `jamId` parameter.
+- Use `search` if you have a URL or pasted text and need to resolve it to a Jam.
+
+## Investigation Tools
+
+Use these tools to drill into specific aspects of a bug report:
+
+| Tool | Purpose |
+|------|---------|
+| `getDetails` | Overview, metadata, device info, investigation guidance |
+| `getNetworkRequests` | HTTP requests — filter by `statusCode`, `method`, `host`, `contentType` |
+| `getConsoleLogs` | Browser console output — filter by `logLevel` (error, warn, info) |
+| `getUserEvents` | Timeline of clicks, inputs, navigation, scrolls |
+| `getScreenshots` | Visual screenshots (screenshot-type Jams only) |
+| `analyzeVideo` | Extract user intents from video recordings |
+| `getVideoTranscript` | Speech transcript from video Jams (if mic was enabled) |
+| `getMetadata` | Custom metadata set via `jam.metadata()` SDK |
+
+## Discovery & Management Tools
+
+| Tool | Purpose |
+|------|---------|
+| `listJams` | Search and filter Jams by text, type, folder, author, URL, or date |
+| `listFolders` | Browse team folders |
+| `listMembers` | Find team members (useful for filtering by author) |
+| `createComment` | Add a comment to a Jam (supports Markdown) |
+| `updateJam` | Move a Jam to a different folder |
+
+## Best Practices
+
+1. **Follow the server's guidance.** The `getDetails` response includes an Investigation Guide with prioritized next steps — follow it.
+2. **Filter aggressively.** Use `statusCode: "5xx"` or `logLevel: "error"` to focus on failures instead of fetching everything.
+3. **Correlate across data sources.** Match network errors with console errors and user events to build a timeline of what went wrong.
+4. **Check the Jam type first.** `getScreenshots` only works for screenshot Jams; `analyzeVideo` and `getVideoTranscript` only work for video Jams.
+5. **Provide structured diagnoses.** Summarize findings with: what happened, probable root cause, supporting evidence, and recommended next steps.

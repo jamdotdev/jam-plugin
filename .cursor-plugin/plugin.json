@@ -1,0 +1,13 @@
+{
+  "name": "jam",
+  "description": "One-click bug reports with auto-captured diagnostics — console logs, network requests, screenshots, and session replays",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jam",
+    "email": "support@jam.dev"
+  },
+  "homepage": "https://jam.dev",
+  "repository": "https://github.com/jamdotdev/cursor-jam-plugin",
+  "logo": "https://jam.dev/favicon.svg",
+  "keywords": ["bug-reports", "debugging", "mcp", "browser-extension"]
+}

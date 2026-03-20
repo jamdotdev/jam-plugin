@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "Jam": {
+      "url": "https://mcp.jam.dev/mcp",
+      "auth": {
+        "scopes": ["mcp:read", "mcp:write"]
+      }
+    }
+  }
+}
