@@ -51,7 +51,9 @@ Create a token in your Jam team settings under **Personal Access Tokens**.
 
 ### MCP Server Connection (`mcp.json`)
 
-Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assistant access to 15 tools:
+Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assistant access to 24 tools.
+
+**Investigation:**
 
 | Tool | Description |
 |------|-------------|
@@ -60,16 +62,35 @@ Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assi
 | `getConsoleLogs` | Browser console output with log level filtering |
 | `getUserEvents` | Timeline of user interactions (clicks, inputs, navigation) |
 | `getScreenshots` | Visual screenshots from screenshot-type Jams |
+| `getFrames` | Still frames from video Jams — overview grid or timestamp sampling |
 | `analyzeVideo` | Extract user intents from video recordings |
 | `getVideoTranscript` | Speech transcript from video Jams |
 | `getMetadata` | Custom metadata from the `jam.metadata()` SDK |
+| `search` | Resolve a Jam URL or text to a Jam |
+| `fetch` | Alias for `getDetails` |
+
+**Discovery & management:**
+
+| Tool | Description |
+|------|-------------|
 | `listJams` | Search and filter bug reports |
 | `listFolders` | Browse team folders |
 | `listMembers` | Find team members |
 | `createComment` | Add comments to a Jam |
 | `updateJam` | Move Jams between folders |
-| `search` | Resolve a Jam URL or text to a Jam |
-| `fetch` | Alias for `getDetails` |
+
+**Recording links** (collect bug reports from anyone via a shareable URL):
+
+| Tool | Description |
+|------|-------------|
+| `createRecordingLink` | Create a reusable recording link (target folder, expiration) |
+| `listRecordingLinks` | List the team's recording links |
+| `getRecordingLink` | Get a recording link and its recorded-Jam count |
+| `updateRecordingLink` | Rename a link or change its folder, expiration, or metadata |
+| `deleteRecordingLink` | Revoke a link (existing Jams are untouched) |
+| `listRecordingLinkJams` | List Jams recorded through a link |
+| `listRecordingUrls` | List the team's connected recording domains |
+| `getRecordingUrlVerifyLink` | Get a browser link to verify a connected domain |
 
 ### Rule: Jam Bug Analysis (`rules/jam-bug-analysis.mdc`)
 
@@ -89,7 +110,7 @@ After installation:
 
 ## Privacy & Permissions
 
-- OAuth scopes are `mcp:read` (default) and `mcp:write` (needed for `createComment` and `updateJam`).
+- OAuth scopes are `mcp:read` (default) and `mcp:write` (needed for `createComment`, `updateJam`, and the recording-link write tools).
 - The plugin only talks to `https://mcp.jam.dev/mcp`. No data is sent anywhere else.
 - All requests are scoped to Jams your authenticated account already has access to. Permissions are enforced server-side per team and per Jam.
 

@@ -31,6 +31,7 @@ Use these tools to drill into specific aspects of a bug report:
 | `getConsoleLogs` | Browser console output — filter by `logLevel` (error, warn, info) |
 | `getUserEvents` | Timeline of clicks, inputs, navigation, scrolls |
 | `getScreenshots` | Visual screenshots (screenshot-type Jams only) |
+| `getFrames` | Still frames from video Jams as images — `overview: true` for a labeled grid across the whole video, or sample by `at` timestamps / `fromMs`–`toMs` window (max 30 frames/call) |
 | `analyzeVideo` | Extract user intents from video recordings |
 | `getVideoTranscript` | Speech transcript from video Jams (if mic was enabled) |
 | `getMetadata` | Custom metadata set via `jam.metadata()` SDK |
@@ -45,12 +46,30 @@ Use these tools to drill into specific aspects of a bug report:
 | `createComment` | Add a comment to a Jam (supports Markdown) |
 | `updateJam` | Move a Jam to a different folder |
 
+## Recording Link Tools
+
+These manage reusable recording links (URLs anyone can use to record and submit a Jam). They are management tools, not investigation tools — use them when asked to set up or administer bug-report collection, not when diagnosing a Jam.
+
+| Tool | Purpose |
+|------|---------|
+| `createRecordingLink` | Create a reusable recording link (optional target folder, expiration) |
+| `listRecordingLinks` | List the team's recording links (cursor pagination) |
+| `getRecordingLink` | Get one link by `publicId`, including how many Jams it collected |
+| `updateRecordingLink` | Rename a link, change its folder/expiration/metadata |
+| `deleteRecordingLink` | Revoke a link (soft delete — recorded Jams are untouched) |
+| `listRecordingLinkJams` | List the Jams recorded through a link |
+| `listRecordingUrls` | List the team's connected domains (recording URLs) |
+| `getRecordingUrlVerifyLink` | Get a browser link a human opens to verify a connected domain |
+
+Important: a recording link only captures console and network logs when it starts from a **verified connected domain**. Call `listRecordingUrls` first and ask the user which domain to record from — a link created without a `recordingUrlId` captures no logs.
+
 ## Best Practices
 
 1. **Follow the server's guidance.** The `getDetails` response includes an Investigation Guide with prioritized next steps — follow it instead of running every tool blindly.
 2. **Prefer the transcript for video Jams with mic.** When the reporter narrated, `getVideoTranscript` is higher priority than `analyzeVideo` — it's faster and captures intent directly.
-3. **Filter aggressively.** Use `statusCode: "5xx"` or `logLevel: "error"` to focus on failures instead of fetching everything. Pass `host`/`method`/`limit` to narrow further on noisy Jams.
-4. **Correlate across data sources.** Match network errors with console errors and user events to build a timeline of what went wrong.
-5. **Check the Jam type first.** `getScreenshots` only works for screenshot Jams; `analyzeVideo` short-circuits on non-video Jams; `getVideoTranscript` requires that the mic was enabled.
-6. **Handle "not ready" responses.** Event-backed tools (network, console, user events, transcript, intents) can return a postprocessing-pending message on fresh Jams. Retry after a few seconds or fall back to data that's already available.
-7. **Provide structured diagnoses.** Summarize findings with: what happened, probable root cause, supporting evidence, and recommended next steps. Consider posting them back via `createComment`.
+3. **Orient visually with `getFrames`.** For video Jams, `getFrames` with `overview: true` gives a timestamp-labeled grid of the whole recording in one call — cheaper than `analyzeVideo` when you just need to see what was on screen. Follow up with `at` timestamps around the moment of failure.
+4. **Filter aggressively.** Use `statusCode: "5xx"` or `logLevel: "error"` to focus on failures instead of fetching everything. Pass `host`/`method`/`limit` to narrow further on noisy Jams.
+5. **Correlate across data sources.** Match network errors with console errors and user events to build a timeline of what went wrong.
+6. **Check the Jam type first.** `getScreenshots` only works for screenshot Jams; `analyzeVideo` short-circuits on non-video Jams; `getVideoTranscript` requires that the mic was enabled.
+7. **Handle "not ready" responses.** Event-backed tools (network, console, user events, transcript, intents) can return a postprocessing-pending message on fresh Jams. Retry after a few seconds or fall back to data that's already available.
+8. **Provide structured diagnoses.** Summarize findings with: what happened, probable root cause, supporting evidence, and recommended next steps. Consider posting them back via `createComment`.

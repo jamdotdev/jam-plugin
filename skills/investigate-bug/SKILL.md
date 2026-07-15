@@ -1,6 +1,6 @@
 ---
 name: investigate-bug
-description: Structured workflow for analyzing a Jam bug report end-to-end — pulls diagnostics from the Jam MCP server (console, network, user events, screenshots, video transcript) and produces a root-cause hypothesis. Invoke with `/investigate-bug <jam-url-or-id>`.
+description: Structured workflow for analyzing a Jam bug report end-to-end — pulls diagnostics from the Jam MCP server (console, network, user events, screenshots, video frames, transcript) and produces a root-cause hypothesis. Invoke with `/investigate-bug <jam-url-or-id>`.
 ---
 
 # Investigate Bug
@@ -55,9 +55,10 @@ Call `getUserEvents` to understand the sequence of interactions.
 
 Based on the Jam type from `getDetails`:
 - **Screenshot Jams** — call `getScreenshots` to examine visual state.
-- **Video Jams with mic** — call `getVideoTranscript` first (cheap, fast). If you need richer context, call `analyzeVideo` for extracted intents.
-- **Video Jams without mic** — call `analyzeVideo` directly.
-- `analyzeVideo` short-circuits on non-video Jams, so always check the type first.
+- **Video Jams** — call `getFrames` with `overview: true` first: it returns a single timestamp-labeled grid of frames spanning the whole recording, the fastest way to see what happened on screen. Then sample around the failure with `at: [<ms>, ...]` or a `fromMs`/`toMs` window (max 30 frames per call; `size` controls resolution).
+- **Video Jams with mic** — also call `getVideoTranscript` (cheap, fast — the reporter's narration captures intent directly). If you need richer context, call `analyzeVideo` for extracted intents.
+- **Video Jams without mic** — use `getFrames` plus `analyzeVideo`.
+- `analyzeVideo` and `getFrames` short-circuit on non-video Jams, so always check the type first.
 
 ### Step 7: Check Custom Metadata
 
