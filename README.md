@@ -108,6 +108,18 @@ After installation:
 2. Paste a Jam URL into chat (e.g., `https://jam.dev/c/abc123`) and ask the assistant to analyze it.
 3. Try `/investigate-bug https://jam.dev/c/abc123` for a structured investigation.
 
+## Jam CLI
+
+Prefer the terminal, or want your agent to script against Jam data? The [Jam CLI](https://jam.dev/docs/cli) is a complementary surface over the same data:
+
+```bash
+curl -fsSL https://native.jam.dev/install | bash
+jam auth login
+jam get console <jam-url-or-id> --json
+```
+
+The CLI talks to Jam's API directly (it does not require this plugin or the MCP server) and supports the same Personal Access Tokens. Inside Cursor, the MCP connection this plugin configures is the recommended integration — use the CLI for shell scripts, CI, and piping `--json` output through other tools.
+
 ## Privacy & Permissions
 
 - OAuth scopes are `mcp:read` (default) and `mcp:write` (needed for `createComment`, `updateJam`, and the recording-link write tools).
