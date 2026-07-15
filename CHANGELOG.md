@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+- Updated for Jam MCP server v1.7.0 — now documents all 24 tools.
+- New investigation tool: `getFrames` (still frames from video Jams — overview grid or timestamp sampling). Wired into the `jam-bug-analysis` rule and the `/investigate-bug` skill as the first visual-evidence step for video Jams.
+- New recording-link tools: `createRecordingLink`, `listRecordingLinks`, `getRecordingLink`, `updateRecordingLink`, `deleteRecordingLink`, `listRecordingLinkJams`, `listRecordingUrls`, `getRecordingUrlVerifyLink`.
+- Simplified `mcp.json` to the standard Cursor shape (`{"url": ...}`); removed the non-spec `auth.scopes` block (OAuth scopes come from server discovery).
+- README: added a Jam CLI section.
+
 ## 1.0.0
 
 - Initial release of the Jam plugin for Cursor.
