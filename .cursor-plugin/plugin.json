@@ -1,13 +1,28 @@
 {
   "name": "jam",
-  "description": "One-click bug reports with auto-captured diagnostics — console logs, network requests, screenshots, and session replays",
+  "displayName": "Jam",
   "version": "1.0.0",
+  "description": "Investigate Jam bug reports inside Cursor — console logs, network requests, screenshots, video transcripts, and session replays via the Jam MCP server.",
   "author": {
     "name": "Jam",
     "email": "support@jam.dev"
   },
   "homepage": "https://jam.dev",
   "repository": "https://github.com/jamdotdev/cursor-jam-plugin",
+  "license": "MIT",
   "logo": "https://jam.dev/favicon.svg",
-  "keywords": ["bug-reports", "debugging", "mcp", "browser-extension"]
+  "keywords": [
+    "jam",
+    "bug-reports",
+    "debugging",
+    "mcp",
+    "browser-extension",
+    "session-replay",
+    "observability"
+  ],
+  "category": "developer-tools",
+  "tags": ["debugging", "bug-reports", "mcp", "observability"],
+  "rules": "./rules/",
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json"
 }

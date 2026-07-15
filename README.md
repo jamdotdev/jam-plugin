@@ -30,7 +30,7 @@ The plugin is pre-configured to use OAuth with `https://mcp.jam.dev/mcp`. When y
 
 ### Personal Access Token
 
-If you prefer token-based auth, update `.mcp.json` in the plugin directory:
+If you prefer token-based auth, edit `mcp.json` in the plugin directory and replace the `auth` block with a `headers` block:
 
 ```json
 {
@@ -45,9 +45,11 @@ If you prefer token-based auth, update `.mcp.json` in the plugin directory:
 }
 ```
 
+Create a token in your Jam team settings under **Personal Access Tokens**.
+
 ## What's Included
 
-### MCP Server Connection (`.mcp.json`)
+### MCP Server Connection (`mcp.json`)
 
 Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assistant access to 15 tools:
 
@@ -85,8 +87,23 @@ After installation:
 2. Paste a Jam URL into chat (e.g., `https://jam.dev/c/abc123`) and ask the assistant to analyze it.
 3. Try `/investigate-bug https://jam.dev/c/abc123` for a structured investigation.
 
+## Privacy & Permissions
+
+- OAuth scopes are `mcp:read` (default) and `mcp:write` (needed for `createComment` and `updateJam`).
+- The plugin only talks to `https://mcp.jam.dev/mcp`. No data is sent anywhere else.
+- All requests are scoped to Jams your authenticated account already has access to. Permissions are enforced server-side per team and per Jam.
+
+## Support
+
+- Found a bug or have a feature request? Open an issue at [github.com/jamdotdev/cursor-jam-plugin](https://github.com/jamdotdev/cursor-jam-plugin/issues).
+- General Jam support: [support@jam.dev](mailto:support@jam.dev).
+
 ## Links
 
 - [Jam Website](https://jam.dev)
 - [Jam Browser Extension](https://chrome.google.com/webstore/detail/jam/iohjgamcilhbgmhbnllfolmkmmekfmci)
 - [MCP Server Documentation](https://jam.dev/mcp)
+
+## License
+
+MIT — see [LICENSE](./LICENSE).

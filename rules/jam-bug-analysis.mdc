@@ -16,8 +16,9 @@ When working with Jam bug reports, follow these guidelines to investigate issues
 ## Jam Identifiers
 
 - Jam URLs look like `https://jam.dev/c/<shortId>` or contain a UUID.
-- You can pass either a full URL or a UUID to any tool's `jamId` parameter.
-- Use `search` if you have a URL or pasted text and need to resolve it to a Jam.
+- You can pass either a full URL or a UUID to any tool's `jamId` parameter (or `id` for `fetch`).
+- Use `search` if you have a URL or pasted text and need to resolve it to a Jam — it returns empty results when no UUID/URL can be extracted from the query.
+- `fetch` is an alias for `getDetails` (kept for tools that expect the standard MCP `fetch` shape).
 
 ## Investigation Tools
 
@@ -46,8 +47,10 @@ Use these tools to drill into specific aspects of a bug report:
 
 ## Best Practices
 
-1. **Follow the server's guidance.** The `getDetails` response includes an Investigation Guide with prioritized next steps — follow it.
-2. **Filter aggressively.** Use `statusCode: "5xx"` or `logLevel: "error"` to focus on failures instead of fetching everything.
-3. **Correlate across data sources.** Match network errors with console errors and user events to build a timeline of what went wrong.
-4. **Check the Jam type first.** `getScreenshots` only works for screenshot Jams; `analyzeVideo` and `getVideoTranscript` only work for video Jams.
-5. **Provide structured diagnoses.** Summarize findings with: what happened, probable root cause, supporting evidence, and recommended next steps.
+1. **Follow the server's guidance.** The `getDetails` response includes an Investigation Guide with prioritized next steps — follow it instead of running every tool blindly.
+2. **Prefer the transcript for video Jams with mic.** When the reporter narrated, `getVideoTranscript` is higher priority than `analyzeVideo` — it's faster and captures intent directly.
+3. **Filter aggressively.** Use `statusCode: "5xx"` or `logLevel: "error"` to focus on failures instead of fetching everything. Pass `host`/`method`/`limit` to narrow further on noisy Jams.
+4. **Correlate across data sources.** Match network errors with console errors and user events to build a timeline of what went wrong.
+5. **Check the Jam type first.** `getScreenshots` only works for screenshot Jams; `analyzeVideo` short-circuits on non-video Jams; `getVideoTranscript` requires that the mic was enabled.
+6. **Handle "not ready" responses.** Event-backed tools (network, console, user events, transcript, intents) can return a postprocessing-pending message on fresh Jams. Retry after a few seconds or fall back to data that's already available.
+7. **Provide structured diagnoses.** Summarize findings with: what happened, probable root cause, supporting evidence, and recommended next steps. Consider posting them back via `createComment`.
