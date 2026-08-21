@@ -2,7 +2,7 @@
   "name": "jam",
   "displayName": "Jam",
   "version": "1.2.1",
-  "description": "Investigate Jam bug reports inside Cursor \u2014 console logs, network requests, screenshots, video transcripts, and session replays via the Jam MCP server.",
+  "description": "Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor and the whole recording – video, console, network, logs – arrives pre-packaged.",
   "author": {
     "name": "Jam",
     "email": "support@jam.dev"
