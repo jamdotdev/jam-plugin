@@ -2,7 +2,7 @@
 
 ## 1.2.0
 
-- Fixed the plugin logo: it pointed at `https://jam.dev/favicon.svg`, which returns 404. The logo is now committed at `assets/logo.svg` and referenced by relative path, as the marketplace expects.
+- Fixed the plugin logo: it pointed at `https://jam.dev/favicon.svg`, which returns 404. It now points at `https://cdn-jam-assets.jam.dev/cursor-plugin/logo.png`, served from the Jam asset CDN.
 - Added `.cursor-plugin/marketplace.json` so the repository can be added as a plugin folder in Cursor.
 - Documented the 9 tools the Jam MCP server gained since v1.7.0: `getVideoChapters`, `createFolder`, `updateFolder`, `editComment`, `addReaction`, `removeReaction`, `deleteJam`, `deleteComment`, `deleteFolder`. The README and the `jam-bug-analysis` rule now cover all 33 tools.
 - Called out the destructive `delete*` tools in their own section of both the README and the rule, with an instruction to confirm with the user before calling them.
