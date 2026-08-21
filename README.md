@@ -30,7 +30,7 @@ The plugin is pre-configured to use OAuth with `https://mcp.jam.dev/mcp`. When y
 
 ### Personal Access Token
 
-If you prefer token-based auth, edit `mcp.json` in the plugin directory and replace the `auth` block with a `headers` block:
+If you prefer token-based auth, add a `headers` block to the server entry in `mcp.json`:
 
 ```json
 {
@@ -51,7 +51,7 @@ Create a token in your Jam team settings under **Personal Access Tokens**.
 
 ### MCP Server Connection (`mcp.json`)
 
-Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assistant access to 24 tools.
+Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assistant access to 33 tools.
 
 **Investigation:**
 
@@ -65,6 +65,7 @@ Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assi
 | `getFrames` | Still frames from video Jams — overview grid or timestamp sampling |
 | `analyzeVideo` | Extract user intents from video recordings |
 | `getVideoTranscript` | Speech transcript from video Jams |
+| `getVideoChapters` | AI-generated chapters — titled segments with start/end timestamps |
 | `getMetadata` | Custom metadata from the `jam.metadata()` SDK |
 | `search` | Resolve a Jam URL or text to a Jam |
 | `fetch` | Alias for `getDetails` |
@@ -75,9 +76,23 @@ Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assi
 |------|-------------|
 | `listJams` | Search and filter bug reports |
 | `listFolders` | Browse team folders |
+| `createFolder` | Create a folder to file Jams into |
+| `updateFolder` | Rename a folder (does not move Jams) |
 | `listMembers` | Find team members |
 | `createComment` | Add comments to a Jam |
+| `editComment` | Rewrite a comment you authored |
+| `addReaction` | React to a comment |
+| `removeReaction` | Take back a reaction you left |
 | `updateJam` | Move Jams between folders |
+
+**Destructive** — these permanently remove data and nothing can restore it. The assistant is
+instructed to confirm with you before calling any of them.
+
+| Tool | Description |
+|------|-------------|
+| `deleteJam` | Delete a Jam |
+| `deleteComment` | Delete a comment you authored, along with its attachments |
+| `deleteFolder` | Delete a folder and every Jam inside it |
 
 **Recording links** (collect bug reports from anyone via a shareable URL):
 
@@ -122,7 +137,8 @@ The CLI talks to Jam's API directly (it does not require this plugin or the MCP 
 
 ## Privacy & Permissions
 
-- OAuth scopes are `mcp:read` (default) and `mcp:write` (needed for `createComment`, `updateJam`, and the recording-link write tools).
+- OAuth scopes are `mcp:read` (default) and `mcp:write` (needed for every write tool: comments, reactions, folders, `updateJam`, the recording-link write tools, and the destructive `delete*` tools).
+- Write and delete permissions are enforced server-side per team and per Jam. A `mcp:read` token cannot mutate anything.
 - The plugin only talks to `https://mcp.jam.dev/mcp`. No data is sent anywhere else.
 - All requests are scoped to Jams your authenticated account already has access to. Permissions are enforced server-side per team and per Jam.
 

@@ -1,0 +1,17 @@
+{
+  "name": "jam-plugins",
+  "owner": {
+    "name": "Jam",
+    "email": "support@jam.dev"
+  },
+  "metadata": {
+    "description": "Jam's official Cursor plugins"
+  },
+  "plugins": [
+    {
+      "name": "jam",
+      "source": ".",
+      "description": "Investigate Jam bug reports inside Cursor — console logs, network requests, screenshots, video transcripts, and session replays via the Jam MCP server."
+    }
+  ]
+}

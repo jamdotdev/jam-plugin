@@ -1,6 +1,5 @@
 ---
 description: Guidelines for effectively analyzing Jam bug reports using MCP tools
-globs:
 alwaysApply: true
 ---
 
@@ -34,6 +33,7 @@ Use these tools to drill into specific aspects of a bug report:
 | `getFrames` | Still frames from video Jams as images — `overview: true` for a labeled grid across the whole video, or sample by `at` timestamps / `fromMs`–`toMs` window (max 30 frames/call) |
 | `analyzeVideo` | Extract user intents from video recordings |
 | `getVideoTranscript` | Speech transcript from video Jams (if mic was enabled) |
+| `getVideoChapters` | AI-generated chapters for a video Jam — titled segments with start/end timestamps |
 | `getMetadata` | Custom metadata set via `jam.metadata()` SDK |
 
 ## Discovery & Management Tools
@@ -43,7 +43,12 @@ Use these tools to drill into specific aspects of a bug report:
 | `listJams` | Search and filter Jams by text, type, folder, author, URL, or date |
 | `listFolders` | Browse team folders |
 | `listMembers` | Find team members (useful for filtering by author) |
+| `createFolder` | Create a folder to file Jams into |
+| `updateFolder` | Rename a folder (does not move Jams) |
 | `createComment` | Add a comment to a Jam (supports Markdown) |
+| `editComment` | Rewrite a comment you authored |
+| `addReaction` | React to a comment on a Jam |
+| `removeReaction` | Take back a reaction you left |
 | `updateJam` | Move a Jam to a different folder |
 
 ## Recording Link Tools
@@ -62,6 +67,19 @@ These manage reusable recording links (URLs anyone can use to record and submit 
 | `getRecordingUrlVerifyLink` | Get a browser link a human opens to verify a connected domain |
 
 Important: a recording link only captures console and network logs when it starts from a **verified connected domain**. Call `listRecordingUrls` first and ask the user which domain to record from — a link created without a `recordingUrlId` captures no logs.
+
+## Destructive Tools
+
+These permanently remove data. Nothing on the team can restore it — the dashboard has no trash or
+archive view. Confirm with the user before calling any of them, and never claim the data can be
+recovered afterwards.
+
+| Tool | Purpose |
+|------|---------|
+| `deleteJam` | Delete a Jam |
+| `deleteComment` | Delete a comment you authored, along with its attachments |
+| `deleteFolder` | Delete a folder and every Jam inside it |
+| `deleteRecordingLink` | Revoke a recording link (soft delete — recorded Jams are untouched) |
 
 ## Best Practices
 
