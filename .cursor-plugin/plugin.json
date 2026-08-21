@@ -1,7 +1,7 @@
 {
   "name": "jam",
   "displayName": "Jam",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Investigate Jam bug reports inside Cursor \u2014 console logs, network requests, screenshots, video transcripts, and session replays via the Jam MCP server.",
   "author": {
     "name": "Jam",

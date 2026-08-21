@@ -1,36 +1,32 @@
-# Jam Plugin for Cursor
+# Jam plugin for Cursor
 
-Integrate [Jam](https://jam.dev) bug reports directly into Cursor. This plugin connects to Jam's MCP server so your AI assistant can analyze bug reports, access diagnostic data (console logs, network requests, screenshots, session replays), and manage Jams — all from your editor.
+Investigate [Jam](https://jam.dev) bug reports without leaving Cursor. This plugin connects Cursor to Jam's Model Context Protocol (MCP) server, so the agent can read a Jam's console logs, network requests, screenshots, video frames, and transcripts, then write its findings back as a comment.
 
 ## Installation
 
-### From the Cursor Plugin Marketplace
+### From the Cursor marketplace
 
-Search for **"Jam"** in the Cursor plugin marketplace and click Install.
+Open **Customize** in the Cursor sidebar, search for **Jam**, and select **Install**.
 
-### Manual Installation
+### Local install
 
-Copy or symlink this directory into your Cursor plugins folder:
+To run an unreleased version, symlink the repository into Cursor's local plugin folder:
 
 ```bash
-# macOS / Linux
 ln -s /path/to/cursor-jam-plugin ~/.cursor/plugins/local/jam
-
-# Or copy directly
-cp -r /path/to/cursor-jam-plugin ~/.cursor/plugins/local/jam
 ```
 
-Then reload Cursor (`Cmd+Shift+P` > "Developer: Reload Window").
+Then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`).
 
 ## Authentication
 
-### OAuth (Default)
+### OAuth (default)
 
-The plugin is pre-configured to use OAuth with `https://mcp.jam.dev/mcp`. When you first use a Jam tool, Cursor will open a browser window to authenticate with your Jam account. No additional configuration needed.
+The plugin ships pointed at `https://mcp.jam.dev/mcp`. The first time the agent calls a Jam tool, Cursor opens a browser window to authenticate with your Jam account. Nothing else to configure.
 
-### Personal Access Token
+### Personal access token
 
-If you prefer token-based auth, add a `headers` block to the server entry in `mcp.json`:
+Use a token where the OAuth browser flow is not available, such as a headless environment or CI. Create one under [Settings → MCP](https://jam.dev/s/settings/mcp) in the **Personal Access Tokens** section, then add a `headers` block to the server entry in `mcp.json`:
 
 ```json
 {
@@ -45,48 +41,49 @@ If you prefer token-based auth, add a `headers` block to the server entry in `mc
 }
 ```
 
-Create a token in your Jam team settings under **Personal Access Tokens**.
+Each token is scoped to one workspace, tied to your user account, and expires on a date you pick. Jam stores only a hash, so copy the token when you create it.
 
-## What's Included
+## What's included
 
-### MCP Server Connection (`mcp.json`)
+### MCP server connection (`mcp.json`)
 
-Connects to the Jam MCP server at `https://mcp.jam.dev/mcp`, giving your AI assistant access to 33 tools.
+Connects to the Jam MCP server at `https://mcp.jam.dev/mcp` and exposes 33 tools.
 
-**Investigation:**
+**Investigation**
 
 | Tool | Description |
 |------|-------------|
-| `getDetails` | Bug report overview, device info, and investigation guidance |
-| `getNetworkRequests` | HTTP requests with filtering (status, method, host) |
-| `getConsoleLogs` | Browser console output with log level filtering |
-| `getUserEvents` | Timeline of user interactions (clicks, inputs, navigation) |
-| `getScreenshots` | Visual screenshots from screenshot-type Jams |
-| `getFrames` | Still frames from video Jams — overview grid or timestamp sampling |
-| `analyzeVideo` | Extract user intents from video recordings |
-| `getVideoTranscript` | Speech transcript from video Jams |
-| `getVideoChapters` | AI-generated chapters — titled segments with start/end timestamps |
-| `getMetadata` | Custom metadata from the `jam.metadata()` SDK |
-| `search` | Resolve a Jam URL or text to a Jam |
+| `getDetails` | Bug report overview, device info, and the server's investigation guide |
+| `getNetworkRequests` | HTTP requests, filterable by status, method, host, and content type |
+| `getConsoleLogs` | Browser console output, filterable by log level |
+| `getUserEvents` | Timeline of clicks, inputs, navigation, and scrolls |
+| `getScreenshots` | Images from screenshot Jams |
+| `getFrames` | Still frames from video Jams, as an overview grid or sampled at timestamps |
+| `analyzeVideo` | User intents extracted from a video recording |
+| `getVideoTranscript` | Speech transcript from video Jams recorded with the mic on |
+| `getVideoChapters` | Titled segments of a video Jam with start and end timestamps |
+| `getMetadata` | Custom metadata the page sent through `jam.metadata()` |
+| `search` | Resolve a Jam URL or pasted text to a Jam |
 | `fetch` | Alias for `getDetails` |
 
-**Discovery & management:**
+**Discovery and management**
 
 | Tool | Description |
 |------|-------------|
-| `listJams` | Search and filter bug reports |
-| `listFolders` | Browse team folders |
+| `listJams` | Search and filter Jams by text, type, folder, author, URL, or date |
+| `listFolders` | Browse the workspace's folders |
 | `createFolder` | Create a folder to file Jams into |
-| `updateFolder` | Rename a folder (does not move Jams) |
-| `listMembers` | Find team members |
-| `createComment` | Add comments to a Jam |
+| `updateFolder` | Rename a folder. It does not move Jams |
+| `listMembers` | Find workspace members |
+| `createComment` | Add a Markdown comment to a Jam |
 | `editComment` | Rewrite a comment you authored |
 | `addReaction` | React to a comment |
 | `removeReaction` | Take back a reaction you left |
-| `updateJam` | Move Jams between folders |
+| `updateJam` | Move a Jam to a different folder |
 
-**Destructive** — these permanently remove data and nothing can restore it. The assistant is
-instructed to confirm with you before calling any of them.
+**Destructive**
+
+These remove data permanently. Nobody in the workspace can restore it, because the dashboard has no trash or archive view. The bundled rule tells the agent to confirm with you before calling any of them.
 
 | Tool | Description |
 |------|-------------|
@@ -94,38 +91,40 @@ instructed to confirm with you before calling any of them.
 | `deleteComment` | Delete a comment you authored, along with its attachments |
 | `deleteFolder` | Delete a folder and every Jam inside it |
 
-**Recording links** (collect bug reports from anyone via a shareable URL):
+**Recording Links**
+
+Reusable URLs that let anyone record a Jam into your workspace.
 
 | Tool | Description |
 |------|-------------|
-| `createRecordingLink` | Create a reusable recording link (target folder, expiration) |
-| `listRecordingLinks` | List the team's recording links |
-| `getRecordingLink` | Get a recording link and its recorded-Jam count |
-| `updateRecordingLink` | Rename a link or change its folder, expiration, or metadata |
-| `deleteRecordingLink` | Revoke a link (existing Jams are untouched) |
-| `listRecordingLinkJams` | List Jams recorded through a link |
-| `listRecordingUrls` | List the team's connected recording domains |
-| `getRecordingUrlVerifyLink` | Get a browser link to verify a connected domain |
+| `createRecordingLink` | Create a link, optionally with a target folder and an expiration |
+| `listRecordingLinks` | List the workspace's links |
+| `getRecordingLink` | Get one link and how many Jams it collected |
+| `updateRecordingLink` | Rename a link, or change its folder, expiration, or metadata |
+| `deleteRecordingLink` | Revoke a link. Jams already recorded through it stay |
+| `listRecordingLinkJams` | List the Jams recorded through a link |
+| `listRecordingUrls` | List the workspace's connected domains |
+| `getRecordingUrlVerifyLink` | Get a link a person opens to verify a connected domain |
 
-### Rule: Jam Bug Analysis (`rules/jam-bug-analysis.mdc`)
+A Recording Link only captures console and network logs when it starts from a verified connected domain. Create one with a `recordingUrlId` or the Jams it collects carry no logs.
 
-An always-active rule that teaches the AI assistant how to effectively use Jam tools — which tool to start with, how to filter results, and how to correlate findings across data sources.
+### Rule: Jam bug analysis (`rules/jam-bug-analysis.mdc`)
 
-### Skill: Investigate Bug (`skills/investigate-bug/SKILL.md`)
+Always on. It tells the agent which tool to start with, how to filter noisy results, and how to line up console errors against network failures and user events.
 
-A structured investigation workflow invokable via `/investigate-bug <jam-url-or-id>`. It walks through a systematic analysis: fetching the report, following server guidance, checking network/console/user events, analyzing visual evidence, and producing a structured diagnosis.
+### Skill: investigate bug (`skills/investigate-bug/SKILL.md`)
 
-## Verification
+Run `/investigate-bug <jam-url-or-id>` for a full pass: pull the report, follow the server's investigation guide, read the network, console, and user events, look at the visual evidence, and write up a root-cause hypothesis.
 
-After installation:
+## Verifying the install
 
-1. Open Cursor Settings > Features > MCP and verify **Jam** appears as a connected server.
-2. Paste a Jam URL into chat (e.g., `https://jam.dev/c/abc123`) and ask the assistant to analyze it.
-3. Try `/investigate-bug https://jam.dev/c/abc123` for a structured investigation.
+1. Open **Customize** in the sidebar and confirm **Jam** is listed under MCP servers.
+2. Paste a Jam URL into chat and ask the agent to analyze it. Cursor opens a browser window for OAuth on the first tool call.
+3. Run `/investigate-bug https://jam.dev/c/<id>`.
 
 ## Jam CLI
 
-Prefer the terminal, or want your agent to script against Jam data? The [Jam CLI](https://jam.dev/docs/cli) is a complementary surface over the same data:
+The [Jam CLI](https://jam.dev/docs/cli) reads the same data from a terminal:
 
 ```bash
 curl -fsSL https://native.jam.dev/install | bash
@@ -133,26 +132,27 @@ jam auth login
 jam get console <jam-url-or-id> --json
 ```
 
-The CLI talks to Jam's API directly (it does not require this plugin or the MCP server) and supports the same Personal Access Tokens. Inside Cursor, the MCP connection this plugin configures is the recommended integration — use the CLI for shell scripts, CI, and piping `--json` output through other tools.
+The CLI calls Jam's API directly and needs neither this plugin nor the MCP server. It takes the same personal access tokens. Inside Cursor, use the MCP connection this plugin configures. Reach for the CLI in shell scripts, in CI, and when piping `--json` into other tools.
 
-## Privacy & Permissions
+## Privacy and permissions
 
-- OAuth scopes are `mcp:read` (default) and `mcp:write` (needed for every write tool: comments, reactions, folders, `updateJam`, the recording-link write tools, and the destructive `delete*` tools).
-- Write and delete permissions are enforced server-side per team and per Jam. A `mcp:read` token cannot mutate anything.
-- The plugin only talks to `https://mcp.jam.dev/mcp`. No data is sent anywhere else.
-- All requests are scoped to Jams your authenticated account already has access to. Permissions are enforced server-side per team and per Jam.
+- The plugin talks to `https://mcp.jam.dev/mcp` and nothing else.
+- OAuth scopes are `mcp:read` and `mcp:write`. Writes cover comments, reactions, folders, `updateJam`, the Recording Link write tools, and the three `delete*` tools.
+- The server enforces permissions per workspace and per Jam. A `mcp:read` token cannot change anything.
+- Every request is scoped to the Jams your account can already see.
 
 ## Support
 
-- Found a bug or have a feature request? Open an issue at [github.com/jamdotdev/cursor-jam-plugin](https://github.com/jamdotdev/cursor-jam-plugin/issues).
+- Bug or feature request: open an issue at [github.com/jamdotdev/cursor-jam-plugin](https://github.com/jamdotdev/cursor-jam-plugin/issues).
 - General Jam support: [support@jam.dev](mailto:support@jam.dev).
 
 ## Links
 
-- [Jam Website](https://jam.dev)
-- [Jam Browser Extension](https://chrome.google.com/webstore/detail/jam/iohjgamcilhbgmhbnllfolmkmmekfmci)
-- [MCP Server Documentation](https://jam.dev/mcp)
+- [jam.dev](https://jam.dev)
+- [Jam Chrome extension](https://chromewebstore.google.com/detail/jam/iohjgamcilhbgmhbnllfolmkmmekfmci)
+- [Jam MCP documentation](https://jam.dev/docs/jam-mcp)
+- [Personal access tokens](https://jam.dev/docs/personal-access-tokens)
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+MIT. See [LICENSE](./LICENSE).

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.1
+
+- Corrected the Cursor UI paths. MCP servers, rules, and skills are managed from **Customize**, not `Settings > Features > MCP`.
+- Corrected where personal access tokens come from: **Settings → MCP** in Jam, not team settings.
+- Applied Jam's product terminology. The entity is a workspace, not a team, and Recording Links is a feature name.
+- Pointed the MCP documentation link at `jam.dev/docs/jam-mcp` instead of the `/mcp` redirect, and the Chrome extension link at its current Chrome Web Store URL.
+- Documented that a Recording Link captures console and network logs only when it starts from a verified connected domain.
+
 ## 1.2.0
 
 - Fixed the plugin logo: it pointed at `https://jam.dev/favicon.svg`, which returns 404. It now points at `https://cdn-jam-assets.jam.dev/cursor-plugin/logo.png`, served from the Jam asset CDN.
