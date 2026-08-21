@@ -1,7 +1,7 @@
 {
   "name": "jam",
   "displayName": "Jam",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Investigate Jam bug reports inside Cursor — console logs, network requests, screenshots, video transcripts, and session replays via the Jam MCP server.",
   "author": {
     "name": "Jam",
@@ -10,7 +10,7 @@
   "homepage": "https://jam.dev",
   "repository": "https://github.com/jamdotdev/cursor-jam-plugin",
   "license": "MIT",
-  "logo": "https://jam.dev/favicon.svg",
+  "logo": "assets/logo.svg",
   "keywords": [
     "jam",
     "bug-reports",
@@ -21,8 +21,5 @@
     "observability"
   ],
   "category": "developer-tools",
-  "tags": ["debugging", "bug-reports", "mcp", "observability"],
-  "rules": "./rules/",
-  "skills": "./skills/",
-  "mcpServers": "./mcp.json"
+  "tags": ["debugging", "bug-reports", "mcp", "observability"]
 }
