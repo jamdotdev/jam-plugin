@@ -1,6 +1,6 @@
 # Jam plugin for Cursor
 
-Investigate [Jam](https://jam.dev) bug reports without leaving Cursor. This plugin connects Cursor to Jam's Model Context Protocol (MCP) server, so the agent can read a Jam's console logs, network requests, screenshots, video frames, and transcripts, then write its findings back as a comment.
+Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
 
 ## Installation
 

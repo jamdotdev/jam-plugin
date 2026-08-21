@@ -2,6 +2,7 @@
 
 ## 1.2.1
 
+- Rewrote the plugin description and README opening for the Cursor marketplace listing.
 - Corrected the Cursor UI paths. MCP servers, rules, and skills are managed from **Customize**, not `Settings > Features > MCP`.
 - Corrected where personal access tokens come from: **Settings → MCP** in Jam, not team settings.
 - Applied Jam's product terminology. The entity is a workspace, not a team, and Recording Links is a feature name.
