@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Bundled the plugin logo at `assets/logo.png` and referenced it by relative path, as the Cursor plugin reference asks. The marketplace resolves it from the repository at the reviewed commit instead of fetching an external URL.
+
 ## 1.2.1
 
 - Rewrote the plugin description and README opening for the Cursor marketplace listing.
