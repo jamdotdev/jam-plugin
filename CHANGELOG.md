@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0
+
+- Added the `jam-cli` skill: install the Jam CLI, authenticate with `JAM_TOKEN` in headless environments, triage a Jam with `jam get`, and record proof of a fix with `jam record run`. Covers Cursor Cloud Agents and CI, where the MCP server is not wired up.
+- Documented `jam record` and `jam create jam` in the README.
+
 ## 1.2.2
 
 - Bundled the plugin logo at `assets/logo.png` and referenced it by relative path, as the Cursor plugin reference asks. The marketplace resolves it from the repository at the reviewed commit instead of fetching an external URL.
