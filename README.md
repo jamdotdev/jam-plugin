@@ -124,15 +124,30 @@ Run `/investigate-bug <jam-url-or-id>` for a full pass: pull the report, follow 
 
 ## Jam CLI
 
-The [Jam CLI](https://jam.dev/docs/cli) reads the same data from a terminal:
+The [Jam CLI](https://jam.dev/docs/cli) reads the same data from a terminal, with the same personal access tokens the MCP server accepts:
 
 ```bash
 curl -fsSL https://native.jam.dev/install | bash
-jam auth login
-jam get console <jam-url-or-id> --json
+jam auth login                                 # or: export JAM_TOKEN=jam_pat_...
+jam get console <jam-url-or-id> --level error --json
 ```
 
-The CLI calls Jam's API directly and needs neither this plugin nor the MCP server. It takes the same personal access tokens. Inside Cursor, use the MCP connection this plugin configures. Reach for the CLI in shell scripts, in CI, and when piping `--json` into other tools.
+Use the MCP connection inside Cursor on your machine. Use the CLI where MCP is not wired up, such as Cursor Cloud Agents, CI, and shell scripts that pipe `--json` into other tools.
+
+### Skill: Jam CLI (`skills/jam-cli/SKILL.md`)
+
+Teaches the agent to install the CLI, authenticate with `JAM_TOKEN` in headless environments, triage a Jam with `jam get`, and run `jam skills install --target cursor --project` to pull the CLI's own full command reference into the repo.
+
+### Record proof with `jam record`
+
+The CLI records a window or display while a command runs, uploads the video, and returns a Jam link. Ask the agent to record the fix it just made:
+
+```bash
+jam record windows --json
+jam record run --window-id <id> --title "Checkout completes after fix" -- bun run e2e/checkout.ts
+```
+
+The Jam link goes on the PR. For a bug fix, ask for two Jams: one of the bug, one of the fix. `jam create jam` turns an existing video or Playwright `trace.zip` into a Jam without recording live. macOS and Linux (X11) only.
 
 ## Privacy and permissions
 
