@@ -29,6 +29,16 @@ The repository is also a Claude Code plugin marketplace. Add it and install the 
 
 The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To run an unreleased version, start Claude Code with `claude --plugin-dir /path/to/cursor-jam-plugin`.
 
+### Gemini CLI
+
+The repository is also a Gemini CLI extension:
+
+```bash
+gemini extensions install https://github.com/jamdotdev/cursor-jam-plugin
+```
+
+Both skills load, and the Jam MCP server is added. Run `/mcp auth Jam` once to sign in with OAuth. To run an unreleased version, use `gemini extensions link /path/to/cursor-jam-plugin`.
+
 ## Authentication
 
 ### OAuth (default)
@@ -121,7 +131,7 @@ A Recording Link only captures console and network logs when it starts from a ve
 
 ### Rule: Jam bug analysis (`rules/jam-bug-analysis.mdc`)
 
-Always on in Cursor. Claude Code does not load plugin rules. It tells the agent which tool to start with, how to filter noisy results, and how to line up console errors against network failures and user events.
+Always on in Cursor. Claude Code and Gemini CLI do not load it. It tells the agent which tool to start with, how to filter noisy results, and how to line up console errors against network failures and user events.
 
 ### Skill: investigate bug (`skills/investigate-bug/SKILL.md`)
 
