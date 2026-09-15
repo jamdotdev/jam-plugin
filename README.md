@@ -7,7 +7,7 @@
 <h1 align="center">Jam plugin</h1>
 
 <p align="center">
-  Jam bug reports as context for Cursor, Claude Code, and Gemini CLI.
+  Jam bug reports as context for your coding agent.
 </p>
 
 <p align="center">
@@ -19,27 +19,23 @@
 
 ---
 
-Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor, Claude Code, or Gemini CLI and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
+Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into your coding agent and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
+
+One repository works in Cursor, Claude Code, GitHub Copilot CLI, and Gemini CLI. Each agent gets the Jam MCP server and the same skills.
 
 ## Installation
 
-### From the Cursor marketplace
+### Cursor
 
 Open **Customize** in the Cursor sidebar, search for **Jam**, and select **Install**.
 
-### Local install
-
-To run an unreleased version, symlink the repository into Cursor's local plugin folder:
+To run an unreleased version, symlink the repository into Cursor's local plugin folder, then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`):
 
 ```bash
 ln -s /path/to/jam-plugin ~/.cursor/plugins/local/jam
 ```
 
-Then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`).
-
 ### Claude Code
-
-The repository is also a Claude Code plugin marketplace. Add it and install the plugin:
 
 ```shell
 /plugin marketplace add jamdotdev/jam-plugin
@@ -48,25 +44,30 @@ The repository is also a Claude Code plugin marketplace. Add it and install the 
 
 The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To run an unreleased version, start Claude Code with `claude --plugin-dir /path/to/jam-plugin`.
 
-### Gemini CLI
+### GitHub Copilot CLI
 
-The repository is also a Gemini CLI extension:
+```bash
+copilot plugin marketplace add jamdotdev/jam-plugin
+copilot plugin install jam@jam-plugins
+```
+
+### Gemini CLI
 
 ```bash
 gemini extensions install https://github.com/jamdotdev/jam-plugin
 ```
 
-Both skills load, and the Jam MCP server is added. Run `/mcp auth Jam` once to sign in with OAuth. To run an unreleased version, use `gemini extensions link /path/to/jam-plugin`.
+Run `/mcp auth Jam` once to sign in. To run an unreleased version, use `gemini extensions link /path/to/jam-plugin`.
 
 ## Authentication
 
 ### OAuth (default)
 
-The plugin ships pointed at `https://mcp.jam.dev/mcp`. The first time the agent calls a Jam tool, Cursor opens a browser window to authenticate with your Jam account. Nothing else to configure.
+The plugin ships pointed at `https://mcp.jam.dev/mcp`. The first time the agent calls a Jam tool, your agent opens a browser window to authenticate with your Jam account. Nothing else to configure.
 
 ### Personal access token
 
-Use a token where the OAuth browser flow is not available, such as a headless environment or CI. Create one under [Settings → MCP](https://jam.dev/s/settings/mcp) in the **Personal Access Tokens** section, then add a `headers` block to the server entry in `mcp.json`:
+Use a token where the OAuth browser flow is not available, such as a headless environment or CI. Create one under [Settings → MCP](https://jam.dev/s/settings/mcp) in the **Personal Access Tokens** section, then add a `headers` block to the Jam server entry in your agent's MCP config. In Cursor, that is `mcp.json`:
 
 ```json
 {
@@ -150,7 +151,7 @@ A Recording Link only captures console and network logs when it starts from a ve
 
 ### Rule: Jam bug analysis (`rules/jam-bug-analysis.mdc`)
 
-Always on in Cursor. Claude Code and Gemini CLI do not load it. It tells the agent which tool to start with, how to filter noisy results, and how to line up console errors against network failures and user events.
+Cursor only, where it is always on. Other agents do not load rules. It tells the agent which tool to start with, how to filter noisy results, and how to line up console errors against network failures and user events.
 
 ### Skill: investigate bug (`skills/investigate-bug/SKILL.md`)
 
@@ -158,9 +159,9 @@ Run `/investigate-bug <jam-url-or-id>` for a full pass: pull the report, follow 
 
 ## Verifying the install
 
-1. Open **Customize** in the sidebar and confirm **Jam** is listed under MCP servers.
-2. Paste a Jam URL into chat and ask the agent to analyze it. Cursor opens a browser window for OAuth on the first tool call.
-3. Run `/investigate-bug https://jam.dev/c/<id>`.
+1. Confirm **Jam** is listed in your agent's MCP servers (Cursor: **Customize**; Claude Code and Gemini CLI: `/mcp`; Copilot CLI: `copilot mcp list`).
+2. Paste a Jam URL into chat and ask the agent to analyze it. A browser window opens for OAuth on the first tool call.
+3. Run the `investigate-bug` skill on `https://jam.dev/c/<id>`.
 
 ## Jam CLI
 
@@ -172,11 +173,11 @@ jam auth login                                 # or: export JAM_TOKEN=jam_pat_..
 jam get console <jam-url-or-id> --level error --json
 ```
 
-Use the MCP connection inside Cursor on your machine. Use the CLI where MCP is not wired up, such as Cursor Cloud Agents, CI, and shell scripts that pipe `--json` into other tools.
+Use the MCP connection in your agent on your machine. Use the CLI where MCP is not wired up, such as cloud agents, CI, and shell scripts that pipe `--json` into other tools.
 
 ### Skill: Jam CLI (`skills/jam-cli/SKILL.md`)
 
-Teaches the agent to install the CLI, authenticate with `JAM_TOKEN` in headless environments, triage a Jam with `jam get`, and run `jam skills install --target cursor --project` to pull the CLI's own full command reference into the repo.
+Teaches the agent to install the CLI, authenticate with `JAM_TOKEN` in headless environments, triage a Jam with `jam get`, and run `jam skills install --target <agent> --project` to pull the CLI's own full command reference into the repo.
 
 ### Record proof with `jam record`
 

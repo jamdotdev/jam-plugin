@@ -5,7 +5,7 @@ description: Use the `jam` CLI when the Jam MCP server is not connected (Cloud A
 
 # Jam CLI
 
-The Jam MCP server and the `jam` CLI read the same data with the same personal access token. Prefer the MCP tools when they are connected. Reach for the CLI when they are not (Cursor Cloud Agents, CI, a container) or when you want `--json` output to pipe through `jq`.
+The Jam MCP server and the `jam` CLI read the same data with the same personal access token. Prefer the MCP tools when they are connected. Reach for the CLI when they are not (cloud agents, CI, a container) or when you want `--json` output to pipe through `jq`.
 
 ## Install
 
@@ -36,8 +36,10 @@ Exit code 3 means not authenticated. Branch on exit codes, not on stderr text.
 The binary ships its own skills. Install them into this repo so the agent gets the complete `jam get`, `jam list`, `jam create`, and `jam record` surface:
 
 ```bash
-jam skills install --target cursor --project
+jam skills install --target <agent> --project
 ```
+
+`<agent>` is one of `claude`, `cursor`, `codex`, or `opencode`. Pick the one you are running in.
 
 `jam agent-context` prints the machine-readable command surface if you need a flag the skill does not mention.
 
