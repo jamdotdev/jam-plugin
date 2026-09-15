@@ -3,6 +3,6 @@
   "owner": { "name": "Jam", "email": "support@jam.dev" },
   "metadata": { "description": "Jam's official plugins" },
   "plugins": [
-    { "name": "jam", "source": "./", "description": "Jam recordings (video, console, network, logs) as context for Claude Code." }
+    { "name": "jam", "source": "./", "description": "Jam recordings (video, console, network, logs) as context for your coding agent." }
   ]
 }

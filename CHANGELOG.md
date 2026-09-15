@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1
+
+- Documented GitHub Copilot CLI install. Copilot CLI reads the `.claude-plugin/` manifest and marketplace, so `copilot plugin install jam@jam-plugins` works with no new files.
+- Synced tool and CLI docs with the shipped Jam MCP server and Jam CLI: `search` matches video Jams only, `listJams` filters by origin, `updateJam` also renames and edits descriptions, token expiry uses fixed lengths, paginated CLI output includes `truncated` and `hint`, and the `jam-cli` skill covers `jam record start`/`stop` and `--cdp`.
+- Made the README and the `jam-cli` skill agent-neutral. The skill no longer assumes Cursor when it installs the CLI's command reference.
+
 ## 1.4.0
 
 - Added a Claude Code plugin manifest and marketplace in `.claude-plugin/`. The same repository now installs in Claude Code with `/plugin marketplace add jamdotdev/jam-plugin`, with the Jam MCP server and both skills.

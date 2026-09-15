@@ -16,7 +16,7 @@ When working with Jam bug reports, follow these guidelines to investigate issues
 
 - Jam URLs look like `https://jam.dev/c/<shortId>` or contain a UUID.
 - You can pass either a full URL or a UUID to any tool's `jamId` parameter (or `id` for `fetch`).
-- Use `search` if you have a URL or pasted text and need to resolve it to a Jam — it returns empty results when no UUID/URL can be extracted from the query.
+- Use `search` if you have a URL or pasted text and need to resolve it to a Jam — it returns empty results when no UUID/URL can be extracted from the query. It only matches video Jams: a screenshot or replay Jam that exists still comes back empty, so use `listJams` for those.
 - `fetch` is an alias for `getDetails` (kept for tools that expect the standard MCP `fetch` shape).
 
 ## Investigation Tools
@@ -40,7 +40,7 @@ Use these tools to drill into specific aspects of a bug report:
 
 | Tool | Purpose |
 |------|---------|
-| `listJams` | Search and filter Jams by text, type, folder, author, URL, or date |
+| `listJams` | Search and filter Jams by text, type, origin (capture surface), folder, author, URL, or date |
 | `listFolders` | Browse team folders |
 | `listMembers` | Find team members (useful for filtering by author) |
 | `createFolder` | Create a folder to file Jams into |
@@ -49,7 +49,7 @@ Use these tools to drill into specific aspects of a bug report:
 | `editComment` | Rewrite a comment you authored |
 | `addReaction` | React to a comment on a Jam |
 | `removeReaction` | Take back a reaction you left |
-| `updateJam` | Move a Jam to a different folder |
+| `updateJam` | Rename a Jam, rewrite its description, or move it to a different folder (title and description edits need an Admin or Creator seat) |
 
 ## Recording Link Tools
 

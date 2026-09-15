@@ -7,29 +7,29 @@
 <h1 align="center">Jam plugin</h1>
 
 <p align="center">
-  Jam bug reports as context for Cursor, Claude Code, and Gemini CLI.
+  Give your coding agent the full story of a bug, in one Jam.
 </p>
 
 <p align="center">
-  <a href="https://jam.dev/docs/jam-mcp"><strong>MCP Docs</strong></a> ·
-  <a href="https://jam.dev/docs/cli"><strong>CLI Docs</strong></a> ·
-  <a href="https://jam.dev"><strong>Jam.dev</strong></a>
+  <a href="https://jam.dev/docs/jam-mcp"><strong>Jam MCP docs</strong></a> ·
+  <a href="https://jam.dev/docs/cli"><strong>Jam CLI docs</strong></a> ·
+  <a href="https://jam.dev"><strong>jam.dev</strong></a>
 </p>
 <br/>
 
 ---
 
-Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor, Claude Code, or Gemini CLI and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
+Paste a Jam link into your coding agent, and it reads the recording, console logs, network requests, and user events on its own. You skip typing out repro steps and copying stack traces.
 
-## Installation
+The plugin works in Cursor, Claude Code, GitHub Copilot CLI, and Gemini CLI. In each one, it connects the Jam Model Context Protocol (MCP) server and adds two skills.
 
-### From the Cursor marketplace
+## Install the plugin
 
-Open **Customize** in the Cursor sidebar, search for **Jam**, and select **Install**.
+### Cursor
 
-### Local install
+Open **Customize** in the Cursor sidebar, search for **Jam**, and click **Install**.
 
-To run an unreleased version, symlink the repository into Cursor's local plugin folder:
+To test an unreleased version, link the repository into Cursor's local plugin folder:
 
 ```bash
 ln -s /path/to/jam-plugin ~/.cursor/plugins/local/jam
@@ -39,34 +39,40 @@ Then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`).
 
 ### Claude Code
 
-The repository is also a Claude Code plugin marketplace. Add it and install the plugin:
-
 ```shell
 /plugin marketplace add jamdotdev/jam-plugin
 /plugin install jam@jam-plugins
 ```
 
-The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To run an unreleased version, start Claude Code with `claude --plugin-dir /path/to/jam-plugin`.
+The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To test an unreleased version, start Claude Code with `claude --plugin-dir /path/to/jam-plugin`.
+
+### GitHub Copilot CLI
+
+```bash
+copilot plugin marketplace add jamdotdev/jam-plugin
+copilot plugin install jam@jam-plugins
+```
 
 ### Gemini CLI
-
-The repository is also a Gemini CLI extension:
 
 ```bash
 gemini extensions install https://github.com/jamdotdev/jam-plugin
 ```
 
-Both skills load, and the Jam MCP server is added. Run `/mcp auth Jam` once to sign in with OAuth. To run an unreleased version, use `gemini extensions link /path/to/jam-plugin`.
+Run `/mcp auth Jam` once to sign in. To test an unreleased version, run `gemini extensions link /path/to/jam-plugin`.
 
-## Authentication
+## Sign in
 
-### OAuth (default)
+### OAuth
 
-The plugin ships pointed at `https://mcp.jam.dev/mcp`. The first time the agent calls a Jam tool, Cursor opens a browser window to authenticate with your Jam account. Nothing else to configure.
+The plugin connects to `https://mcp.jam.dev/mcp`. The first time your agent calls a Jam tool, a browser window opens so you can sign in to Jam. There is nothing else to set up.
 
 ### Personal access token
 
-Use a token where the OAuth browser flow is not available, such as a headless environment or CI. Create one under [Settings → MCP](https://jam.dev/s/settings/mcp) in the **Personal Access Tokens** section, then add a `headers` block to the server entry in `mcp.json`:
+Use a token when a browser sign-in isn't possible, such as in CI or a headless environment.
+
+1. Create a token in [**Settings → MCP**](https://jam.dev/s/settings/mcp) under **Personal Access Tokens**. Copy it right away, because Jam stores only a hash.
+2. Add a `headers` block to the Jam server entry in your agent's MCP config. In Cursor, the file is `mcp.json`:
 
 ```json
 {
@@ -81,131 +87,140 @@ Use a token where the OAuth browser flow is not available, such as a headless en
 }
 ```
 
-Each token is scoped to one workspace, tied to your user account, and expires on a date you pick. Jam stores only a hash, so copy the token when you create it.
+Each token works in one workspace, belongs to your account, and expires after seven days, 30 days, 90 days, or one year. You pick the length when you create it. See [Personal access tokens](https://jam.dev/docs/personal-access-tokens) for details.
+
+## Check that it works
+
+1. Confirm **Jam** is in your agent's list of MCP servers. In Cursor, open **Customize**. In Claude Code or Gemini CLI, run `/mcp`. In GitHub Copilot CLI, run `copilot mcp list`.
+2. Paste a Jam link into the chat and ask the agent to analyze it. A browser window opens for sign-in on the first tool call.
+3. Run the `investigate-bug` skill on a Jam link, such as `https://jam.dev/c/<id>`.
 
 ## What's included
 
-### MCP server connection (`mcp.json`)
+### Jam MCP server
 
-Connects to the Jam MCP server at `https://mcp.jam.dev/mcp` and exposes 33 tools.
+The server at `https://mcp.jam.dev/mcp` has 33 tools.
 
-**Investigation**
+**Investigate a Jam**
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
-| `getDetails` | Bug report overview, device info, and the server's investigation guide |
-| `getNetworkRequests` | HTTP requests, filterable by status, method, host, and content type |
-| `getConsoleLogs` | Browser console output, filterable by log level |
-| `getUserEvents` | Timeline of clicks, inputs, navigation, and scrolls |
-| `getScreenshots` | Images from screenshot Jams |
-| `getFrames` | Still frames from video Jams, as an overview grid or sampled at timestamps |
-| `analyzeVideo` | User intents extracted from a video recording |
-| `getVideoTranscript` | Speech transcript from video Jams recorded with the mic on |
-| `getVideoChapters` | Titled segments of a video Jam with start and end timestamps |
-| `getMetadata` | Custom metadata the page sent through `jam.metadata()` |
-| `search` | Resolve a Jam URL or pasted text to a Jam |
-| `fetch` | Alias for `getDetails` |
+| `getDetails` | Returns the Jam overview, device info, and the server's investigation guide |
+| `getNetworkRequests` | Lists HTTP requests. Filter by status, method, host, or content type |
+| `getConsoleLogs` | Lists console output. Filter by log level |
+| `getUserEvents` | Lists clicks, inputs, navigation, and scrolls in order |
+| `getScreenshots` | Returns the images from a screenshot Jam |
+| `getFrames` | Returns still frames from a video Jam, as a grid or at chosen timestamps |
+| `analyzeVideo` | Describes what the user was trying to do in a video |
+| `getVideoTranscript` | Returns the transcript of a video Jam recorded with the mic on |
+| `getVideoChapters` | Splits a video Jam into titled parts with start and end times |
+| `getMetadata` | Returns custom metadata the page sent with `jam.metadata()` |
+| `search` | Finds a video Jam from a link or pasted text. For screenshot and replay Jams, use `listJams` |
+| `fetch` | Same as `getDetails` |
 
-**Discovery and management**
+**Find and organize Jams**
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
-| `listJams` | Search and filter Jams by text, type, folder, author, URL, or date |
-| `listFolders` | Browse the workspace's folders |
-| `createFolder` | Create a folder to file Jams into |
-| `updateFolder` | Rename a folder. It does not move Jams |
-| `listMembers` | Find workspace members |
-| `createComment` | Add a Markdown comment to a Jam |
-| `editComment` | Rewrite a comment you authored |
-| `addReaction` | React to a comment |
-| `removeReaction` | Take back a reaction you left |
-| `updateJam` | Move a Jam to a different folder |
+| `listJams` | Searches Jams by text, type, origin (capture surface), folder, author, URL, or date |
+| `listFolders` | Lists the folders in your workspace |
+| `createFolder` | Creates a folder |
+| `updateFolder` | Renames a folder. The Jams inside stay where they are |
+| `listMembers` | Finds members of your workspace |
+| `createComment` | Adds a Markdown comment to a Jam |
+| `editComment` | Edits a comment you wrote |
+| `addReaction` | Adds a reaction to a comment |
+| `removeReaction` | Removes a reaction you added |
+| `updateJam` | Renames a Jam, edits its description, or moves it to another folder. Editing the title or description needs an Admin or Creator seat |
 
-**Destructive**
+**Delete**
 
-These remove data permanently. Nobody in the workspace can restore it, because the dashboard has no trash or archive view. The bundled rule tells the agent to confirm with you before calling any of them.
+These tools delete data for good. Jam has no trash, so nobody in your workspace can bring it back. In Cursor, the bundled rule tells the agent to ask you before it calls one of them. The server also marks most other write tools as destructive, so your agent may ask before those too.
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
-| `deleteJam` | Delete a Jam |
-| `deleteComment` | Delete a comment you authored, along with its attachments |
-| `deleteFolder` | Delete a folder and every Jam inside it |
+| `deleteJam` | Deletes a Jam |
+| `deleteComment` | Deletes a comment you wrote, with its attachments |
+| `deleteFolder` | Deletes a folder and every Jam in it |
 
 **Recording Links**
 
-Reusable URLs that let anyone record a Jam into your workspace.
+A Recording Link is a reusable URL that lets anyone record a Jam into your workspace.
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
-| `createRecordingLink` | Create a link, optionally with a target folder and an expiration |
-| `listRecordingLinks` | List the workspace's links |
-| `getRecordingLink` | Get one link and how many Jams it collected |
-| `updateRecordingLink` | Rename a link, or change its folder, expiration, or metadata |
-| `deleteRecordingLink` | Revoke a link. Jams already recorded through it stay |
-| `listRecordingLinkJams` | List the Jams recorded through a link |
-| `listRecordingUrls` | List the workspace's connected domains |
-| `getRecordingUrlVerifyLink` | Get a link a person opens to verify a connected domain |
+| `createRecordingLink` | Creates a Recording Link. You can set a folder and an expiration date |
+| `listRecordingLinks` | Lists your workspace's Recording Links |
+| `getRecordingLink` | Returns one Recording Link and how many Jams it collected |
+| `updateRecordingLink` | Changes a Recording Link's name, folder, expiration date, or metadata |
+| `deleteRecordingLink` | Turns off a Recording Link. Jams already recorded with it stay |
+| `listRecordingLinkJams` | Lists the Jams recorded with a Recording Link |
+| `listRecordingUrls` | Lists your workspace's connected domains |
+| `getRecordingUrlVerifyLink` | Returns a link that someone opens to verify a connected domain |
 
-A Recording Link only captures console and network logs when it starts from a verified connected domain. Create one with a `recordingUrlId` or the Jams it collects carry no logs.
+A Recording Link captures console and network logs only when it starts on a verified connected domain. Pass a `recordingUrlId` when you create one, or its Jams have no logs.
 
-### Rule: Jam bug analysis (`rules/jam-bug-analysis.mdc`)
+### Skill: investigate bug
 
-Always on in Cursor. Claude Code and Gemini CLI do not load it. It tells the agent which tool to start with, how to filter noisy results, and how to line up console errors against network failures and user events.
+`skills/investigate-bug/SKILL.md`
 
-### Skill: investigate bug (`skills/investigate-bug/SKILL.md`)
+Run `/investigate-bug <jam-link-or-id>` for a full investigation. The agent reads the Jam, follows the server's investigation guide, checks network requests, console logs, and user events, looks at the screenshots or video, and writes up the likely root cause.
 
-Run `/investigate-bug <jam-url-or-id>` for a full pass: pull the report, follow the server's investigation guide, read the network, console, and user events, look at the visual evidence, and write up a root-cause hypothesis.
+### Skill: Jam CLI
 
-## Verifying the install
+`skills/jam-cli/SKILL.md`
 
-1. Open **Customize** in the sidebar and confirm **Jam** is listed under MCP servers.
-2. Paste a Jam URL into chat and ask the agent to analyze it. Cursor opens a browser window for OAuth on the first tool call.
-3. Run `/investigate-bug https://jam.dev/c/<id>`.
+Teaches the agent to install the Jam CLI, sign in with `JAM_TOKEN` in headless environments, and read a Jam with `jam get`. It also shows how to run `jam skills install --target <agent> --project`, which adds the CLI's full command reference to your repository.
+
+### Rule: Jam bug analysis
+
+`rules/jam-bug-analysis.mdc`
+
+Cursor only, where it is always on. Other agents don't load rules. It tells the agent which tool to call first, how to filter noisy results, and how to match console errors to failed network requests and user events.
 
 ## Jam CLI
 
-The [Jam CLI](https://jam.dev/docs/cli) reads the same data from a terminal, with the same personal access tokens the MCP server accepts:
+The [Jam CLI](https://jam.dev/docs/cli) reads the same data in a terminal. It accepts the same personal access tokens as the MCP server.
 
 ```bash
 curl -fsSL https://native.jam.dev/install | bash
 jam auth login                                 # or: export JAM_TOKEN=jam_pat_...
-jam get console <jam-url-or-id> --level error --json
+jam get console <jam-link-or-id> --level error --json
 ```
 
-Use the MCP connection inside Cursor on your machine. Use the CLI where MCP is not wired up, such as Cursor Cloud Agents, CI, and shell scripts that pipe `--json` into other tools.
+On your own machine, use the MCP server in your agent. Use the CLI where MCP isn't set up, such as cloud agents, CI, and shell scripts that pipe `--json` output into other tools.
 
-### Skill: Jam CLI (`skills/jam-cli/SKILL.md`)
+### Record proof of a fix
 
-Teaches the agent to install the CLI, authenticate with `JAM_TOKEN` in headless environments, triage a Jam with `jam get`, and run `jam skills install --target cursor --project` to pull the CLI's own full command reference into the repo.
-
-### Record proof with `jam record`
-
-The CLI records a window or display while a command runs, uploads the video, and returns a Jam link. Ask the agent to record the fix it just made:
+`jam record` records a window or display while a command runs, uploads the video, and returns a Jam link. Ask the agent to record the fix it made:
 
 ```bash
 jam record windows --json
 jam record run --window-id <id> --title "Checkout completes after fix" -- bun run e2e/checkout.ts
 ```
 
-The Jam link goes on the PR. For a bug fix, ask for two Jams: one of the bug, one of the fix. `jam create jam` turns an existing video or Playwright `trace.zip` into a Jam without recording live. macOS and Linux (X11) only.
+To record a browser fix with its console logs and network requests, add `--cdp 9222` and start Chrome with `--remote-debugging-port=9222`. To record several steps instead of one command, run `jam record start`, do the steps, then run `jam record stop`.
+
+Add the Jam link to the pull request. For a bug fix, ask for two Jams: one that shows the bug and one that shows the fix. To turn an existing video or a Playwright `trace.zip` into a Jam without recording, run `jam create jam`. Recording works on macOS and Linux (X11).
 
 ## Privacy and permissions
 
-- The plugin talks to `https://mcp.jam.dev/mcp` and nothing else.
-- OAuth scopes are `mcp:read` and `mcp:write`. Writes cover comments, reactions, folders, `updateJam`, the Recording Link write tools, and the three `delete*` tools.
-- The server enforces permissions per workspace and per Jam. A `mcp:read` token cannot change anything.
-- Every request is scoped to the Jams your account can already see.
+- The plugin connects only to `https://mcp.jam.dev/mcp`.
+- The OAuth scopes are `mcp:read` and `mcp:write`. Write access covers comments, reactions, folders, `updateJam`, the Recording Link tools that make changes, and the three `delete*` tools.
+- The server checks permissions for each workspace and each Jam. A token with only `mcp:read` can't change anything.
+- Every request sees only the Jams your account can already see.
+- `createFolder` and `createRecordingLink` can upgrade you from Viewer to Creator when your workspace allows it. That can change seat billing and sends an email to workspace Admins. `createRecordingLink` also sends a webhook event to your workspace's webhook subscribers.
 
 ## Support
 
-- Bug or feature request: open an issue at [github.com/jamdotdev/jam-plugin](https://github.com/jamdotdev/jam-plugin/issues).
-- General Jam support: [support@jam.dev](mailto:support@jam.dev).
+- To report a bug or request a feature, [open an issue](https://github.com/jamdotdev/jam-plugin/issues).
+- For anything else about Jam, email [support@jam.dev](mailto:support@jam.dev).
 
 ## Links
 
 - [jam.dev](https://jam.dev)
 - [Jam Chrome extension](https://chromewebstore.google.com/detail/jam/iohjgamcilhbgmhbnllfolmkmmekfmci)
-- [Jam MCP documentation](https://jam.dev/docs/jam-mcp)
+- [Jam MCP docs](https://jam.dev/docs/jam-mcp)
 - [Personal access tokens](https://jam.dev/docs/personal-access-tokens)
 
 ## License
