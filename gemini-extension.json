@@ -1,0 +1,10 @@
+{
+  "name": "jam",
+  "version": "1.4.0",
+  "description": "Jam recordings (video, console, network, logs) as context for Gemini CLI. Paste a Jam link and investigate the bug.",
+  "mcpServers": {
+    "Jam": {
+      "httpUrl": "https://mcp.jam.dev/mcp"
+    }
+  }
+}
