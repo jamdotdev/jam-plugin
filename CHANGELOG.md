@@ -3,6 +3,7 @@
 ## 1.4.0
 
 - Added a Claude Code plugin manifest and marketplace in `.claude-plugin/`. The same repository now installs in Claude Code with `/plugin marketplace add jamdotdev/cursor-jam-plugin`, with the Jam MCP server and both skills.
+- Added `gemini-extension.json`. The repository installs as a Gemini CLI extension with `gemini extensions install https://github.com/jamdotdev/cursor-jam-plugin`.
 
 ## 1.3.0
 
