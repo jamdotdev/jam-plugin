@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://jam.dev">
-    <img src="https://storage.googleapis.com/jam-assets/github-repo.png" alt="Jam">
+    <img src="assets/logo.png" alt="Jam logo" width="120">
   </a>
 </p>
 
