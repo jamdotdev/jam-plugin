@@ -1,0 +1,13 @@
+{
+  "name": "jam",
+  "version": "1.4.0",
+  "description": "Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Claude Code and the whole recording – video, console, network, logs – arrives pre-packaged.",
+  "author": { "name": "Jam", "email": "support@jam.dev" },
+  "homepage": "https://jam.dev",
+  "repository": "https://github.com/jamdotdev/cursor-jam-plugin",
+  "license": "MIT",
+  "keywords": ["jam", "bug-reports", "debugging", "mcp", "session-replay", "observability"],
+  "mcpServers": {
+    "Jam": { "type": "http", "url": "https://mcp.jam.dev/mcp" }
+  }
+}
