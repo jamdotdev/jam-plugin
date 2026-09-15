@@ -87,7 +87,7 @@ Use a token when a browser sign-in isn't possible, such as in CI or a headless e
 }
 ```
 
-Each token works in one workspace, belongs to your account, and expires on the date you pick. See [Personal access tokens](https://jam.dev/docs/personal-access-tokens) for details.
+Each token works in one workspace, belongs to your account, and expires after seven days, 30 days, 90 days, or one year. You pick the length when you create it. See [Personal access tokens](https://jam.dev/docs/personal-access-tokens) for details.
 
 ## Check that it works
 
@@ -115,14 +115,14 @@ The server at `https://mcp.jam.dev/mcp` has 33 tools.
 | `getVideoTranscript` | Returns the transcript of a video Jam recorded with the mic on |
 | `getVideoChapters` | Splits a video Jam into titled parts with start and end times |
 | `getMetadata` | Returns custom metadata the page sent with `jam.metadata()` |
-| `search` | Finds a Jam from a link or pasted text |
+| `search` | Finds a video Jam from a link or pasted text. For screenshot and replay Jams, use `listJams` |
 | `fetch` | Same as `getDetails` |
 
 **Find and organize Jams**
 
 | Tool | What it does |
 |------|-------------|
-| `listJams` | Searches Jams by text, type, folder, author, URL, or date |
+| `listJams` | Searches Jams by text, type, origin (capture surface), folder, author, URL, or date |
 | `listFolders` | Lists the folders in your workspace |
 | `createFolder` | Creates a folder |
 | `updateFolder` | Renames a folder. The Jams inside stay where they are |
@@ -131,11 +131,11 @@ The server at `https://mcp.jam.dev/mcp` has 33 tools.
 | `editComment` | Edits a comment you wrote |
 | `addReaction` | Adds a reaction to a comment |
 | `removeReaction` | Removes a reaction you added |
-| `updateJam` | Moves a Jam to another folder |
+| `updateJam` | Renames a Jam, edits its description, or moves it to another folder. Editing the title or description needs an Admin or Creator seat |
 
 **Delete**
 
-These tools delete data for good. Jam has no trash, so nobody in your workspace can bring it back. In Cursor, the bundled rule tells the agent to ask you before it calls one of them.
+These tools delete data for good. Jam has no trash, so nobody in your workspace can bring it back. In Cursor, the bundled rule tells the agent to ask you before it calls one of them. The server also marks most other write tools as destructive, so your agent may ask before those too.
 
 | Tool | What it does |
 |------|-------------|
@@ -199,6 +199,8 @@ jam record windows --json
 jam record run --window-id <id> --title "Checkout completes after fix" -- bun run e2e/checkout.ts
 ```
 
+To record a browser fix with its console logs and network requests, add `--cdp 9222` and start Chrome with `--remote-debugging-port=9222`. To record several steps instead of one command, run `jam record start`, do the steps, then run `jam record stop`.
+
 Add the Jam link to the pull request. For a bug fix, ask for two Jams: one that shows the bug and one that shows the fix. To turn an existing video or a Playwright `trace.zip` into a Jam without recording, run `jam create jam`. Recording works on macOS and Linux (X11).
 
 ## Privacy and permissions
@@ -207,6 +209,7 @@ Add the Jam link to the pull request. For a bug fix, ask for two Jams: one that 
 - The OAuth scopes are `mcp:read` and `mcp:write`. Write access covers comments, reactions, folders, `updateJam`, the Recording Link tools that make changes, and the three `delete*` tools.
 - The server checks permissions for each workspace and each Jam. A token with only `mcp:read` can't change anything.
 - Every request sees only the Jams your account can already see.
+- `createFolder` and `createRecordingLink` can upgrade you from Viewer to Creator when your workspace allows it. That can change seat billing and sends an email to workspace Admins. `createRecordingLink` also sends a webhook event to your workspace's webhook subscribers.
 
 ## Support
 

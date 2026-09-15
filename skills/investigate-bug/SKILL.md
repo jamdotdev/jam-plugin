@@ -92,6 +92,6 @@ Compile findings into a structured report:
 ## Tips
 
 - Not all steps are needed for every bug. If the Investigation Guide from Step 2 gives you enough signal, skip straight to the diagnosis.
-- Use `listJams` to search for similar reports if the bug might be a recurring issue. Filter by `url`, `author`, or `createdAt` (supports ISO 8601 durations like `-P7D` for "last 7 days").
+- Use `listJams` to search for similar reports if the bug might be a recurring issue. Filter by `url`, `author`, `type`, `origin` (capture surface), or `createdAt` (supports ISO 8601 durations like `-P7D` for "last 7 days").
 - Add your findings back to the Jam with `createComment` (Markdown supported) so the team sees them. Pass `playbackRelativeTimestamp` to pin a comment to a specific moment in a video or replay.
 - If a fresh Jam's event tools return "not ready yet," the Jam is still being processed — wait a few seconds and retry, or fall back to data that's already available.
