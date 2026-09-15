@@ -1,4 +1,23 @@
-# Jam plugin for Cursor, Claude Code, and Gemini CLI
+<p align="center">
+  <a href="https://jam.dev">
+    <img src="https://storage.googleapis.com/jam-assets/github-repo.png" alt="Jam">
+  </a>
+</p>
+
+<h1 align="center">Jam plugin</h1>
+
+<p align="center">
+  Jam bug reports as context for Cursor, Claude Code, and Gemini CLI.
+</p>
+
+<p align="center">
+  <a href="https://jam.dev/docs/jam-mcp"><strong>MCP Docs</strong></a> ·
+  <a href="https://jam.dev/docs/cli"><strong>CLI Docs</strong></a> ·
+  <a href="https://jam.dev"><strong>Jam.dev</strong></a>
+</p>
+<br/>
+
+---
 
 Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor, Claude Code, or Gemini CLI and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
 
