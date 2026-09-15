@@ -13,7 +13,7 @@ Open **Customize** in the Cursor sidebar, search for **Jam**, and select **Insta
 To run an unreleased version, symlink the repository into Cursor's local plugin folder:
 
 ```bash
-ln -s /path/to/cursor-jam-plugin ~/.cursor/plugins/local/jam
+ln -s /path/to/jam-plugin ~/.cursor/plugins/local/jam
 ```
 
 Then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`).
@@ -23,21 +23,21 @@ Then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`).
 The repository is also a Claude Code plugin marketplace. Add it and install the plugin:
 
 ```shell
-/plugin marketplace add jamdotdev/cursor-jam-plugin
+/plugin marketplace add jamdotdev/jam-plugin
 /plugin install jam@jam-plugins
 ```
 
-The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To run an unreleased version, start Claude Code with `claude --plugin-dir /path/to/cursor-jam-plugin`.
+The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To run an unreleased version, start Claude Code with `claude --plugin-dir /path/to/jam-plugin`.
 
 ### Gemini CLI
 
 The repository is also a Gemini CLI extension:
 
 ```bash
-gemini extensions install https://github.com/jamdotdev/cursor-jam-plugin
+gemini extensions install https://github.com/jamdotdev/jam-plugin
 ```
 
-Both skills load, and the Jam MCP server is added. Run `/mcp auth Jam` once to sign in with OAuth. To run an unreleased version, use `gemini extensions link /path/to/cursor-jam-plugin`.
+Both skills load, and the Jam MCP server is added. Run `/mcp auth Jam` once to sign in with OAuth. To run an unreleased version, use `gemini extensions link /path/to/jam-plugin`.
 
 ## Authentication
 
@@ -179,7 +179,7 @@ The Jam link goes on the PR. For a bug fix, ask for two Jams: one of the bug, on
 
 ## Support
 
-- Bug or feature request: open an issue at [github.com/jamdotdev/cursor-jam-plugin](https://github.com/jamdotdev/cursor-jam-plugin/issues).
+- Bug or feature request: open an issue at [github.com/jamdotdev/jam-plugin](https://github.com/jamdotdev/jam-plugin/issues).
 - General Jam support: [support@jam.dev](mailto:support@jam.dev).
 
 ## Links
