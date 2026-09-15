@@ -1,6 +1,6 @@
-# Jam plugin for Cursor and Claude Code
+# Jam plugin for Cursor, Claude Code, and Gemini CLI
 
-Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor or Claude Code and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
+Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor, Claude Code, or Gemini CLI and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
 
 ## Installation
 
