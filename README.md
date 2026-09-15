@@ -1,6 +1,6 @@
-# Jam plugin for Cursor
+# Jam plugin for Cursor and Claude Code
 
-Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
+Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor or Claude Code and the whole recording – video, console, network, logs – arrives pre-packaged. No hand-typing repro steps, no copy-paste stack traces, no screen-share drama. Your tools get instant context, you stay in flow.
 
 ## Installation
 
@@ -17,6 +17,17 @@ ln -s /path/to/cursor-jam-plugin ~/.cursor/plugins/local/jam
 ```
 
 Then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`).
+
+### Claude Code
+
+The repository is also a Claude Code plugin marketplace. Add it and install the plugin:
+
+```shell
+/plugin marketplace add jamdotdev/cursor-jam-plugin
+/plugin install jam@jam-plugins
+```
+
+The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To run an unreleased version, start Claude Code with `claude --plugin-dir /path/to/cursor-jam-plugin`.
 
 ## Authentication
 
@@ -110,7 +121,7 @@ A Recording Link only captures console and network logs when it starts from a ve
 
 ### Rule: Jam bug analysis (`rules/jam-bug-analysis.mdc`)
 
-Always on. It tells the agent which tool to start with, how to filter noisy results, and how to line up console errors against network failures and user events.
+Always on in Cursor. Claude Code does not load plugin rules. It tells the agent which tool to start with, how to filter noisy results, and how to line up console errors against network failures and user events.
 
 ### Skill: investigate bug (`skills/investigate-bug/SKILL.md`)
 

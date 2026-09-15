@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+
+- Added a Claude Code plugin manifest and marketplace in `.claude-plugin/`. The same repository now installs in Claude Code with `/plugin marketplace add jamdotdev/cursor-jam-plugin`, with the Jam MCP server and both skills.
+
 ## 1.3.0
 
 - Added the `jam-cli` skill: install the Jam CLI, authenticate with `JAM_TOKEN` in headless environments, triage a Jam with `jam get`, and record proof of a fix with `jam record run`. Covers Cursor Cloud Agents and CI, where the MCP server is not wired up.
