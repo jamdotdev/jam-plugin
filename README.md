@@ -253,10 +253,13 @@ Add the Jam link to the pull request. For a bug fix, ask for two Jams: one that 
 - [Jam Chrome extension](https://chromewebstore.google.com/detail/jam/iohjgamcilhbgmhbnllfolmkmmekfmci)
 - [Jam MCP docs](https://jam.dev/docs/jam-mcp)
 - [Personal access tokens](https://jam.dev/docs/personal-access-tokens)
+- [MCP Registry entry `dev.jam/jam`](https://registry.modelcontextprotocol.io/v0.1/servers?search=dev.jam)
 
 ## Prepare a release
 
-Keep the version consistent across `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json`, and `gemini-extension.json`. Release 1.23.2 matches production MCP 1.23.2.
+Keep the version consistent across `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `gemini-extension.json`, and `server.json`. Release 1.23.2 matches production MCP 1.23.2.
+
+`server.json` is the official MCP Registry entry, `dev.jam/jam`. A registry version can't be changed after publishing, so bump the version before you publish again. Pushing a `v<version>` tag runs `.github/workflows/publish-mcp.yml`, which publishes `server.json` with the `MCP_PRIVATE_KEY` secret. That key matches the `v=MCPv1` TXT record on `jam.dev`.
 
 The coding-agent plugins include both skills. For the ChatGPT directory, build a separate package containing only the MCP investigation skill. The CLI skill downloads or executes code outside the reviewed package and is excluded from that upload.
 

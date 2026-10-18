@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Added `server.json` for the official MCP Registry (`dev.jam/jam`) and a tag-triggered publish workflow.
+
 ## 1.23.2
 
 - Aligned the plugin version with Jam MCP 1.23.2, confirmed through production initialization.

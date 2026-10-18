@@ -1,2 +1,5 @@
 tasks/
 .DS_Store
+*.pem
+mcp-registry-auth
+.mcpregistry_*
