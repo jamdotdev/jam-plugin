@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-  <a href="https://jam.dev/docs/jam-mcp"><strong>Jam MCP docs</strong></a> ·
-  <a href="https://jam.dev/docs/cli"><strong>Jam CLI docs</strong></a> ·
+  <a href="https://jam.dev/mcp"><strong>Jam MCP docs</strong></a> ·
+  <a href="https://jam.dev/cli"><strong>Jam CLI docs</strong></a> ·
   <a href="https://jam.dev"><strong>jam.dev</strong></a>
 </p>
 <br/>
@@ -32,7 +32,7 @@ Open **Customize** in the Cursor sidebar, search for **Jam**, and click **Instal
 To test an unreleased version, link the repository into Cursor's local plugin folder:
 
 ```bash
-ln -s /path/to/jam-plugin ~/.cursor/plugins/local/jam
+ln -s /path/to/skills ~/.cursor/plugins/local/jam
 ```
 
 Then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`).
@@ -40,16 +40,16 @@ Then run **Developer: Reload Window** from the command palette (`Cmd+Shift+P`).
 ### Claude Code
 
 ```shell
-/plugin marketplace add jamdotdev/jam-plugin
+/plugin marketplace add jamdotdev/skills
 /plugin install jam@jam-plugins
 ```
 
-The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To test an unreleased version, start Claude Code with `claude --plugin-dir /path/to/jam-plugin`.
+The skills load as `/jam:investigate-bug` and `/jam:jam-cli`. To test an unreleased version, start Claude Code with `claude --plugin-dir /path/to/skills`.
 
 ### Codex
 
 ```bash
-codex plugin marketplace add jamdotdev/jam-plugin
+codex plugin marketplace add jamdotdev/skills
 codex plugin add jam@jam-plugins
 ```
 
@@ -58,7 +58,7 @@ Codex uses `.codex-plugin/plugin.json` and the existing `jam-plugins` marketplac
 To test an unreleased checkout, add its local marketplace instead:
 
 ```bash
-codex plugin marketplace add /path/to/jam-plugin
+codex plugin marketplace add /path/to/skills
 codex plugin add jam@jam-plugins
 ```
 
@@ -67,17 +67,17 @@ Start a new Codex session after installation. Run `/mcp` to check the Jam connec
 ### GitHub Copilot CLI
 
 ```bash
-copilot plugin marketplace add jamdotdev/jam-plugin
+copilot plugin marketplace add jamdotdev/skills
 copilot plugin install jam@jam-plugins
 ```
 
 ### Gemini CLI
 
 ```bash
-gemini extensions install https://github.com/jamdotdev/jam-plugin
+gemini extensions install https://github.com/jamdotdev/skills
 ```
 
-Run `/mcp auth Jam` once to sign in. To test an unreleased version, run `gemini extensions link /path/to/jam-plugin`.
+Run `/mcp auth Jam` once to sign in. To test an unreleased version, run `gemini extensions link /path/to/skills`.
 
 ## Sign in
 
@@ -211,7 +211,7 @@ Cursor only, where it is always on. Other agents don't load rules. It tells the 
 
 ## Jam CLI
 
-The [Jam CLI](https://jam.dev/docs/cli) reads the same data in a terminal. It accepts the same personal access tokens as the MCP server.
+The [Jam CLI](https://jam.dev/cli) reads the same data in a terminal. It accepts the same personal access tokens as the MCP server.
 
 ```bash
 curl -fsSL https://native.jam.dev/install | bash
@@ -244,14 +244,14 @@ Add the Jam link to the pull request. For a bug fix, ask for two Jams: one that 
 
 ## Support
 
-- To report a bug or request a feature, [open an issue](https://github.com/jamdotdev/jam-plugin/issues).
+- To report a bug or request a feature, [open an issue](https://github.com/jamdotdev/skills/issues).
 - For anything else about Jam, email [support@jam.dev](mailto:support@jam.dev).
 
 ## Links
 
 - [jam.dev](https://jam.dev)
 - [Jam Chrome extension](https://chromewebstore.google.com/detail/jam/iohjgamcilhbgmhbnllfolmkmmekfmci)
-- [Jam MCP docs](https://jam.dev/docs/jam-mcp)
+- [Jam MCP docs](https://jam.dev/mcp)
 - [Personal access tokens](https://jam.dev/docs/personal-access-tokens)
 - [MCP Registry entry `dev.jam/jam`](https://registry.modelcontextprotocol.io/v0.1/servers?search=dev.jam)
 

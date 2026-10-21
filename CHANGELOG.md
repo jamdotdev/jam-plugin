@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Renamed the repository to `jamdotdev/skills`. Install commands and manifest URLs now point there; the `jam-plugins` marketplace name is unchanged.
+- Pointed the MCP website and docs links at `jam.dev/mcp`, and the CLI links at `jam.dev/cli`.
 - Added `server.json` for the official MCP Registry (`dev.jam/jam`) and a tag-triggered publish workflow.
 
 ## 1.23.2
