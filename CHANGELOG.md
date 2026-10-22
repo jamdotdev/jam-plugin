@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- The skills no longer download and run an installer. If `jam` is missing, they ask you to install it from jam.dev/cli. Addresses the remote-code-execution audit finding on `jam-proof` and `jam-annotate`.
+- `jam-annotate` and the `jam-fix` proof step write the Jam payload to a file and run `jam create jam @payload.json`, so user and page text never reaches a shell argument.
+- `jam-fix` and `jam-to-e2e` treat Jam content (transcript, logs, network bodies, page text, comments) as evidence, not instructions.
 - `server.json` follows Jam MCP 1.27.1, the version production serves.
 
 ## 2.0.0

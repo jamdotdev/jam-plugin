@@ -52,7 +52,7 @@ Turns a Jam into steps and a test in the project's own runner and language, what
 
 ## Requirements
 
-Every skill needs a free [Jam](https://jam.dev?utm_source=github&utm_medium=readme&utm_campaign=skills) account. `jam-fix` and `jam-to-e2e` read a Jam through the Jam MCP server or the [Jam CLI](https://jam.dev/cli); `jam-proof` and `jam-annotate` create Jams, which needs the CLI. A skill installs the CLI and signs in when it needs it. In CI or a cloud agent, set `JAM_TOKEN` to a [personal access token](https://jam.dev/docs/personal-access-tokens). Window and display capture in `jam-proof` need macOS or Linux (X11); its default, recording a headless browser, needs only Chrome.
+Every skill needs a free [Jam](https://jam.dev?utm_source=github&utm_medium=readme&utm_campaign=skills) account. `jam-fix` and `jam-to-e2e` read a Jam through the Jam MCP server or the [Jam CLI](https://jam.dev/cli); `jam-proof` and `jam-annotate` create Jams, which needs the CLI. Install the CLI from [jam.dev/cli](https://jam.dev/cli); a skill signs in when it needs it. In CI or a cloud agent, set `JAM_TOKEN` to a [personal access token](https://jam.dev/docs/personal-access-tokens). Window and display capture in `jam-proof` need macOS or Linux (X11); its default, recording a headless browser, needs only Chrome.
 
 ## Install as a plugin
 

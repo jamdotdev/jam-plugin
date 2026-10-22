@@ -65,7 +65,7 @@ Two things ship from this repo, each with its own version.
 
 ### ChatGPT directory package
 
-The ChatGPT directory takes the skills that read a Jam over MCP alone: `jam-fix` and `jam-to-e2e`, without their `references/`. The CLI install steps (in `jam-proof`, `jam-annotate` and the `references/cli.md` files) download and run code, which fails ChatGPT's external-code review, so a skill meant for ChatGPT keeps its install steps in `references/` and is added to `SKILLS` in `scripts/package-chatgpt.mjs`. Build the package from `master` after the merge: the packaged skills link to `references/` on GitHub.
+The ChatGPT directory takes the skills that read a Jam over MCP alone: `jam-fix` and `jam-to-e2e`, without their `references/`. The CLI steps (in `jam-proof`, `jam-annotate` and the `references/cli.md` files) run local commands, which ChatGPT's external-code review can flag, so a skill meant for ChatGPT keeps them in `references/` and is added to `SKILLS` in `scripts/package-chatgpt.mjs`. Build the package from `master` after the merge: the packaged skills link to `references/` on GitHub.
 
 ```bash
 node scripts/package-chatgpt.mjs ../jam-chatgpt-<version>.zip
