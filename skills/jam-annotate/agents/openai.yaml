@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jam Annotate"
+  short_description: "Mark up a screenshot and file it as a Jam"
+  default_prompt: "Use $jam-annotate to mark what is wrong in this screenshot and file it as a Jam."

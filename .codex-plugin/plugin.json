@@ -1,7 +1,7 @@
 {
   "name": "jam",
-  "version": "1.23.2",
-  "description": "Investigate Jam bug reports using recordings, console logs, network requests, and user events.",
+  "version": "2.0.0",
+  "description": "Jam recordings (video, console, network, logs) as context for your coding agent. Fix the bug in a Jam, prove a fix with a recorded Jam, mark up a screenshot, or turn a Jam into an end-to-end test.",
   "author": {
     "name": "Jam",
     "email": "support@jam.dev"
@@ -21,8 +21,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Jam",
-    "shortDescription": "Investigate Jam bug reports",
-    "longDescription": "Investigate Jam bug reports using recordings, console logs, network requests, and user events.",
+    "shortDescription": "Fix, prove and test from Jam recordings",
+    "longDescription": "Jam recordings (video, console, network, logs) as context for your coding agent. Fix the bug in a Jam, prove a fix with a recorded Jam, mark up a screenshot, or turn a Jam into an end-to-end test.",
     "developerName": "Jam",
     "category": "Developer Tools",
     "capabilities": [
@@ -31,7 +31,7 @@
       "Write"
     ],
     "websiteURL": "https://jam.dev",
-    "defaultPrompt": "Investigate this Jam link and explain the likely root cause.",
+    "defaultPrompt": "Use $jam-fix to find the root cause of the bug in this Jam link.",
     "logo": "./assets/logo.png",
     "composerIcon": "./assets/logo.png",
     "privacyPolicyURL": "https://jam.dev/legal/privacy-policy",

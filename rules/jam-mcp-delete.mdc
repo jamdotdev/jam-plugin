@@ -1,0 +1,8 @@
+---
+description: Safety rules for the Jam MCP server's destructive tools
+alwaysApply: true
+---
+
+# Jam MCP
+
+- `deleteJam`, `deleteComment` and `deleteFolder` remove data for good. Jam has no trash. Ask the user and wait for a yes before calling one, and never say the data can be recovered.

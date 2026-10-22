@@ -2,9 +2,30 @@
 
 ## Unreleased
 
+## 2.0.0
+
+The plugin is now versioned on its own and no longer tracks the Jam MCP server version.
+
+- Renamed `investigate-bug` to `jam-fix`, because "fix this Jam" is what people ask for. It diagnoses first, changes code only when asked, and posts findings on the Jam when requested. Its description carries trigger phrases instead of slash-command syntax, and it covers the `jam` CLI when MCP is not connected.
+- Added `jam-proof`: record a change working and return a Jam link for the pull request. Moved from the Jam CLI bundle; this repo is now its source.
+- Added `jam-annotate`: mark up a screenshot with boxes, arrows, notes, redactions and blurs, and file it as a Jam. Moved from the Jam CLI bundle; this repo is now its source.
+- Added `jam-to-e2e`: turn a Jam into steps and an end-to-end test in the project's own runner and language, with first-class guidance for Playwright and tester-army/e2e. A flow Jam becomes a passing test that guards it; a bug Jam becomes a failing test for the fix to turn green.
+- Removed `jam-cli`. Each `jam-*` skill now carries its own install and sign-in steps, and `jam agent-context` prints the full command surface. The old skill named `jam get intents` and `jam get events` for user events; 1.29.0 ships `jam get user-events` and no `intents`.
+- Every skill now ends with a "Send feedback to Jam" section: the agent reports a wrong, stale or confusing Jam tool, command, doc or skill (or one that worked unusually well) with `jam feedback` or the `submitFeedback` MCP tool, without asking first, at most once per session. `docs/plugin.md` and the Cursor rule now match the server: no approval step, bodies up to 2,000 words.
+- Added `agents/openai.yaml` to every skill for the Codex skill picker.
+- Added `scripts/package-chatgpt.mjs`, which builds the ChatGPT directory package from `jam-fix` and `jam-to-e2e` with listing copy that names only those two.
+- Rewrote the README around the skills, with `npx skills add jamdotdev/skills` first. Moved sign-in, the MCP tool list and permissions to `docs/plugin.md`, and the release steps to `CONTRIBUTING.md`.
+- Added `CONTRIBUTING.md`, `AGENTS.md`, issue templates, and a CI workflow that checks skill frontmatter, README cards, manifest versions, Markdown links, the Claude Code plugin manifest, and that the skills CLI lists every skill.
+- Added `privacyPolicyUrl` to the Claude Code plugin manifest.
+- Cut the copies of the MCP tool guide. `docs/plugin.md` now summarizes what the server can do and links to jam.dev/mcp, the Cursor rule keeps only the confirm-before-delete rule and points at `jam-fix`, and `jam-fix` leaves filter and paging details to the tool descriptions.
+- Moved `jam-proof`'s cursor overlay and visible-Chrome details to `references/browser.md`.
 - Renamed the repository to `jamdotdev/skills`. Install commands and manifest URLs now point there; the `jam-plugins` marketplace name is unchanged.
 - Pointed the MCP website and docs links at `jam.dev/mcp`, and the CLI links at `jam.dev/cli`.
-- Added `server.json` for the official MCP Registry (`dev.jam/jam`) and a tag-triggered publish workflow.
+- Added `server.json` for the official MCP Registry (`dev.jam/jam`) and a publish workflow triggered by `mcp-v*` tags. Its version follows the Jam MCP server, not the plugin.
+- Validate skill frontmatter with a YAML parser and require exact discovery entries, so malformed skills cannot pass CI by appearing in a warning.
+- Keep local annotation requests local and require posting intent for Jam comments, mentions, pull requests and tickets.
+- Give CLI investigations both client and server failures, and require an explicit browser or window target for proof recordings.
+- Use the project's browser mode for regression tests and isolated checkouts for new before-and-after recordings.
 
 ## 1.23.2
 
@@ -14,7 +35,7 @@
 
 ## 1.5.0
 
-- Synced with deployed Jam MCP 1.23.2 at [619c85f885c3](https://github.com/jamdotdev/apiofjam/commit/619c85f885c3782f77a49ef0bc68c4d87222d097), verified through production server initialization and its 35-tool inventory.
+- Synced with deployed Jam MCP 1.23.2, verified through production server initialization and its 35-tool inventory.
 - Added `searchJams` guidance and marked `listJams` deprecated. Added `submitFeedback` with exact-text approval, privacy limits, and at most one submission per session.
 - Corrected event filter examples to arrays and documented cursor pagination, total counts, and network response-body limits.
 - Documented video thumbnail links and CLI proof capture guidance.

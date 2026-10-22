@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jam to E2E"
+  short_description: "Turn a Jam into an end-to-end test"
+  default_prompt: "Use $jam-to-e2e to turn this Jam into an end-to-end test in this project."

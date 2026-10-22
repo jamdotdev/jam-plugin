@@ -1,0 +1,25 @@
+name: Skill bug
+description: A skill did the wrong thing, or names a command or tool that doesn't exist.
+labels: [bug]
+body:
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill
+      options: [jam-fix, jam-proof, jam-annotate, jam-to-e2e, plugin or MCP setup, other]
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and version
+      placeholder: Claude Code 2.1, Cursor 2.4, Codex 0.50...
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+      description: Paste the prompt you gave and the step where the agent went wrong. Redact tokens and customer data.
+    validations:
+      required: true

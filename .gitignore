@@ -3,3 +3,4 @@ tasks/
 *.pem
 mcp-registry-auth
 .mcpregistry_*
+node_modules/

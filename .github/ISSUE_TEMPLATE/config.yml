@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Jam product support
+    url: mailto:support@jam.dev
+    about: Questions about Jam itself, your account or billing.

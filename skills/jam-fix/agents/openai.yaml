@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jam Fix"
+  short_description: "Find and fix the bug in a Jam"
+  default_prompt: "Use $jam-fix to find the root cause of the bug in this Jam and fix it."
