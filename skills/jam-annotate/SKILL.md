@@ -1,6 +1,6 @@
 ---
 name: jam-annotate
-description: Turn a screenshot into a Jam (a shareable jam.dev bug report) that points at the problem, with boxes, arrows, notes, redactions and blurs drawn by `jam create jam`. Use when the user asks to file or share an annotated screenshot as a Jam. Local annotation or redaction requests alone do not call for this skill.
+description: Turn a screenshot into a Jam (a shareable jam.dev screenshot with context attached) that points at the problem, with boxes, arrows, notes, redactions and blurs drawn by `jam create jam`. Use when the user asks to file or share an annotated screenshot as a Jam. Local annotation or redaction requests alone do not call for this skill.
 ---
 
 # jam-annotate

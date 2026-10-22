@@ -1,13 +1,20 @@
 ---
 name: jam-to-e2e
-description: Turn a Jam (a jam.dev bug recording with video, console and network) into reproduction steps and a failing end-to-end test in the project's own runner (Playwright, tester-army/e2e, Cypress), grounded in the current code. Use when the user pastes a jam.dev link and asks for a regression test, an e2e test, a repro, or to "write a test for this bug", or before fixing a bug from a Jam so the fix has a red test to turn green.
+description: Turn a Jam (a jam.dev screen recording with the console, network and user actions attached) into steps and an end-to-end test in the project's own runner (Playwright, tester-army/e2e, Cypress), grounded in the current code. A Jam of a flow or demo becomes a test that guards it; a Jam of a bug becomes a failing test the fix turns green. Use when the user pastes a jam.dev link and asks for an e2e test, a regression test, a repro, or to "write a test for this".
 ---
 
 # jam-to-e2e
 
-One Jam in, one test out. The Jam shows what the user did when the bug
-happened. The code shows what the labels and routes are today. The test
-asserts what the product must do, and it fails until the bug is fixed.
+One Jam in, one test out. The Jam shows what the user did and what the
+screen, console and network did in return. The code shows what the labels
+and routes are today. The test asserts what the product must do.
+
+A Jam is not always a bug report. Decide first which kind this one is:
+
+- **A flow, demo or walkthrough:** the Jam shows the product working. The
+  test asserts what it shows and passes today. It guards the flow.
+- **A bug:** the Jam shows the product doing the wrong thing. The test
+  asserts what should have happened and fails until the fix lands.
 
 ## Pick the interface
 
@@ -25,7 +32,7 @@ Fetch in this order and stop when you have the steps and the expected result.
 | Clicks, inputs, navigation | `getUserEvents` | `jam get user-events <id> --json` |
 | What the reporter said | `getVideoTranscript` | `jam get transcript <id>` |
 | What was on screen | `getFrames({ overview: true })` | `jam get frames <id> --overview` |
-| Errors, when the bug is about them | `getConsoleLogs`, `getNetworkRequests` | `jam get console`, `jam get network` |
+| Errors and requests, when the test is about them | `getConsoleLogs`, `getNetworkRequests` | `jam get console`, `jam get network` |
 
 - Video Jams often carry the numbered steps in the title, not the description.
 - User events can be empty, especially on extension recordings. Treat them as a
@@ -85,35 +92,36 @@ with the source Jam URL.
 The upstream guide is https://playwright.dev/docs/best-practices and it wins
 any disagreement with this file.
 
-## 5. Prove it fails for the right reason
+## 5. Run it and check the reason
 
-Run the test against the unfixed code using the project's normal browser
-mode, headless by default. It must fail **on the
-assertion that encodes the bug**, not on a locator timeout or a setup error.
-A test that fails for the wrong reason is not a repro yet.
+Run the test with the project's normal browser mode, headless by default.
 
-If the bug does not reproduce, say so. Report what you ran, what you saw, and
-how it differs from the Jam (environment, data, account state). Do not
-weaken the assertion until it passes.
+- **Flow Jam:** it must pass, twice in a row, with no sleeps. A pass on the
+  first run and a timeout on the second is a flaky locator, not a test.
+- **Bug Jam:** it must fail **on the assertion that encodes the bug**, not on
+  a locator timeout or a setup error. A test that fails for the wrong reason
+  is not a repro yet. If the bug does not reproduce, say so: report what you
+  ran, what you saw, and how it differs from the Jam (environment, data,
+  account state). Do not weaken the assertion until it passes.
 
 ## 6. Hand off
 
 Return:
 
-1. The repro steps, numbered, as the test performs them.
+1. The steps, numbered, as the test performs them.
 2. The test file path and the command that runs it.
-3. The failure output, trimmed to the assertion.
+3. The run output: the pass, or the failure trimmed to the assertion.
 4. Differences between the Jam and the current code.
 
-When the fix lands, the same test must pass twice in a row with no sleeps.
-From then on the test is the source of truth for the bug; the Jam is the
+For a bug Jam, the same test must pass twice in a row with no sleeps once
+the fix lands. From then on the test is the source of truth; the Jam is the
 evidence.
 
 Offer to turn the passing Playwright run into an "after" Jam; do not create
 it without a yes. Run with `--trace on` and `video: "on"`, convert the
 `.webm` to MP4 with `ffmpeg`, then `jam create jam` with `"kind":"video"`,
 `videoPath` and `playwrightTracePath`. The trace's console, network and test
-actions are synced to the video. Return its URL. Comment on the bug Jam or
+actions are synced to the video. Return its URL. Comment on the source Jam or
 post to a PR or ticket only when the user requested that destination.
 
 ## Send feedback to Jam

@@ -1,7 +1,7 @@
 {
   "name": "jam",
   "version": "2.0.0",
-  "description": "Jam recordings (video, console, network, logs) as context for your coding agent. Fix the bug in a Jam, prove a fix with a recorded Jam, mark up a screenshot, or turn a Jam into a failing end-to-end test.",
+  "description": "Jam recordings (video, console, network, logs) as context for your coding agent. Fix the bug in a Jam, prove a fix with a recorded Jam, mark up a screenshot, or turn a Jam into an end-to-end test.",
   "author": {
     "name": "Jam",
     "email": "support@jam.dev"

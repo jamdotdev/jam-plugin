@@ -23,7 +23,7 @@ npx skills add jamdotdev/skills
 
 Works with Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, OpenCode and [every agent skills.sh supports](https://skills.sh). Add `--skill jam-fix` to install one skill.
 
-A Jam is a bug report recorded in the browser: the video or screenshot, console logs, network requests and user steps, on one link. These skills teach your agent to read one, and to make one.
+A Jam is a recording of what happened on screen, with the console logs, network requests and user actions attached, on one link. A bug report, a demo, a walkthrough of a flow. These skills teach your agent to read one, and to make one.
 
 ## Skills
 
@@ -32,7 +32,7 @@ A Jam is a bug report recorded in the browser: the video or screenshot, console 
 | [jam-fix](#jam-fix) | "fix this jam.dev link" | the root cause with evidence, and the fix when you ask |
 | [jam-proof](#jam-proof) | "record a Jam showing it works" | a Jam of the change working, console and network attached |
 | [jam-annotate](#jam-annotate) | "mark what's broken and file it" | a screenshot Jam with boxes, arrows and redactions |
-| [jam-to-e2e](#jam-to-e2e) | "write a regression test for this Jam" | a failing end-to-end test in your own runner |
+| [jam-to-e2e](#jam-to-e2e) | "write an e2e test for this Jam" | a test in your own runner: guards a flow, or fails on a bug until it is fixed |
 
 ### jam-fix
 
@@ -48,7 +48,7 @@ Turns a screenshot into a Jam that points at the problem: boxes, arrows, notes, 
 
 ### jam-to-e2e
 
-Turns a Jam into repro steps and a failing test in the project's own runner: Playwright, [tester-army/e2e](https://github.com/tester-army/e2e) or Cypress. The test fails on the bug, so the fix has something to turn green.
+Turns a Jam into steps and a test in the project's own runner: Playwright, [tester-army/e2e](https://github.com/tester-army/e2e) or Cypress. A Jam of a flow becomes a test that guards it. A Jam of a bug becomes a failing test, so the fix has something to turn green.
 
 ## Requirements
 

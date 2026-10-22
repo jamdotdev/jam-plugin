@@ -1,6 +1,6 @@
 ---
 name: jam-fix
-description: Find the root cause of a bug from a Jam (a jam.dev bug recording with video, console and network), and fix it when the user asks. Without that ask it diagnoses only, with no code changes. Read the recording's diagnostics and visual evidence, then return a diagnosis with evidence. Use when the user pastes a jam.dev link or Jam id and asks to fix, debug, triage or investigate it, or asks what went wrong in a recording.
+description: Find the root cause of a bug from a Jam (a jam.dev screen recording with the console, network and user actions attached), and fix it when the user asks. Without that ask it diagnoses only, with no code changes. Read the recording's diagnostics and visual evidence, then return a diagnosis with evidence. Use when the user pastes a jam.dev link or Jam id and asks to fix, debug, triage or investigate it, or asks what went wrong in a recording.
 ---
 
 # jam-fix
@@ -9,9 +9,9 @@ One Jam in, one diagnosis out, plus the fix when the user asks for one. The
 diagnosis says what happened, the likely cause, the evidence
 for it, and what to do next. Stop reading data once you have the cause.
 
-A Jam is a bug report recorded in the browser or on a screen. It carries
-the video or screenshot, console logs, network requests and user events of
-the moment the bug happened. Its id is the UUID at the end of
+A Jam is a recording of what happened on a screen: the video or screenshot
+with the console logs, network requests and user events of that moment
+attached. This skill reads one that shows a bug. Its id is the UUID at the end of
 `https://jam.dev/c/<id>`; every tool takes the full URL or the id.
 
 ## Pick the interface
