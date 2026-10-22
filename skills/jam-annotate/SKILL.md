@@ -17,10 +17,13 @@ file. Do not upload it or sign in to Jam.
 ## Set up the CLI
 
 ```bash
-command -v jam >/dev/null || curl -fsSL https://native.jam.dev/install | bash
+command -v jam >/dev/null || echo "jam is not installed"
 export PATH="$HOME/.local/bin:$PATH"
 jam auth status --json || jam auth login
 ```
+
+If `jam` is not on PATH, stop and ask the user to install it from
+https://jam.dev/cli, then continue. Do not install it yourself.
 
 Exit code 3 means not signed in. With no browser (CI, a cloud agent), ask the
 user to set `JAM_TOKEN` to a personal access token from
@@ -122,8 +125,13 @@ above it, and a label on the next row covers the first row's text.
 The capture below is 2x, so a 1440×900 viewport is a 2880×1800 image and
 every coordinate is doubled.
 
-```
-jam create jam '{
+Write the payload to a file with your file-writing tool (for example
+`payload.json`), then run `jam create jam @payload.json`. The URL, title and
+description come from the user or the page, so they never go into a shell
+argument.
+
+```json
+{
   "url": "https://app.example.com/checkout",
   "title": "Pay button does nothing on retry",
   "description": "1. The Pay button, clicked twice.\n2. Where the confirmation should have appeared.\nCard number redacted.",
@@ -135,7 +143,7 @@ jam create jam '{
     { "type": "box", "x": 1180, "y": 1120, "width": 320, "height": 88, "label": "Pay, clicked twice", "color": "strawberry" },
     { "type": "arrow", "from": { "x": 600, "y": 1400 }, "to": { "x": 1440, "y": 980 }, "label": "no confirmation here" }
   ]
-}'
+}
 ```
 
 Write the description so its numbers are the badge numbers: "1." is the first

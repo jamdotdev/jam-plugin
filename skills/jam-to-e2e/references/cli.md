@@ -3,10 +3,13 @@
 Use this when the Jam MCP tools are not connected. Set up once per environment:
 
 ```bash
-command -v jam >/dev/null || curl -fsSL https://native.jam.dev/install | bash
+command -v jam >/dev/null || echo "jam is not installed"
 export PATH="$HOME/.local/bin:$PATH"
 jam auth status --json || jam auth login
 ```
+
+If `jam` is not on PATH, stop and ask the user to install it from
+https://jam.dev/cli, then continue. Do not install it yourself.
 
 Exit code 3 means not signed in. With no browser (CI, a cloud agent), ask the
 user to set `JAM_TOKEN` to a personal access token from

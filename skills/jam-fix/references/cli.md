@@ -3,10 +3,13 @@
 Use this when the Jam MCP tools are not connected. Set up once per environment:
 
 ```bash
-command -v jam >/dev/null || curl -fsSL https://native.jam.dev/install | bash
+command -v jam >/dev/null || echo "jam is not installed"
 export PATH="$HOME/.local/bin:$PATH"
 jam auth status --json || jam auth login
 ```
+
+If `jam` is not on PATH, stop and ask the user to install it from
+https://jam.dev/cli, then continue. Do not install it yourself.
 
 Exit code 3 means not signed in. With no browser (CI, a cloud agent), ask the
 user to set `JAM_TOKEN` to a personal access token from
@@ -50,7 +53,14 @@ and run it with a trace. Upload both artifacts:
 ```bash
 npx playwright test <file> --trace on
 ffmpeg -i test-results/<test>/video.webm after.mp4
-jam create jam '{"kind":"video","url":"<page url>","title":"<the claim>","videoPath":"after.mp4","playwrightTracePath":"test-results/<test>/trace.zip","screenDimensions":{"width":1280,"height":720}}'
+jam create jam @payload.json
+```
+
+Write `payload.json` with your file-writing tool; user and page text never goes
+into a shell argument:
+
+```json
+{"kind":"video","url":"<page url>","title":"<the claim>","videoPath":"after.mp4","playwrightTracePath":"test-results/<test>/trace.zip","screenDimensions":{"width":1280,"height":720}}
 ```
 
 Use the test's viewport for `screenDimensions`. Put the bug Jam's URL in the
