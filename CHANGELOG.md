@@ -20,7 +20,7 @@ The plugin is now versioned on its own and no longer tracks the Jam MCP server v
 - Moved `jam-proof`'s cursor overlay and visible-Chrome details to `references/browser.md`.
 - Renamed the repository to `jamdotdev/skills`. Install commands and manifest URLs now point there; the `jam-plugins` marketplace name is unchanged.
 - Pointed the MCP website and docs links at `jam.dev/mcp`, and the CLI links at `jam.dev/cli`.
-- Added `server.json` for the official MCP Registry (`dev.jam/jam`) and a tag-triggered publish workflow.
+- Added `server.json` for the official MCP Registry (`dev.jam/jam`) and a publish workflow triggered by `mcp-v*` tags. Its version follows the Jam MCP server, not the plugin.
 - Validate skill frontmatter with a YAML parser and require exact discovery entries, so malformed skills cannot pass CI by appearing in a warning.
 - Keep local annotation requests local and require posting intent for Jam comments, mentions, pull requests and tickets.
 - Give CLI investigations both client and server failures, and require an explicit browser or window target for proof recordings.
