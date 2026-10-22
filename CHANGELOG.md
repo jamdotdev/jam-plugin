@@ -14,7 +14,7 @@ The plugin is now versioned on its own and no longer tracks the Jam MCP server v
 - Every skill now ends with a "Send feedback to Jam" section: the agent reports a wrong, stale or confusing Jam tool, command, doc or skill (or one that worked unusually well) with `jam feedback` or the `submitFeedback` MCP tool, without asking first, at most once per session. `docs/plugin.md` and the Cursor rule now match the server: no approval step, bodies up to 2,000 words.
 - Added `agents/openai.yaml` to every skill for the Codex skill picker.
 - Rewrote the README around the skills, with `npx skills add jamdotdev/skills` first. Moved sign-in, the MCP tool list and permissions to `docs/plugin.md`, and the release steps to `CONTRIBUTING.md`.
-- Added `CONTRIBUTING.md`, `AGENTS.md`, issue and pull request templates, and a CI workflow that checks skill frontmatter, README cards, manifest versions, Markdown links, the Claude Code plugin manifest, and that the skills CLI lists every skill.
+- Added `CONTRIBUTING.md`, `AGENTS.md`, issue templates, and a CI workflow that checks skill frontmatter, README cards, manifest versions, Markdown links, the Claude Code plugin manifest, and that the skills CLI lists every skill.
 - Added `privacyPolicyUrl` to the Claude Code plugin manifest.
 - Cut the copies of the MCP tool guide. `docs/plugin.md` now summarizes what the server can do and links to jam.dev/mcp, the Cursor rule keeps only the confirm-before-delete rule and points at `jam-fix`, and `jam-fix` leaves filter and paging details to the tool descriptions.
 - Moved `jam-proof`'s cursor overlay and visible-Chrome details to `references/browser.md`.
