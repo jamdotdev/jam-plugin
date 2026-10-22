@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `server.json` follows Jam MCP 1.27.1, the version production serves.
+
 ## 2.0.0
 
 The plugin is now versioned on its own and no longer tracks the Jam MCP server version.
