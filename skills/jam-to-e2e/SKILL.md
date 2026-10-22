@@ -5,9 +5,10 @@ description: Turn a Jam (a jam.dev screen recording with the console, network an
 
 # jam-to-e2e
 
-One Jam in, one test out. The Jam shows what the user did and what the
-screen, console and network did in return. The code shows what the labels
-and routes are today. The test asserts what the product must do.
+The Jam shows what the user did and what the screen, console and network
+did in return. The code shows what the labels and routes are today. The
+tests assert what the product must do. One test per claim: a Jam that walks
+through three screens is three tests, and a Jam of one bug is one.
 
 A Jam is not always a bug report, so the user's request decides what the
 test must do today, not the Jam:
@@ -27,7 +28,7 @@ below gives the command for each read.
 
 ## 1. Read the Jam
 
-Fetch in this order and stop when you have the steps and the expected result.
+Fetch in this order and stop when you have the steps and the expected results.
 
 | What | MCP | CLI |
 | --- | --- | --- |
@@ -131,9 +132,9 @@ Run the test with the project's normal browser mode, headless by default.
 
 Return:
 
-1. The steps, numbered, as the test performs them.
-2. The test file path and the command that runs it.
-3. The run output: the pass, or the failure trimmed to the assertion.
+1. The steps, numbered, as the tests perform them.
+2. The test file paths and the command that runs them.
+3. The run output: the passes, or each failure trimmed to its assertion.
 4. Differences between the Jam and the current code.
 
 For a bug test, the same test must pass twice in a row with no sleeps once
