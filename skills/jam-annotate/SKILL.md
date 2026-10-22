@@ -60,9 +60,40 @@ positions are estimates.
 The CLI refuses a mark that falls outside the image and names the index. A
 refusal almost always means the scale was skipped.
 
+## Know what a mark covers
+
+A box or arrow draws more than its outline. Below, `u` is the image width
+divided by 1440, at least 1, and every size is image pixels.
+
+- Badge: a circle of radius `14u` centered on the box's top-left corner, or
+  on the arrow's `from`. Its inner quarter sits on whatever is in that corner:
+  an icon, an avatar, the first letter.
+- Box label: a chip `29u` tall whose bottom edge is `7u` above the box,
+  starting `21u` right of the box's left edge. When the box is less than
+  `36u` from the top of the image, the chip goes inside the box's top edge
+  and covers its content.
+- Arrow label: a chip `29u` tall, centered vertically on `from`, starting
+  `21u` to its right.
+- A chip is about `8.4u` wide per character, plus `14u`.
+- At an image edge, the CLI moves badges and chips inward so they stay in the
+  image. There they cover more of the box than the numbers above say.
+
+So a labelled box needs `36u` of empty space above it. Rows in a list, table
+or activity feed are closer than that: a label on one row covers the row
+above it, and a label on the next row covers the first row's text.
+
 ## Compose
 
 - One mark per fact you will write. Three to five marks. More is a video.
+- Nothing a mark draws may cover text the reader needs, including another
+  mark's subject. Before you add a label, check its chip and badge against
+  the section above.
+- For neighbors (stacked rows, adjacent buttons), box each one without a
+  label and put the words in the numbered description. When the labels must
+  be on the image, use arrows whose tails sit in an empty margin with room
+  for the chip to their right.
+- Pad a box at least `14u` on the left when an icon or avatar starts the
+  element, so the badge does not hide it.
 - Box the element that is wrong. Arrow only when direction is the point:
   where a click should have led, which control changed which value. Put the
   tail in empty space and the head on the edge of the target, not its center.
@@ -113,7 +144,11 @@ notes never take a number.
 
 1. Read the receipt: `id`, `url`, `kind`. If the command failed, say so and
    fix the payload. Never hand over a link you did not get.
-2. Return the link with the claim it supports. Post it on a PR or ticket
+2. Look at what was drawn: `jam get screenshots <id> --out <dir>`, then open
+   the PNG. If a chip or badge covers text the claim depends on, fix the
+   payload, create the Jam again, and share only the new link. Ask the human
+   before you delete the first Jam, because a deleted Jam cannot come back.
+3. Return the link with the claim it supports. Post it on a PR or ticket
    only when the user requested that destination.
 
 ## Send feedback to Jam
