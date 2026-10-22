@@ -48,7 +48,7 @@ Turns a screenshot into a Jam that points at the problem: boxes, arrows, notes, 
 
 ### jam-to-e2e
 
-Turns a Jam into steps and a test in the project's own runner: Playwright, [tester-army/e2e](https://github.com/tester-army/e2e) or Cypress. A Jam of a flow becomes a test that guards it. A Jam of a bug becomes a failing test, so the fix has something to turn green.
+Turns a Jam into steps and a test in the project's own runner and language, whatever it is, with first-class guidance for Playwright and [tester-army/e2e](https://github.com/tester-army/e2e). A Jam of a flow becomes a test that guards it. A Jam of a bug becomes a failing test, so the fix has something to turn green.
 
 ## Requirements
 

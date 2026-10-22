@@ -1,6 +1,6 @@
 ---
 name: jam-to-e2e
-description: Turn a Jam (a jam.dev screen recording with the console, network and user actions attached) into steps and an end-to-end test in the project's own runner (Playwright, tester-army/e2e, Cypress), grounded in the current code. A Jam of a flow or demo becomes a test that guards it; a Jam of a bug becomes a failing test the fix turns green. Use when the user pastes a jam.dev link and asks for an e2e test, a regression test, a repro, or to "write a test for this".
+description: Turn a Jam (a jam.dev screen recording with the console, network and user actions attached) into steps and an end-to-end test in the project's own runner and language, with first-class guidance for Playwright and tester-army/e2e, grounded in the current code. A Jam of a flow or demo becomes a test that guards it; a Jam of a bug becomes a failing test the fix turns green. Use when the user pastes a jam.dev link and asks for an e2e test, a regression test, a repro, or to "write a test for this".
 ---
 
 # jam-to-e2e
@@ -54,46 +54,66 @@ code in your reply.
 
 ## 3. Pick the runner
 
-Use what the project already has. Check in this order:
+Use what the project already has, in whatever language it is. Look for the
+runner's config and existing end-to-end tests: `e2e.config.*`,
+`playwright.config.*`, `cypress.config.*`, `pytest.ini` with
+`playwright`, `wdio.conf.*`, Capybara specs, a `selenium` dependency, a
+`make e2e` target. Reuse its fixtures, sign-in setup and page objects, put
+the test next to the existing ones, and follow their naming. Run one with
+the project's own command.
 
-1. `e2e.config.*` → [tester-army/e2e](https://github.com/tester-army/e2e).
-   Read `.agents/skills/e2e/SKILL.md` if it exists, or run `npx e2e guide`.
-   Tests are `*.e2e.ts`; run one with `npx e2e run <file>`.
-2. `playwright.config.*` → Playwright. Reuse the project's fixtures, auth
-   setup and page objects.
-3. `cypress.config.*` → Cypress. The rules below translate one to one.
-4. None → Playwright. Say so, and keep the setup to
-   `npm init playwright@latest -- --quiet --browser=chromium` plus one test
-   file. `--quiet` takes the defaults without prompting.
+Only when there is nothing: Playwright, in the project's language, and say
+so. For a JavaScript project the setup is
+`npm init playwright@latest -- --quiet --browser=chromium` plus one test
+file; `--quiet` takes the defaults without prompting.
 
-Put the test next to the existing ones and follow their naming. The test
-title is the expected result in plain English. The first line is a comment
-with the source Jam URL.
+The test title is the expected result in plain English. The first line is a
+comment with the source Jam URL.
 
 ## 4. Write the test
 
-- **Locate by role, never by shape.** `getByRole`, `getByLabel`,
-  `getByPlaceholder`, then `.filter({ hasText })` to narrow. Avoid parent
-  traversal (`locator("../..")`), CSS attribute selectors standing in for a
-  label, and positional picks (`.last()`, `.nth(2)`). They break on unrelated
+These rules hold in every runner; the names of the calls differ.
+
+- **Locate by what a person sees.** Role and accessible name, label,
+  placeholder, visible text. Not parent traversal, CSS classes standing in
+  for a label, or positional picks (last, nth). Those break on unrelated
   markup changes.
-- **A control you cannot name is an accessibility bug.** Add the
-  `aria-label` or `<label>` in the product and use the role locator. Fall
-  back to CSS only when the product change is out of scope, and leave a
-  comment naming the follow-up.
+- **A control you cannot name is an accessibility bug.** Add the label or
+  `aria-label` in the product when that is in scope and locate by it. When
+  it is not, fall back to CSS and leave a comment naming the follow-up.
 - **Assert what the server must have done.** A URL change, text that only
-  exists after the action, or state that survives `page.reload()`. Wait on a
+  exists after the action, or state that survives a reload. Wait on a
   network response only as synchronization, then still assert the visible
   outcome.
-- **Web-first assertions only.** `await expect(locator).toBeVisible()`
-  retries; `expect(await locator.isVisible()).toBe(true)` samples once and
-  flakes. Same for `toHaveText`, `toHaveValue`, `toHaveURL`.
-- **Never** `waitForTimeout`, loops that click whatever is visible, an
+- **Assertions that retry.** Use the runner's auto-waiting expectation, not
+  a one-shot read followed by a plain equality. The one-shot samples once
+  and flakes.
+- **Never** a fixed sleep, a loop that clicks whatever is visible, an
   assertion that only says the URL does *not* contain something, or a
   `try/catch` that turns a failure into `false`.
 
-The upstream guide is https://playwright.dev/docs/best-practices and it wins
-any disagreement with this file.
+### Playwright
+
+Locators: `getByRole`, `getByLabel`, `getByPlaceholder`, `getByText`, then
+`.filter({ hasText })` to narrow. Assertions: `await expect(locator).toBeVisible()`,
+`toHaveText`, `toHaveValue`, `toHaveURL`; never `expect(await locator.isVisible())`.
+No `waitForTimeout`. The same calls exist in the Python, Java and .NET
+bindings. https://playwright.dev/docs/best-practices wins any disagreement
+with this file.
+
+### tester-army/e2e
+
+`e2e.config.*` and `*.e2e.ts` files mean [tester-army/e2e](https://github.com/tester-army/e2e).
+Read `.agents/skills/e2e/SKILL.md` if it exists, or run `npx e2e guide`.
+Agent steps (`agent.act`, `agent.assert`) are for reaching a state in plain
+language; the claim the test exists for is still a locator assertion
+(`expect(screen.getByRole(...))`), so it fails for the right reason. Run one
+with `npx e2e run <file>`.
+
+### Cypress
+
+`cy.findByRole` and `cy.findByLabelText` from Testing Library give the
+locators above; `should(...)` assertions retry on their own. No `cy.wait(ms)`.
 
 ## 5. Run it and check the reason
 
@@ -120,12 +140,14 @@ For a bug test, the same test must pass twice in a row with no sleeps once
 the fix lands. From then on the test is the source of truth; the Jam is the
 evidence.
 
-Offer to turn the passing Playwright run into an "after" Jam; do not create
-it without a yes. Run with `--trace on` and `video: "on"`, convert the
+Offer to turn the passing run into an "after" Jam; do not create it without
+a yes. With Playwright, run with `--trace on` and `video: "on"`, convert the
 `.webm` to MP4 with `ffmpeg`, then `jam create jam` with `"kind":"video"`,
-`videoPath` and `playwrightTracePath`. The trace's console, network and test
-actions are synced to the video. Return its URL. Comment on the source Jam or
-post to a PR or ticket only when the user requested that destination.
+`videoPath` and `playwrightTracePath`; the trace's console, network and test
+actions are synced to the video. With any other runner, record the run with
+the `jam-proof` skill when it is installed, or `jam record run -- <test
+command>`. Return the URL. Comment on the source Jam or post to a PR or
+ticket only when the user requested that destination.
 
 ## Send feedback to Jam
 
