@@ -113,7 +113,9 @@ above it, and a label on the next row covers the first row's text.
   Use `strawberry` for the broken thing when there is more than one mark.
   Other swatches: `grape`, `blueberry`, `mint`, `lemon`, `black`.
 - Marks are drawn on the primary screenshot only. A `secondaryScreenshotPath`
-  uploads as-is — a redaction on the primary does not cover it.
+  uploads as-is, so a redaction on the primary does not cover it. Attach a
+  secondary only when it shows none of what you redacted; otherwise redact
+  it with an image tool first, or leave it out.
 
 ## Payload
 

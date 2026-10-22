@@ -13,6 +13,10 @@ test("ChatGPT package carries only the MCP-only skills and says so", () => {
   assert.ok(files.includes("jam/skills/jam-fix/SKILL.md"));
   assert.ok(files.includes("jam/skills/jam-to-e2e/SKILL.md"));
   assert.ok(!files.some((f) => /jam-proof|jam-annotate|references/.test(f)));
+  for (const skill of ["jam-fix", "jam-to-e2e"]) {
+    const md = execFileSync("unzip", ["-p", archive, `jam/skills/${skill}/SKILL.md`], { encoding: "utf8" });
+    assert.doesNotMatch(md, /\]\(references\//, `${skill} still links to references/ inside the package`);
+  }
   const manifest = JSON.parse(execFileSync("unzip", ["-p", archive, "jam/.codex-plugin/plugin.json"], { encoding: "utf8" }));
   assert.doesNotMatch(manifest.description, /proof|screenshot|annotat/);
   assert.equal(manifest.interface.longDescription, manifest.description);

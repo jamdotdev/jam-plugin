@@ -3,7 +3,7 @@
 // with the listing copy rewritten to name only what is inside. Needs `zip` on PATH.
 
 import { execFileSync } from "node:child_process";
-import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
@@ -20,7 +20,11 @@ const stage = mkdtempSync(join(tmpdir(), "jam-chatgpt-"));
 const root = join(stage, "jam");
 for (const path of [".codex-plugin", "mcp.json", "assets", "LICENSE"]) cpSync(path, join(root, path), { recursive: true });
 for (const skill of SKILLS) {
-  cpSync(join("skills", skill, "SKILL.md"), join(root, "skills", skill, "SKILL.md"));
+  // The package has no references/; point those links at the repo instead.
+  const skillMd = readFileSync(join("skills", skill, "SKILL.md"), "utf8")
+    .replaceAll("](references/", `](https://github.com/jamdotdev/skills/blob/master/skills/${skill}/references/`);
+  mkdirSync(join(root, "skills", skill), { recursive: true });
+  writeFileSync(join(root, "skills", skill, "SKILL.md"), skillMd);
   cpSync(join("skills", skill, "agents"), join(root, "skills", skill, "agents"), { recursive: true });
 }
 

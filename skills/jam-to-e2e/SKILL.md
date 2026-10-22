@@ -35,9 +35,12 @@ Fetch in this order and stop when you have the steps and the expected results.
 | Title, description, URL, type | `getDetails` | `jam get jam <id> --json` |
 | Clicks, inputs, navigation | `getUserEvents` | `jam get user-events <id> --json` |
 | What the reporter said | `getVideoTranscript` | `jam get transcript <id>` |
-| What was on screen | `getFrames({ overview: true })` | `jam get frames <id> --overview` |
+| What was on screen, video Jam | `getFrames({ overview: true })` | `jam get frames <id> --overview` |
+| What was on screen, screenshot Jam | `getScreenshots` | `jam get screenshots <id> --out ./shots` |
 | Errors and requests, when the test is about them | `getConsoleLogs`, `getNetworkRequests` | `jam get console`, `jam get network` |
 
+- The type from the first row decides the visual row: transcript and frames
+  exist only for video Jams, the screenshot only for screenshot Jams.
 - Video Jams often carry the numbered steps in the title, not the description.
 - User events can be empty, especially on extension recordings. Treat them as a
   bonus and fall back to the transcript and frames.
@@ -146,8 +149,9 @@ a yes. With Playwright, run with `--trace on` and `video: "on"`, convert the
 `.webm` to MP4 with `ffmpeg`, then `jam create jam` with `"kind":"video"`,
 `videoPath` and `playwrightTracePath`; the trace's console, network and test
 actions are synced to the video. With any other runner, record the run with
-the `jam-proof` skill when it is installed, or `jam record run -- <test
-command>`. Return the URL. Comment on the source Jam or post to a PR or
+the `jam-proof` skill when it is installed, or `jam record run --cdp <port
+of the browser the test drives> -- <test command>`. Never `jam record run`
+without a target: that records the whole display. Return the URL. Comment on the source Jam or post to a PR or
 ticket only when the user requested that destination.
 
 ## Send feedback to Jam
