@@ -22,8 +22,8 @@ test must do today, not the Jam:
 
 ## Pick the interface
 
-Use the Jam MCP tools when they are connected. Otherwise read
-[references/cli.md](references/cli.md) for the `jam` CLI setup; the table
+Use the Jam Model Context Protocol (MCP) tools when they are connected.
+Otherwise read [references/cli.md](references/cli.md) for the Jam CLI setup; the table
 below gives the command for each read.
 
 ## 1. Read the Jam
@@ -40,7 +40,8 @@ Fetch in this order and stop when you have the steps and the expected results.
 | Errors and requests, when the test is about them | `getConsoleLogs`, `getNetworkRequests` | `jam get console`, `jam get network` |
 
 - The type from the first row decides the visual row: transcript and frames
-  exist only for video Jams, the screenshot only for screenshot Jams.
+  exist only for video Jams, the screenshot only for screenshot Jams. A
+  `replay` has neither; work from the events, console and network.
 - Video Jams often carry the numbered steps in the title, not the description.
 - User events can be empty, especially on extension recordings. Treat them as a
   bonus and fall back to the transcript and frames.
@@ -149,9 +150,9 @@ a yes. With Playwright, run with `--trace on` and `video: "on"`, convert the
 `.webm` to MP4 with `ffmpeg`, then `jam create jam` with `"kind":"video"`,
 `videoPath` and `playwrightTracePath`; the trace's console, network and test
 actions are synced to the video. With any other runner, record the run with
-the `jam-proof` skill when it is installed, or `jam record run --cdp <port
-of the browser the test drives> -- <test command>`. Never `jam record run`
-without a target: that records the whole display. Return the URL. Comment on the source Jam or post to a PR or
+the `jam-proof` skill, which picks a recording target that films the test's
+browser and not the display. Without that skill, skip the recording and say
+so. Return the URL. Comment on the source Jam or post to a PR or
 ticket only when the user requested that destination.
 
 ## Send feedback to Jam

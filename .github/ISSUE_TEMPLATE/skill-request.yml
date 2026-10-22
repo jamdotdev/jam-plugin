@@ -1,5 +1,5 @@
 name: Skill idea
-description: A job coding agents should do, about bug reports, QA, pull requests or proof of work.
+description: A job coding agents should do with a Jam, about QA, pull requests or proof of work.
 labels: [skill-request]
 body:
   - type: textarea

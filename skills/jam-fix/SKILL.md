@@ -16,7 +16,7 @@ attached. This skill reads one that shows a bug. Its id is the UUID at the end o
 
 ## Pick the interface
 
-Use the connected Jam MCP tools (`getDetails`, `getConsoleLogs`, ...).
+Use the connected Jam Model Context Protocol (MCP) tools (`getDetails`, `getConsoleLogs`, ...).
 If a tool is unavailable, say what could not be read. Do not invent evidence.
 
 When MCP is unavailable and a shell is available, read

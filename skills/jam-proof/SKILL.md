@@ -33,9 +33,9 @@ command and flag.
 Take the first rung that shows the claim. Each one down puts more of
 someone's machine on camera.
 
-1. **Headless Chrome.** The default, and the only one that touches nobody's
-   screen. The person keeps working, nothing of theirs is in frame, and the
-   run works the same on a laptop, a container or CI. `jam record start
+1. **Headless Chrome.** The default. It records the page, not a screen, so
+   the person keeps working with nothing of theirs in frame, and the run
+   works the same on a laptop, a container or CI. `jam record start
    --cdp <endpoint>` with no window or display selector takes the video from
    Chrome itself, so there is no window to keep uncovered and no display to
    keep awake, and the Console and Network panels fill from the same tap.
@@ -101,10 +101,11 @@ Chrome's own frames of the page, and the Console, Network and user-action
 panels come from the same Chrome, so nothing of Jam's runs on the page under
 test and nothing of the person's screen is in frame.
 
-The driver below is agent-browser (`npm i -g agent-browser`, 0.38 or later).
-When the project already has Playwright, use that instead: connect with
+Use the project's own browser driver when it speaks CDP: with Playwright,
 `chromium.connectOverCDP(cdpProxy)` and drive the page from a script; the
-`jam record` lines stay the same. Any driver that speaks CDP works.
+`jam record` lines stay the same. Without one, the commands below use
+agent-browser (`npm i -g agent-browser`, 0.38 or later), which brings its
+own Chromium. No Chrome at all in the environment means no rung 1; say so.
 
 ```
 agent-browser --session proof --input-mode human open <url>

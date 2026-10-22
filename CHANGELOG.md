@@ -13,6 +13,7 @@ The plugin is now versioned on its own and no longer tracks the Jam MCP server v
 - Removed `jam-cli`. Each `jam-*` skill now carries its own install and sign-in steps, and `jam agent-context` prints the full command surface. The old skill named `jam get intents` and `jam get events` for user events; 1.29.0 ships `jam get user-events` and no `intents`.
 - Every skill now ends with a "Send feedback to Jam" section: the agent reports a wrong, stale or confusing Jam tool, command, doc or skill (or one that worked unusually well) with `jam feedback` or the `submitFeedback` MCP tool, without asking first, at most once per session. `docs/plugin.md` and the Cursor rule now match the server: no approval step, bodies up to 2,000 words.
 - Added `agents/openai.yaml` to every skill for the Codex skill picker.
+- Added `scripts/package-chatgpt.mjs`, which builds the ChatGPT directory package from `jam-fix` and `jam-to-e2e` with listing copy that names only those two.
 - Rewrote the README around the skills, with `npx skills add jamdotdev/skills` first. Moved sign-in, the MCP tool list and permissions to `docs/plugin.md`, and the release steps to `CONTRIBUTING.md`.
 - Added `CONTRIBUTING.md`, `AGENTS.md`, issue templates, and a CI workflow that checks skill frontmatter, README cards, manifest versions, Markdown links, the Claude Code plugin manifest, and that the skills CLI lists every skill.
 - Added `privacyPolicyUrl` to the Claude Code plugin manifest.

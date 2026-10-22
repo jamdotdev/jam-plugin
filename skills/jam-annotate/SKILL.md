@@ -44,7 +44,7 @@ Coordinates are pixels of the image file, origin top-left. They are not CSS
 pixels. A retina capture is 2x, so a button at CSS `(120, 340)` sits at image
 `(240, 680)`.
 
-1. Screenshot the viewport, not the full page, so element bounds and the image
+1. Capture the viewport, not the full page, so element bounds and the image
    share an origin.
 2. Read the image size (the PNG header, or your driver's screenshot metadata)
    and divide by the viewport width. That ratio is the scale.
