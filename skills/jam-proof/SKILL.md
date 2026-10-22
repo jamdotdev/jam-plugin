@@ -1,6 +1,6 @@
 ---
 name: jam-proof
-description: Record work you can see on screen with `jam record` and publish it as a Jam link — proof that a change works, attached to a PR or ticket. Use when the user wants proof, evidence, a demo, sign-off, or a shareable Jam of something an agent or a person just did in any app, browser or not.
+description: "Record work you can see on screen with `jam record` and publish it as a Jam link (a shareable jam.dev recording with the console and network attached). Use when the user asks for a recorded Jam, a shareable demo, or video proof of work in a browser or desktop app. A request to verify a change or give sign-off alone does not call for recording or uploading."
 ---
 
 # jam-proof
@@ -8,6 +8,11 @@ description: Record work you can see on screen with `jam record` and publish it 
 The deliverable is a Jam link. Record the verification as it happens, then
 hand the link back. Prefer a headless browser to a window, and a window to
 somebody's whole screen.
+
+Create the Jam when the user asks for a recording to be shared through Jam.
+If the user only wants a local video, keep it local. Posting to a PR, ticket,
+or existing Jam requires a request to publish there.
+Skip recording when there is nothing to show on screen, and say so.
 
 ## Set up the CLI
 
@@ -22,12 +27,6 @@ user to set `JAM_TOKEN` to a personal access token from
 https://jam.dev/s/settings/mcp as a secret. Never write a token to a file.
 `jam doctor` checks recording readiness; `jam agent-context` prints every
 command and flag.
-
-## When to use it
-
-Use it when a change is visible on screen and someone wants proof: a web
-page, a desktop app, a terminal running a CLI. Skip it when there is nothing
-to show on screen, and say so.
 
 ## Pick the target, in this order
 
@@ -51,9 +50,10 @@ someone's machine on camera.
    `jam record windows --json` and pass `--window-id`. On macOS launch with
    `open -g` so it never takes focus, and drive the app through its own
    automation surface, not the OS mouse, so the cursor is never taken from
-   the person. On macOS the window may sit behind others; on Linux a window
-   grab is a screen region, so keep it uncovered, unminimized, and the
-   display awake.
+   the person. On macOS the window may sit behind others. On Linux a window
+   grab is a screen region: use an isolated desktop session or get the same
+   consent as for a whole-display recording below. Keep that region
+   uncovered and unminimized, and the display awake.
 3. **The whole display**, last. `jam record displays --json` lists them.
    Fine without asking on a box nobody is sitting at: a CI runner, a
    container, a remote Linux desktop you own. On a machine someone is using
@@ -76,17 +76,19 @@ one hit.
 verification:
 
 ```
-jam record run --pid <pid> --url <page url> [--cdp <port>] --title "<the claim>" --json -- <verify command>
+jam record run --cdp <cdp-url> --url <page url> --title "<the claim>" --json -- <verify command>
 ```
 
-`--url` is the page the window shows; the Sharepage names it.
+That is rung 1. For rung 2 replace `--cdp <cdp-url>` with `--pid <pid>` of
+the app you launched, plus `--cdp <port>` when it is a browser. `--url` is the
+page the window shows; the Sharepage names it.
 
 When you drive the app yourself and cannot be wrapped, run it in the
 background and send SIGINT when done. It stops, uploads, and exits 0 with the
 receipt on stdout.
 
 ```
-jam record run --pid <pid> --url <page url> --title "<the claim>" --json > proof.json 2> proof.log &
+jam record run --cdp <cdp-url> --url <page url> --title "<the claim>" --json > proof.json 2> proof.log &
 REC=$!
 # drive the steps that show the behavior
 kill -INT $REC; wait $REC
@@ -98,6 +100,11 @@ This is rung 1, and the normal case. Chrome stays headless: the video is
 Chrome's own frames of the page, and the Console, Network and user-action
 panels come from the same Chrome, so nothing of Jam's runs on the page under
 test and nothing of the person's screen is in frame.
+
+The driver below is agent-browser (`npm i -g agent-browser`, 0.38 or later).
+When the project already has Playwright, use that instead: connect with
+`chromium.connectOverCDP(cdpProxy)` and drive the page from a script; the
+`jam record` lines stay the same. Any driver that speaks CDP works.
 
 ```
 agent-browser --session proof --input-mode human open <url>
@@ -136,6 +143,9 @@ user-action events at all, which means the tap or the proxy was not actually
 in the path. Treat that line as a failed proof and fix the wiring before
 handing the link over.
 
+If `jam record start` or `run` fails, run `jam doctor` and report its
+Recording and Screencast lines. Do not hand over a link you did not get.
+
 ## Make it readable
 
 **Pace it for the person who will watch it, not for yourself.** You read a
@@ -160,9 +170,10 @@ part of the proof, not padding around it.
 
 ## Before and after
 
-For a bug fix, make two Jams: the bug, then the fix. Revert, reload, record;
-re-apply, reload, record. Skip the first when there is no meaningful before
-(a new feature, a config change) and say why.
+For a bug fix, reuse the reported Jam as the "before" when it shows the bug.
+If new before-and-after recordings are needed, run the old and fixed versions
+in isolated checkouts with test data. Preserve the user's working tree.
+Skip the first when there is no meaningful before and say why.
 
 ## After
 
@@ -170,12 +181,12 @@ re-apply, reload, record. Skip the first when there is no meaningful before
    `height` and the recorded `target` when `jam record` did the capturing.
    If the capture or upload failed, say so. Never claim proof you do not
    have.
-2. Add one comment at the moment the result appears:
+2. If the user asked for a Jam comment, add one at the moment the result appears:
    `jam create comment <jamId> "<what to look at>" --at <ms>`. On a fix Jam,
-   put the bug Jam's URL in that comment, and the fix Jam's URL in the bug
-   Jam's comment.
+   put the bug Jam's URL in that comment. Comment on the original bug Jam
+   only if the user requested it too.
 3. Return the links: Bug | Fix, or one link with the claim it supports. Post
-   the same on the PR when there is one.
+   them on a PR or ticket only when the user requested that destination.
 
 ## Send feedback to Jam
 
@@ -183,12 +194,15 @@ When this skill, a Jam MCP tool, a `jam` command or a Jam doc was wrong,
 stale or confusing, or worked unusually well, tell Jam. Send it yourself:
 Jam's agents read it, so it needs no approval.
 
+Call the `submitFeedback` MCP tool with `body`, `category` and `subject`.
+
+<!-- chatgpt:omit:start -->
+When MCP is unavailable, use the CLI:
+
 ```bash
 jam feedback "<what you were doing, what you expected, what happened, the mistake>" --category <skills|mcp|cli|docs> --subject <skill name, tool name or command>
 ```
-
-Without a shell, call the `submitFeedback` MCP tool with the same `body`,
-`category` and `subject`.
+<!-- chatgpt:omit:end -->
 
 - Jam surfaces only, not the user's code or other tools.
 - At most once per session, and never for a slip you corrected yourself.

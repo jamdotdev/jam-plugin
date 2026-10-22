@@ -2,7 +2,7 @@
   "name": "jam",
   "displayName": "Jam",
   "version": "2.0.0",
-  "description": "Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into Cursor and the whole recording – video, console, network, logs – arrives pre-packaged.",
+  "description": "Jam recordings (video, console, network, logs) as context for Cursor. Fix the bug in a Jam, prove a fix with a recorded Jam, mark up a screenshot, or turn a Jam into a failing end-to-end test.",
   "author": {
     "name": "Jam",
     "email": "support@jam.dev"

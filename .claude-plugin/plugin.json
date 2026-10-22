@@ -1,14 +1,27 @@
 {
   "name": "jam",
   "version": "2.0.0",
-  "description": "Jam's MCP is the fast lane between Jam recordings and your dev tools. Drop a Jam link into your coding agent and the whole recording – video, console, network, logs – arrives pre-packaged.",
-  "author": { "name": "Jam", "email": "support@jam.dev" },
+  "description": "Jam recordings (video, console, network, logs) as context for your coding agent. Fix the bug in a Jam, prove a fix with a recorded Jam, mark up a screenshot, or turn a Jam into a failing end-to-end test.",
+  "author": {
+    "name": "Jam",
+    "email": "support@jam.dev"
+  },
   "homepage": "https://jam.dev",
   "repository": "https://github.com/jamdotdev/skills",
   "license": "MIT",
   "privacyPolicyUrl": "https://jam.dev/legal/privacy-policy",
-  "keywords": ["jam", "bug-reports", "debugging", "mcp", "session-replay", "observability"],
+  "keywords": [
+    "jam",
+    "bug-reports",
+    "debugging",
+    "mcp",
+    "session-replay",
+    "observability"
+  ],
   "mcpServers": {
-    "Jam": { "type": "http", "url": "https://mcp.jam.dev/mcp" }
+    "Jam": {
+      "type": "http",
+      "url": "https://mcp.jam.dev/mcp"
+    }
   }
 }

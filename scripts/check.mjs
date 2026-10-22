@@ -1,13 +1,17 @@
 #!/usr/bin/env node
-// Repo checks run by CI. No dependencies. Prints every failure, exits 1 if any.
+// Repo checks run by CI. Prints every failure, exits 1 if any.
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
+import { parseArgs, stripVTControlCharacters } from "node:util";
+import { isMap, parseDocument } from "yaml";
 
 const errors = [];
 const fail = (msg) => errors.push(msg);
 const read = (p) => readFileSync(p, "utf8");
+const { values } = parseArgs({ options: { "skills-list": { type: "string" } } });
+const mdFiles = [...new Set(execFileSync("git", ["ls-files", "-coz", "--exclude-standard", "--", "*.md", "*.mdc"], { encoding: "utf8" }).split("\0"))].filter((file) => file && existsSync(file));
 
 // Skills
 const readme = read("README.md");
@@ -20,19 +24,32 @@ for (const dir of skillDirs) {
     continue;
   }
   const src = read(skillPath);
-  const fm = src.match(/^---\n([\s\S]*?)\n---\n/);
+  const fm = src.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
   if (!fm) {
     fail(`${skillPath}: missing frontmatter`);
     continue;
   }
-  const name = fm[1].match(/^name:\s*(.+)$/m)?.[1].trim();
-  // ponytail: single-line descriptions only; switch to a YAML parser if a skill needs `>-`
-  const description = fm[1].match(/^description:\s*(.+)$/m)?.[1].trim();
-  if (/^[>|]/.test(description ?? "")) fail(`${skillPath}: write the description on one line, not as a YAML block`);
-  if (name !== dir) fail(`${skillPath}: name "${name}" must equal folder "${dir}"`);
+  const frontmatter = parseDocument(fm[1], { uniqueKeys: true });
+  if (frontmatter.errors.length) {
+    for (const error of frontmatter.errors) fail(`${skillPath}: invalid YAML: ${error.message}`);
+    continue;
+  }
+  if (!isMap(frontmatter.contents)) {
+    fail(`${skillPath}: frontmatter must be a YAML mapping`);
+    continue;
+  }
+  const name = frontmatter.get("name");
+  const description = frontmatter.get("description");
+  if (typeof name !== "string") fail(`${skillPath}: name must be a string`);
+  else if (name !== dir) fail(`${skillPath}: name "${name}" must equal folder "${dir}"`);
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(dir)) fail(`${dir}: folder must be kebab-case`);
-  if (!description) fail(`${skillPath}: missing single-line description`);
-  else if (description.length > 1024) fail(`${skillPath}: description is ${description.length} chars, max 1024`);
+  if (typeof description !== "string" || !description.trim()) fail(`${skillPath}: description must be a non-empty string`);
+  else {
+    const descriptionNode = frontmatter.get("description", true);
+    const rawDescription = fm[1].slice(descriptionNode.range[0], descriptionNode.range[1]);
+    if (/[\r\n]/.test(rawDescription) || /[\r\n]/.test(description)) fail(`${skillPath}: write the description on one line`);
+    if (description.length > 1024) fail(`${skillPath}: description is ${description.length} chars, max 1024`);
+  }
   if (!existsSync(join("skills", dir, "agents", "openai.yaml"))) fail(`${dir}: missing agents/openai.yaml`);
   if (!readme.includes(`### ${dir}\n`)) fail(`${dir}: missing "### ${dir}" card in README.md`);
   if (dir.startsWith("jam-")) {
@@ -47,7 +64,7 @@ for (const dir of skillDirs) {
 
 // The CLI install block is copied into every skill that runs `jam`; keep the copies identical.
 const setupBlocks = new Map();
-for (const file of execFileSync("git", ["ls-files", "-co", "--exclude-standard", "skills/*.md"], { encoding: "utf8" }).split("\n").filter(Boolean)) {
+for (const file of mdFiles.filter((file) => file.startsWith("skills/") && file.endsWith(".md"))) {
   const block = read(file).match(/```bash\n[^`]*native\.jam\.dev\/install[^`]*```/)?.[0];
   if (block) setupBlocks.set(file, block);
 }
@@ -68,8 +85,7 @@ if (new Set(versions.map(([, v]) => v)).size !== 1) {
   fail(`versions differ: ${versions.map(([p, v]) => `${p}=${v}`).join(", ")}`);
 }
 
-// Relative links in tracked Markdown
-const mdFiles = execFileSync("git", ["ls-files", "*.md", "*.mdc"], { encoding: "utf8" }).split("\n").filter(Boolean);
+// Relative links in Markdown
 for (const file of mdFiles) {
   const text = read(file).replace(/```[\s\S]*?```/g, "");
   const targets = [...text.matchAll(/\]\(([^)\s]+)\)|(?:href|src)="([^"]+)"/g)].map((m) => m[1] ?? m[2]);
@@ -77,6 +93,15 @@ for (const file of mdFiles) {
     if (/^([a-z]+:|#)/i.test(target)) continue;
     const path = join(dirname(file), decodeURI(target.split("#")[0]));
     if (!existsSync(path)) fail(`${file}: broken link ${target}`);
+  }
+}
+
+if (values["skills-list"]) {
+  const output = stripVTControlCharacters(read(values["skills-list"]));
+  if (/\bSkipped\b.*SKILL\.md|YAML parse error/i.test(output)) fail("skills CLI skipped a skill; inspect its discovery output");
+  const listed = new Set([...output.matchAll(/^│    ([a-z0-9]+(?:-[a-z0-9]+)*)\r?$/gm)].map((match) => match[1]));
+  for (const dir of skillDirs) {
+    if (!listed.has(dir)) fail(`skills CLI did not list ${dir}`);
   }
 }
 

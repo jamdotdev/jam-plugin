@@ -1,6 +1,6 @@
 ---
 name: jam-annotate
-description: Turn a screenshot into a Jam (a shareable jam.dev bug report) that points at the problem, with boxes, arrows, notes, redactions and blurs drawn by `jam create jam`. Use when an agent has a screenshot (Playwright, agent-browser, CDP, a file) and the user wants it annotated, marked up, redacted, or filed as a bug with what is wrong and where.
+description: Turn a screenshot into a Jam (a shareable jam.dev bug report) that points at the problem, with boxes, arrows, notes, redactions and blurs drawn by `jam create jam`. Use when the user asks to file or share an annotated screenshot as a Jam. Local annotation or redaction requests alone do not call for this skill.
 ---
 
 # jam-annotate
@@ -9,6 +9,10 @@ The deliverable is a screenshot Jam a reviewer reads in five seconds: a box
 on the broken thing, a number that matches a line in the description, secrets
 redacted. `jam create jam` draws the marks into the image before upload;
 `jam agent-context` prints the full payload schema.
+
+A request to create or share a Jam authorizes the upload. For local-only
+annotation or redaction, use the available image tools and return a local
+file. Do not upload it or sign in to Jam.
 
 ## Set up the CLI
 
@@ -48,6 +52,10 @@ pixels. A retina capture is 2x, so a button at CSS `(120, 340)` sits at image
    CDP `DOM.getBoxModel`) and multiply every number by the scale.
 4. Pad a box 6 to 10 CSS pixels beyond the element so the outline does not
    sit on the element's own border.
+
+With only an image file and no driver, read its pixel size, place the marks
+by eye in image pixels with generous boxes, and say in the reply that the
+positions are estimates.
 
 The CLI refuses a mark that falls outside the image and names the index. A
 refusal almost always means the scale was skipped.
@@ -105,8 +113,8 @@ notes never take a number.
 
 1. Read the receipt: `id`, `url`, `kind`. If the command failed, say so and
    fix the payload. Never hand over a link you did not get.
-2. Return the link with the claim it supports. Post it on the PR or ticket
-   when there is one.
+2. Return the link with the claim it supports. Post it on a PR or ticket
+   only when the user requested that destination.
 
 ## Send feedback to Jam
 
@@ -114,12 +122,15 @@ When this skill, a Jam MCP tool, a `jam` command or a Jam doc was wrong,
 stale or confusing, or worked unusually well, tell Jam. Send it yourself:
 Jam's agents read it, so it needs no approval.
 
+Call the `submitFeedback` MCP tool with `body`, `category` and `subject`.
+
+<!-- chatgpt:omit:start -->
+When MCP is unavailable, use the CLI:
+
 ```bash
 jam feedback "<what you were doing, what you expected, what happened, the mistake>" --category <skills|mcp|cli|docs> --subject <skill name, tool name or command>
 ```
-
-Without a shell, call the `submitFeedback` MCP tool with the same `body`,
-`category` and `subject`.
+<!-- chatgpt:omit:end -->
 
 - Jam surfaces only, not the user's code or other tools.
 - At most once per session, and never for a slip you corrected yourself.

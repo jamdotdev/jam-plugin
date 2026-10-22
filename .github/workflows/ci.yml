@@ -17,6 +17,12 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install check dependencies
+        run: npm ci
+
+      - name: Regression tests
+        run: npm test
+
       - name: Repo checks
         run: node scripts/check.mjs
 
@@ -26,7 +32,4 @@ jobs:
       - name: skills.sh sees every skill
         run: |
           npx -y skills@1.7.4 add . --list </dev/null > skills.txt 2>&1
-          for d in skills/*/; do
-            n=$(basename "$d")
-            grep -q "$n" skills.txt || { cat skills.txt; echo "skills CLI did not list $n"; exit 1; }
-          done
+          node scripts/check.mjs --skills-list skills.txt || { cat skills.txt; exit 1; }

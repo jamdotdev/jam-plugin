@@ -6,7 +6,7 @@
 
 The plugin is now versioned on its own and no longer tracks the Jam MCP server version.
 
-- Renamed `investigate-bug` to `jam-fix`, because "fix this Jam" is what people ask for. It diagnoses first, changes code only when asked, and posts one comment on the Jam once the cause is found or fixed, mentioning the Jam's creator, as the Jam MCP server asks. Its description carries trigger phrases instead of slash-command syntax, and it covers the `jam` CLI when MCP is not connected.
+- Renamed `investigate-bug` to `jam-fix`, because "fix this Jam" is what people ask for. It diagnoses first, changes code only when asked, and posts findings on the Jam when requested. Its description carries trigger phrases instead of slash-command syntax, and it covers the `jam` CLI when MCP is not connected.
 - Added `jam-proof`: record a change working and return a Jam link for the pull request. Moved from the Jam CLI bundle; this repo is now its source.
 - Added `jam-annotate`: mark up a screenshot with boxes, arrows, notes, redactions and blurs, and file it as a Jam. Moved from the Jam CLI bundle; this repo is now its source.
 - Added `jam-to-e2e`: turn a Jam into repro steps and a failing end-to-end test in the project's own runner (Playwright, tester-army/e2e, Cypress).
@@ -21,6 +21,11 @@ The plugin is now versioned on its own and no longer tracks the Jam MCP server v
 - Renamed the repository to `jamdotdev/skills`. Install commands and manifest URLs now point there; the `jam-plugins` marketplace name is unchanged.
 - Pointed the MCP website and docs links at `jam.dev/mcp`, and the CLI links at `jam.dev/cli`.
 - Added `server.json` for the official MCP Registry (`dev.jam/jam`) and a tag-triggered publish workflow.
+- Validate skill frontmatter with a YAML parser and require exact discovery entries, so malformed skills cannot pass CI by appearing in a warning.
+- Keep local annotation requests local and require posting intent for Jam comments, mentions, pull requests and tickets.
+- Give CLI investigations both client and server failures, and require an explicit browser or window target for proof recordings.
+- Generate a self-contained MCP-only ChatGPT package from the shared skill, with matching listing metadata and archive regression checks.
+- Use the project's browser mode for regression tests and isolated checkouts for new before-and-after recordings.
 
 ## 1.23.2
 
@@ -30,7 +35,7 @@ The plugin is now versioned on its own and no longer tracks the Jam MCP server v
 
 ## 1.5.0
 
-- Synced with deployed Jam MCP 1.23.2 at [619c85f885c3](https://github.com/jamdotdev/apiofjam/commit/619c85f885c3782f77a49ef0bc68c4d87222d097), verified through production server initialization and its 35-tool inventory.
+- Synced with deployed Jam MCP 1.23.2, verified through production server initialization and its 35-tool inventory.
 - Added `searchJams` guidance and marked `listJams` deprecated. Added `submitFeedback` with exact-text approval, privacy limits, and at most one submission per session.
 - Corrected event filter examples to arrays and documented cursor pagination, total counts, and network response-body limits.
 - Documented video thumbnail links and CLI proof capture guidance.

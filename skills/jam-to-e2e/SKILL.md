@@ -39,8 +39,9 @@ Fetch in this order and stop when you have the steps and the expected result.
 - User events can be empty, especially on extension recordings. Treat them as a
   bonus and fall back to the transcript and frames.
 - Write down the **expected result** in one sentence. Most Jams do not state
-  it. If the Jam and the user leave it unclear, ask; the expected result is
-  the assertion, and a test with a guessed assertion proves nothing.
+  it. If the Jam and the user leave it unclear, ask. If you cannot ask, write
+  the expected result you assumed and flag it in the hand-off; the expected
+  result is the assertion, and a test with a guessed assertion proves nothing.
 
 ## 2. Ground it in code
 
@@ -59,8 +60,9 @@ Use what the project already has. Check in this order:
 2. `playwright.config.*` → Playwright. Reuse the project's fixtures, auth
    setup and page objects.
 3. `cypress.config.*` → Cypress. The rules below translate one to one.
-4. None → Playwright. Say so, and keep the setup to `npm init playwright@latest`
-   defaults plus one test file.
+4. None → Playwright. Say so, and keep the setup to
+   `npm init playwright@latest -- --quiet --browser=chromium` plus one test
+   file. `--quiet` takes the defaults without prompting.
 
 Put the test next to the existing ones and follow their naming. The test
 title is the expected result in plain English. The first line is a comment
@@ -93,7 +95,8 @@ any disagreement with this file.
 
 ## 5. Prove it fails for the right reason
 
-Run the test headed against the unfixed code. It must fail **on the
+Run the test against the unfixed code using the project's normal browser
+mode, headless by default. It must fail **on the
 assertion that encodes the bug**, not on a locator timeout or a setup error.
 A test that fails for the wrong reason is not a repro yet.
 
@@ -118,7 +121,8 @@ Offer to turn the passing Playwright run into an "after" Jam; do not create
 it without a yes. Run with `--trace on` and `video: "on"`, convert the
 `.webm` to MP4 with `ffmpeg`, then `jam create jam` with `"kind":"video"`,
 `videoPath` and `playwrightTracePath`. The trace's console, network and test
-actions are synced to the video. Comment its URL on the bug Jam.
+actions are synced to the video. Return its URL. Comment on the bug Jam or
+post to a PR or ticket only when the user requested that destination.
 
 ## Send feedback to Jam
 
@@ -126,12 +130,15 @@ When this skill, a Jam MCP tool, a `jam` command or a Jam doc was wrong,
 stale or confusing, or worked unusually well, tell Jam. Send it yourself:
 Jam's agents read it, so it needs no approval.
 
+Call the `submitFeedback` MCP tool with `body`, `category` and `subject`.
+
+<!-- chatgpt:omit:start -->
+When MCP is unavailable, use the CLI:
+
 ```bash
 jam feedback "<what you were doing, what you expected, what happened, the mistake>" --category <skills|mcp|cli|docs> --subject <skill name, tool name or command>
 ```
-
-Without a shell, call the `submitFeedback` MCP tool with the same `body`,
-`category` and `subject`.
+<!-- chatgpt:omit:end -->
 
 - Jam surfaces only, not the user's code or other tools.
 - At most once per session, and never for a slip you corrected yourself.

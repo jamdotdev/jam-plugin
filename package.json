@@ -1,0 +1,11 @@
+{
+  "name": "jam-skills-checks",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "test": "node --test scripts/*.test.mjs"
+  },
+  "devDependencies": {
+    "yaml": "2.9.1"
+  }
+}

@@ -1,6 +1,6 @@
 ---
 name: jam-fix
-description: Find the root cause of a bug from a Jam recording and fix it. Diagnoses only, with no code changes, unless the user asks for a fix. Reads the Jam's console errors, failed network requests, user steps, screenshots, video frames and transcript through the Jam MCP server or the `jam` CLI, then writes a root-cause diagnosis with evidence. Use when the user pastes a jam.dev link or Jam id and asks to fix, debug, triage or investigate it, or asks what went wrong in a recording.
+description: Find the root cause of a bug from a Jam (a jam.dev bug recording with video, console and network), and fix it when the user asks. Without that ask it diagnoses only, with no code changes. Read the recording's diagnostics and visual evidence, then return a diagnosis with evidence. Use when the user pastes a jam.dev link or Jam id and asks to fix, debug, triage or investigate it, or asks what went wrong in a recording.
 ---
 
 # jam-fix
@@ -16,12 +16,14 @@ the moment the bug happened. Its id is the UUID at the end of
 
 ## Pick the interface
 
-- **Jam MCP tools** (`getDetails`, `getConsoleLogs`, ...) when they are
-  connected. This is the default.
-- **The `jam` CLI** when they are not: a cloud agent, CI, a container, or a
-  harness without MCP. Read [references/cli.md](references/cli.md) for setup
-  and the command for each step below. The steps are the same; only the
-  calls change.
+Use the connected Jam MCP tools (`getDetails`, `getConsoleLogs`, ...).
+If a tool is unavailable, say what could not be read. Do not invent evidence.
+
+<!-- chatgpt:omit:start -->
+When MCP is unavailable and a shell is available, read
+[references/cli.md](references/cli.md) for Jam CLI setup and the command for
+each step below. That reference also covers optional proof uploads.
+<!-- chatgpt:omit:end -->
 
 ## 1. Read the report
 
@@ -30,7 +32,8 @@ Call `getDetails`. Note:
 - what the reporter wrote, and the page URL
 - the type: `video`, `screenshot` or `replay`. It decides which visual tools work
 - browser, OS and screen size
-- the **Investigation Guide**, returned as the second text block
+- the **Investigation Guide**, returned as the second text block. MCP only:
+  the CLI has no guide, so from the CLI go straight to step 2
 
 The guide is built from signals in this Jam (error counts, failing hosts,
 whether the mic was on). **Follow it before anything below.** Take its
@@ -38,7 +41,8 @@ whether the mic was on). **Follow it before anything below.** Take its
 thin or you need to dig deeper.
 
 A fresh Jam may answer "not ready yet" from the event tools. It is still
-processing: wait a few seconds and retry, or work from what is ready.
+processing: wait a few seconds and retry, up to three times, then work from
+what is ready and say what was not.
 
 ## 2. Failed requests
 
@@ -66,6 +70,7 @@ navigation mean the user was confused or the UI did not respond.
 Check the type from step 1 first; the video tools do not work on other types.
 
 - **Screenshot:** `getScreenshots`.
+- **Replay:** no frames or screenshots. Work from events, console and network.
 - **Video:** `getFrames` with `overview: true` for one labeled grid, then
   frames around the failure.
 - **Video with the mic on:** `getVideoTranscript` first. The reporter's own
@@ -115,32 +120,21 @@ line you suspect.
    unverified, say so.
 5. Offer proof of the fix. The reported Jam is already the "before", so only
    the "after" needs a Jam. Offer it; do not create one without a yes.
-   - **Verified with a Playwright test:** turn that run into the Jam, with no
-     live recording. See [Proof from a Playwright run](#proof-from-a-playwright-run).
-   - **Verified by hand or another runner:** record the steps with the
-     `jam-proof` skill if it is installed, or `jam record run -- <verify command>`.
+   If no recording or upload tool is available, return the verification
+   results and say that a new Jam could not be created.
 
-## Proof from a Playwright run
-
-Run the passing test with video and trace on, then upload both. The trace's
-console, network and test actions are synced to the video.
-
-```bash
-npx playwright test <file> --trace on    # plus use: { video: "on" } in the config
-ffmpeg -i test-results/<test>/video.webm after.mp4
-jam create jam '{"kind":"video","url":"<page url>","title":"<the claim>","videoPath":"after.mp4","playwrightTracePath":"test-results/<test>/trace.zip","screenDimensions":{"width":1280,"height":720}}'
-```
-
-Use the test's viewport for `screenDimensions`. Put the bug Jam's URL in the
-description, and comment the new Jam's URL on the bug Jam.
+<!-- chatgpt:omit:start -->
+For approved proof uploads from a coding agent, use
+[the CLI proof instructions](references/cli.md#proof-of-a-fix).
+<!-- chatgpt:omit:end -->
 
 ## After
 
-Once you find the cause or land the fix, post **one** comment on the Jam
-with `createComment`: what you found or changed, in a few lines. Pin it to
-the moment with `playbackRelativeTimestamp`. Mention the Jam's creator as
-`@[Name](user:<author.id>)` from `getDetails`, unless the creator is the user
-you act for. Do not comment after every step.
+Return the diagnosis and any fix in chat. If the user asked to post findings
+on the Jam, use `createComment` once with what you found or changed. Pin it
+to the moment with `playbackRelativeTimestamp` when relevant. Mention someone
+only when the user requested a mention. A diagnosis or fix request alone
+does not authorize comments, mentions, or posting to a PR or ticket.
 
 ## Send feedback to Jam
 
@@ -148,12 +142,15 @@ When this skill, a Jam MCP tool, a `jam` command or a Jam doc was wrong,
 stale or confusing, or worked unusually well, tell Jam. Send it yourself:
 Jam's agents read it, so it needs no approval.
 
+Call the `submitFeedback` MCP tool with `body`, `category` and `subject`.
+
+<!-- chatgpt:omit:start -->
+When MCP is unavailable, use the CLI:
+
 ```bash
 jam feedback "<what you were doing, what you expected, what happened, the mistake>" --category <skills|mcp|cli|docs> --subject <skill name, tool name or command>
 ```
-
-Without a shell, call the `submitFeedback` MCP tool with the same `body`,
-`category` and `subject`.
+<!-- chatgpt:omit:end -->
 
 - Jam surfaces only, not the user's code or other tools.
 - At most once per session, and never for a slip you corrected yourself.

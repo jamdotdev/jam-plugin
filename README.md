@@ -39,7 +39,7 @@ npx skills add jamdotdev/skills --skill jam-fix
 
 Record the change working and hand back a Jam link for the pull request. Headless Chrome by default, so nothing of your screen is filmed; the Jam carries the console and network next to the video.
 
-**Use when:** "prove it works", "record a demo for the PR", before and after a bug fix.
+**Use when:** "record a Jam showing the fix", "share a demo as a Jam", before and after a bug fix.
 
 ```bash
 npx skills add jamdotdev/skills --skill jam-proof
@@ -49,7 +49,7 @@ npx skills add jamdotdev/skills --skill jam-proof
 
 Turn a screenshot into a Jam that points at the problem: boxes, arrows, notes, redactions and blurs, with the retina math done right.
 
-**Use when:** "mark what's broken", "redact this and file it", a screenshot that needs to become a bug report.
+**Use when:** "mark what's broken and file a Jam", "redact this and share it as a Jam", a screenshot that needs to become a Jam bug report.
 
 ```bash
 npx skills add jamdotdev/skills --skill jam-annotate

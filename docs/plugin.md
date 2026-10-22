@@ -53,4 +53,3 @@ A Recording Link captures console and network logs only when it starts on a veri
 - The server checks permissions for each workspace and each Jam. Workspace changes require `mcp:write`. `submitFeedback` uses `mcp:read` and stores the text for Jam's agents to read.
 - Every request sees only the Jams your account can already see.
 - `createFolder` and `createRecordingLink` can upgrade you from Viewer to Creator when your workspace allows it. That can change seat billing and sends an email to workspace Admins. `createRecordingLink` also sends a webhook event to your workspace's webhook subscribers.
-
