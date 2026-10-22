@@ -21,9 +21,11 @@
 npx skills add jamdotdev/skills
 ```
 
-Works with Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, OpenCode and [every agent skills.sh supports](https://skills.sh). Each skill does one job and loads only when the task calls for it.
+Works with Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, OpenCode and [every agent skills.sh supports](https://skills.sh). Add `--skill jam-fix` to install one skill.
 
 A Jam is a bug report recorded in the browser: the video or screenshot, console logs, network requests and user steps, on one link. These skills teach your agent to read one, and to make one.
+
+## Skills
 
 | Skill | You say | You get |
 | --- | --- | --- |
@@ -32,51 +34,29 @@ A Jam is a bug report recorded in the browser: the video or screenshot, console 
 | [jam-annotate](#jam-annotate) | "mark what's broken and file it" | a screenshot Jam with boxes, arrows and redactions |
 | [jam-to-e2e](#jam-to-e2e) | "write a regression test for this Jam" | a failing end-to-end test in your own runner |
 
-## Skills
-
 ### jam-fix
 
-Paste a Jam link and get the root cause, or the fix. The agent reads the recording's console errors, failed requests, user steps, frames and transcript, then writes a diagnosis with the evidence for it.
-
-**Use when:** "fix this jam.dev/c/…", "debug this Jam", "what went wrong here?", a jam.dev link in a bug ticket.
-
-```bash
-npx skills add jamdotdev/skills --skill jam-fix
-```
+Reads the recording's console errors, failed requests, user steps, frames and transcript, then writes a diagnosis with the evidence for it. Changes code only when you ask.
 
 ### jam-proof
 
-Record the change working and hand back a Jam link for the pull request. Headless Chrome by default, so nothing of your screen is filmed; the Jam carries the console and network next to the video.
-
-**Use when:** "record a Jam showing the fix", "share a demo as a Jam", before and after a bug fix.
-
-```bash
-npx skills add jamdotdev/skills --skill jam-proof
-```
+Records the change working and hands back a Jam link for the pull request. Headless Chrome by default, so nothing of your screen is filmed.
 
 ### jam-annotate
 
-Turn a screenshot into a Jam that points at the problem: boxes, arrows, notes, redactions and blurs, with the retina math done right.
-
-**Use when:** "mark what's broken and file a Jam", "redact this and share it as a Jam", a screenshot that needs to become a Jam bug report.
-
-```bash
-npx skills add jamdotdev/skills --skill jam-annotate
-```
+Turns a screenshot into a Jam that points at the problem: boxes, arrows, notes, redactions and blurs, with the retina math done right.
 
 ### jam-to-e2e
 
-Turn a Jam into repro steps and a failing end-to-end test in the project's own runner: Playwright, [tester-army/e2e](https://github.com/tester-army/e2e) or Cypress. Playwright when there is none. The test fails on the bug, so the fix has something to turn green.
+Turns a Jam into repro steps and a failing test in the project's own runner: Playwright, [tester-army/e2e](https://github.com/tester-army/e2e) or Cypress. The test fails on the bug, so the fix has something to turn green.
 
-**Use when:** "write a regression test for this Jam", "reproduce this bug", before fixing a bug from a Jam.
+## Requirements
 
-```bash
-npx skills add jamdotdev/skills --skill jam-to-e2e
-```
+Every skill needs a free [Jam](https://jam.dev?utm_source=github&utm_medium=readme&utm_campaign=skills) account and either the Jam MCP server or the [Jam CLI](https://jam.dev/cli). The skill installs the CLI and signs in when MCP is not connected. In CI or a cloud agent, set `JAM_TOKEN` to a [personal access token](https://jam.dev/docs/personal-access-tokens). Window and display capture in `jam-proof` need macOS or Linux (X11); its default, recording a headless browser, needs only Chrome.
 
 ## Install as a plugin
 
-The plugin installs every skill above and connects the [Jam Model Context Protocol (MCP) server](./docs/plugin.md), and it updates itself. Use the plugin or `npx skills add`, not both, or the agent sees every skill twice.
+The plugin installs every skill, connects the [Jam MCP server](./docs/plugin.md) and updates itself. Use the plugin or `npx skills add`, not both, or the agent sees every skill twice.
 
 <details>
 <summary><strong>Claude Code</strong></summary>
@@ -136,21 +116,11 @@ Run `/mcp auth Jam` once to sign in. To test a checkout, run `gemini extensions 
 
 </details>
 
-Sign-in, personal access tokens, what the MCP server can do, and permissions are in [docs/plugin.md](./docs/plugin.md).
-
-## What the skills need
-
-Every `jam-*` skill needs a free Jam account and either the Jam MCP server or the [Jam CLI](https://jam.dev/cli). The skill installs the CLI and signs in when MCP is not connected. In CI or a cloud agent, set `JAM_TOKEN` to a [personal access token](https://jam.dev/docs/personal-access-tokens).
-
-Window and display capture in `jam-proof` need macOS or Linux (X11); its default, recording a headless browser, needs only Chrome. Everything else runs anywhere the CLI does.
+Sign-in, tokens, what the MCP server can do, and permissions: [docs/plugin.md](./docs/plugin.md).
 
 ## Contribute
 
-Bug in a skill, or a skill you want? [Open an issue](https://github.com/jamdotdev/skills/issues/new/choose). Pull requests are welcome. Read [CONTRIBUTING.md](./CONTRIBUTING.md) first; it is short.
-
-## Try Jam
-
-[Try Jam for free](https://jam.dev?utm_source=github&utm_medium=readme&utm_campaign=skills): one-click bug reports with the video, console and network attached, readable by your agent.
+Bug in a skill, or a skill you want? [Open an issue](https://github.com/jamdotdev/skills/issues/new/choose). Pull requests are welcome; [CONTRIBUTING.md](./CONTRIBUTING.md) is short.
 
 ---
 
