@@ -11,7 +11,7 @@ needs agent-browser 0.38 or later:
   screencast shows where each click landed and the hover state it triggered.
   Without it the video cuts from one state to the next and a viewer cannot
   tell what was pressed. The overlay is hidden from accessibility snapshots
-  and removed on stop. Its own `/tmp/pointer.webm` is a side effect of
+  and removed on stop. Its own `/tmp/discard.webm` is a side effect of
   turning the overlay on — the Jam is the deliverable, so throw the file
   away.
 - `--input-mode human` moves the pointer along a curve at human speed, but
@@ -34,7 +34,7 @@ needs agent-browser 0.38 or later:
   claim is about that size — a mobile layout, a customer's reported window —
   and say which in the description. The frame rate is not yours to pick: the
   screencast is 30 fps, and agent-browser's own `--fps` only governs the
-  `/tmp/pointer.webm` you discard.
+  `/tmp/discard.webm` you discard.
 
 ## Visible Chrome (rung 2)
 
