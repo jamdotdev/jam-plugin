@@ -64,7 +64,5 @@ the default profile, and select it by pid:
 jam record start --pid <chrome pid> --cdp 9222 --title "<the claim>" --json
 ```
 
-The binary is `"/Applications/Google Chrome.app/Contents/MacOS/Google
-Chrome"` on macOS and `google-chrome` on Linux. A driver that moves the real
-mouse instead of speaking CDP, a computer-use agent for one, leaves no
-actions, but console and network still land from the tap.
+A driver that moves the real mouse instead of speaking CDP leaves no
+actions in the Jam; console and network still land from the tap.
