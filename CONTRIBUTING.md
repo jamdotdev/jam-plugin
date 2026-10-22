@@ -62,7 +62,9 @@ The plugin has its own version, independent of the Jam MCP server version. It is
 The ChatGPT directory takes the skills that work over MCP alone: `jam-fix` and `jam-to-e2e`, without their `references/`. The CLI install steps (in `jam-proof`, `jam-annotate` and the `references/cli.md` files) download and run code, which fails ChatGPT's external-code review, so a skill meant for ChatGPT keeps its install steps in `references/`.
 
 ```bash
-git archive --format=zip --prefix=jam/ --output=../jam-chatgpt-<version>.zip HEAD .codex-plugin mcp.json assets LICENSE skills/jam-fix/SKILL.md skills/jam-fix/agents skills/jam-to-e2e/SKILL.md skills/jam-to-e2e/agents
+node scripts/package-chatgpt.mjs ../jam-chatgpt-<version>.zip
 ```
+
+The script copies those two skills with the plugin identity, connection and assets, and rewrites the listing description so it names only what the package contains.
 
 Update the existing app entry with this package. Do not create a new app through **Upload New**; that loses the saved identity and connection settings.
