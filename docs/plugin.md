@@ -49,7 +49,7 @@ A Recording Link captures console and network logs only when it starts on a veri
 ## Privacy and permissions
 
 - The plugin connects only to `https://mcp.jam.dev/mcp`.
-- The OAuth scopes are `mcp:read` and `mcp:write`. Write access covers comments, reactions, folders, `updateJam`, the Recording Link tools that make changes, and the three `delete*` tools.
-- The server checks permissions for each workspace and each Jam. Workspace changes require `mcp:write`. `submitFeedback` uses `mcp:read` and stores the text for Jam's agents to read.
+- The OAuth scopes are `mcp:read` and `mcp:write`. Every tool that reads a Jam or the workspace needs `mcp:read`. Tools that change something need `mcp:write`: comments, reactions, folders, `updateJam`, the Recording Link tools that make changes, and the three `delete*` tools. The one exception is `submitFeedback`: it writes only to Jam's own feedback store, so it needs `mcp:read`.
+- The server also checks your permissions for each workspace and each Jam on every call.
 - Every request sees only the Jams your account can already see.
 - `createFolder` and `createRecordingLink` can upgrade you from Viewer to Creator when your workspace allows it. That can change seat billing and sends an email to workspace Admins. `createRecordingLink` also sends a webhook event to your workspace's webhook subscribers.
