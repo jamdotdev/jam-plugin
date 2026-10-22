@@ -39,10 +39,25 @@ needs agent-browser 0.38 or later:
 ## Visible Chrome (rung 2)
 
 When the proof needs the address bar, a Chrome dialog or the real OS cursor,
-that is rung 2: add `--video-source screen` and a window selector (`--pid` of
-the Chrome you launched), and run Chrome visible. Launch it yourself with a
-debug port and its own data dir, since Chromium 136 and later refuses
-`--remote-debugging-port` on the default profile:
+that is rung 2: run Chrome visible and name its window, so the video is a
+screen capture of the window instead of the page screencast. Keep `--cdp`
+so console, network and actions still land.
+
+With agent-browser, add `--headed`; it opens its own "Google Chrome for
+Testing" window with a fresh profile, so nothing of the person's appears:
+
+```
+agent-browser --session proof --headed --input-mode human open <url>
+agent-browser --session proof get cdp-url
+jam record start --app "Google Chrome for Testing" --cdp <cdp-url> --title "<the claim>" --json
+```
+
+`jam record windows --json` lists the window if the app name differs on your
+machine; pass its id as `--window-id` instead of `--app`.
+
+With any other driver, launch Chrome yourself with a debug port and its own
+data dir, since Chromium 136 and later refuses `--remote-debugging-port` on
+the default profile, and select it by pid:
 
 ```
 <chrome binary> --remote-debugging-port=9222 --user-data-dir=/tmp/jam-chrome about:blank &
