@@ -112,7 +112,7 @@ agent-browser --session proof set viewport 1920 1080   # then reload: it does no
 agent-browser --session proof open <url>
 agent-browser --session proof get cdp-url          # ws://127.0.0.1:<port>/devtools/browser/…
 jam record start --cdp <cdp-url> --title "<the claim>" --json   # → { session, cdpProxy }
-agent-browser --session proof record start /tmp/discard.webm --cursor   # only turns the pointer overlay on; the file is unused
+agent-browser --session proof record start /tmp/discard.webm --cursor --fps 5   # only turns the pointer overlay on; the file is unused
 agent-browser --session drive --input-mode human --cdp <cdpProxy> mouse move <x> <y>   # drive THROUGH the proxy
 agent-browser --session drive --cdp <cdpProxy> mouse down
 agent-browser --session drive --cdp <cdpProxy> mouse up

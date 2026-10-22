@@ -34,7 +34,9 @@ needs agent-browser 0.38 or later:
   claim is about that size — a mobile layout, a customer's reported window —
   and say which in the description. The frame rate is not yours to pick: the
   screencast is 30 fps, and agent-browser's own `--fps` only governs the
-  `/tmp/discard.webm` you discard.
+  `/tmp/discard.webm` you discard. Keep it low (`--fps 5`): at 1920x1080
+  agent-browser's encoder can fall behind and abort its recording, which
+  takes the overlay with it.
 
 ## Visible Chrome (rung 2)
 
