@@ -28,9 +28,9 @@ jobs:
         run: node scripts/check.mjs
 
       - name: Plugin manifest
-        run: npx -y @anthropic-ai/claude-code@2.1.307 plugin validate . --strict
+        run: npx -y @anthropic-ai/claude-code@latest plugin validate . --strict
 
       - name: skills.sh sees every skill
         run: |
-          npx -y skills@1.7.4 add . --list </dev/null > skills.txt 2>&1
+          npx -y skills@latest add . --list </dev/null > skills.txt 2>&1
           node scripts/check.mjs --skills-list skills.txt || { cat skills.txt; exit 1; }
