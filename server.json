@@ -3,7 +3,7 @@
   "name": "dev.jam/jam",
   "title": "Jam",
   "description": "Jam recordings (video, console, network, logs) as context for your coding agent.",
-  "version": "1.23.2",
+  "version": "2.0.0",
   "websiteUrl": "https://jam.dev/mcp",
   "repository": {
     "url": "https://github.com/jamdotdev/skills",

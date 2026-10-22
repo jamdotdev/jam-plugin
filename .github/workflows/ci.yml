@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Repo checks
+        run: node scripts/check.mjs
+
+      - name: Plugin manifest
+        run: npx -y @anthropic-ai/claude-code@2.1.307 plugin validate . --strict
+
+      - name: skills.sh sees every skill
+        run: |
+          npx -y skills@1.7.4 add . --list </dev/null > skills.txt 2>&1
+          for d in skills/*/; do
+            n=$(basename "$d")
+            grep -q "$n" skills.txt || { cat skills.txt; echo "skills CLI did not list $n"; exit 1; }
+          done

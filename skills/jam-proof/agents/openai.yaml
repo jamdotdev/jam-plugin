@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jam Proof"
+  short_description: "Record proof that a change works as a Jam link"
+  default_prompt: "Use $jam-proof to record proof that this change works and return the Jam link."

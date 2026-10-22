@@ -1,6 +1,6 @@
 {
   "name": "jam",
-  "version": "1.23.2",
+  "version": "2.0.0",
   "description": "Investigate Jam bug reports using recordings, console logs, network requests, and user events.",
   "author": {
     "name": "Jam",
