@@ -19,11 +19,9 @@ the moment the bug happened. Its id is the UUID at the end of
 Use the connected Jam MCP tools (`getDetails`, `getConsoleLogs`, ...).
 If a tool is unavailable, say what could not be read. Do not invent evidence.
 
-<!-- chatgpt:omit:start -->
 When MCP is unavailable and a shell is available, read
 [references/cli.md](references/cli.md) for Jam CLI setup and the command for
 each step below. That reference also covers optional proof uploads.
-<!-- chatgpt:omit:end -->
 
 ## 1. Read the report
 
@@ -123,10 +121,8 @@ line you suspect.
    If no recording or upload tool is available, return the verification
    results and say that a new Jam could not be created.
 
-<!-- chatgpt:omit:start -->
 For approved proof uploads from a coding agent, use
 [the CLI proof instructions](references/cli.md#proof-of-a-fix).
-<!-- chatgpt:omit:end -->
 
 ## After
 
@@ -144,13 +140,11 @@ Jam's agents read it, so it needs no approval.
 
 Call the `submitFeedback` MCP tool with `body`, `category` and `subject`.
 
-<!-- chatgpt:omit:start -->
 When MCP is unavailable, use the CLI:
 
 ```bash
 jam feedback "<what you were doing, what you expected, what happened, the mistake>" --category <skills|mcp|cli|docs> --subject <skill name, tool name or command>
 ```
-<!-- chatgpt:omit:end -->
 
 - Jam surfaces only, not the user's code or other tools.
 - At most once per session, and never for a slip you corrected yourself.

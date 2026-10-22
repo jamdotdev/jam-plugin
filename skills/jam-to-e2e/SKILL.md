@@ -132,13 +132,11 @@ Jam's agents read it, so it needs no approval.
 
 Call the `submitFeedback` MCP tool with `body`, `category` and `subject`.
 
-<!-- chatgpt:omit:start -->
 When MCP is unavailable, use the CLI:
 
 ```bash
 jam feedback "<what you were doing, what you expected, what happened, the mistake>" --category <skills|mcp|cli|docs> --subject <skill name, tool name or command>
 ```
-<!-- chatgpt:omit:end -->
 
 - Jam surfaces only, not the user's code or other tools.
 - At most once per session, and never for a slip you corrected yourself.

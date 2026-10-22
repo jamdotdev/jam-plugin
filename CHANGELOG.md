@@ -24,7 +24,6 @@ The plugin is now versioned on its own and no longer tracks the Jam MCP server v
 - Validate skill frontmatter with a YAML parser and require exact discovery entries, so malformed skills cannot pass CI by appearing in a warning.
 - Keep local annotation requests local and require posting intent for Jam comments, mentions, pull requests and tickets.
 - Give CLI investigations both client and server failures, and require an explicit browser or window target for proof recordings.
-- Generate a self-contained MCP-only ChatGPT package from the shared skill, with matching listing metadata and archive regression checks.
 - Use the project's browser mode for regression tests and isolated checkouts for new before-and-after recordings.
 
 ## 1.23.2

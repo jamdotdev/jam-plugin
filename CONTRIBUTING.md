@@ -59,26 +59,10 @@ The plugin has its own version, independent of the Jam MCP server version. It is
 
 ### ChatGPT directory package
 
-The ChatGPT directory package contains `jam-fix`'s MCP path. Build it from
-the working tree with Node.js 22 and `zip` installed:
+The ChatGPT directory takes only `jam-fix`'s MCP path. The CLI install steps (in the other skills and in `jam-fix/references/`) download and run code, which fails ChatGPT's external-code review.
 
 ```bash
-npm ci
-node scripts/check.mjs
-npm test
-node scripts/package-chatgpt.mjs /tmp/jam-chatgpt.zip
+git archive --format=zip --prefix=jam/ --output=../jam-chatgpt-<version>.zip HEAD .codex-plugin mcp.json assets skills/jam-fix/SKILL.md skills/jam-fix/agents LICENSE
 ```
-
-The generator removes blocks between `<!-- chatgpt:omit:start -->` and
-`<!-- chatgpt:omit:end -->` from the shared skill. Keep CLI setup and proof
-instructions in `jam-fix/references/cli.md`, linked from an omitted block.
-The generator rejects unbalanced markers, remaining CLI instructions and
-relative links. It also changes the package listing to describe its MCP
-investigation workflow. The plugin identity, version, connection and assets
-come from the same working tree. The output archive replaces any file at
-the supplied path.
-
-Run the generated package through the directory review before publishing.
-Local checks validate the package contents, not directory acceptance.
 
 Update the existing app entry with this package. Do not create a new app through **Upload New**; that loses the saved identity and connection settings.
