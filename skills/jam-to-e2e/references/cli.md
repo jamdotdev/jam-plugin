@@ -1,0 +1,17 @@
+# jam-to-e2e with the `jam` CLI
+
+Use this when the Jam MCP tools are not connected. Set up once per environment:
+
+```bash
+command -v jam >/dev/null || curl -fsSL https://native.jam.dev/install | bash
+export PATH="$HOME/.local/bin:$PATH"
+jam auth status --json || jam auth login
+```
+
+Exit code 3 means not signed in. With no browser (CI, a cloud agent), ask the
+user to set `JAM_TOKEN` to a personal access token from
+https://jam.dev/s/settings/mcp as a secret. Never write a token to a file.
+
+The CLI column of the table in `SKILL.md` has the command for each read.
+Paginated reads return `nextCursor`; pass it as `--after`. `jam agent-context`
+prints every command and flag.

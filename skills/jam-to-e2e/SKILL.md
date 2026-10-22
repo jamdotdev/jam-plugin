@@ -9,19 +9,11 @@ One Jam in, one test out. The Jam shows what the user did when the bug
 happened. The code shows what the labels and routes are today. The test
 asserts what the product must do, and it fails until the bug is fixed.
 
-## Set up the CLI
+## Pick the interface
 
-Use the Jam MCP tools when they are connected. Otherwise:
-
-```bash
-command -v jam >/dev/null || curl -fsSL https://native.jam.dev/install | bash
-export PATH="$HOME/.local/bin:$PATH"
-jam auth status --json || jam auth login
-```
-
-Exit code 3 means not signed in. With no browser (CI, a cloud agent), ask the
-user to set `JAM_TOKEN` to a personal access token from
-https://jam.dev/s/settings/mcp as a secret. Never write a token to a file.
+Use the Jam MCP tools when they are connected. Otherwise read
+[references/cli.md](references/cli.md) for the `jam` CLI setup; the table
+below gives the command for each read.
 
 ## 1. Read the Jam
 
