@@ -9,12 +9,15 @@ One Jam in, one test out. The Jam shows what the user did and what the
 screen, console and network did in return. The code shows what the labels
 and routes are today. The test asserts what the product must do.
 
-A Jam is not always a bug report. Decide first which kind this one is:
+A Jam is not always a bug report, so the user's request decides what the
+test must do today, not the Jam:
 
-- **A flow, demo or walkthrough:** the Jam shows the product working. The
-  test asserts what it shows and passes today. It guards the flow.
-- **A bug:** the Jam shows the product doing the wrong thing. The test
-  asserts what should have happened and fails until the fix lands.
+- "Cover this flow", "write a test for this demo": the test asserts what the
+  Jam shows and **passes** today. It guards the flow.
+- "Regression test", "reproduce this bug", "test for this bug": the test
+  asserts what should have happened and **fails** until the fix lands.
+- Neither said: take the Jam's title and description as the hint, state
+  which reading you took, and ask when you can.
 
 ## Pick the interface
 
@@ -96,9 +99,9 @@ any disagreement with this file.
 
 Run the test with the project's normal browser mode, headless by default.
 
-- **Flow Jam:** it must pass, twice in a row, with no sleeps. A pass on the
+- **Flow test:** it must pass, twice in a row, with no sleeps. A pass on the
   first run and a timeout on the second is a flaky locator, not a test.
-- **Bug Jam:** it must fail **on the assertion that encodes the bug**, not on
+- **Bug test:** it must fail **on the assertion that encodes the bug**, not on
   a locator timeout or a setup error. A test that fails for the wrong reason
   is not a repro yet. If the bug does not reproduce, say so: report what you
   ran, what you saw, and how it differs from the Jam (environment, data,
@@ -113,7 +116,7 @@ Return:
 3. The run output: the pass, or the failure trimmed to the assertion.
 4. Differences between the Jam and the current code.
 
-For a bug Jam, the same test must pass twice in a row with no sleeps once
+For a bug test, the same test must pass twice in a row with no sleeps once
 the fix lands. From then on the test is the source of truth; the Jam is the
 evidence.
 
