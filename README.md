@@ -23,6 +23,15 @@ npx skills add jamdotdev/skills
 
 Works with Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, OpenCode and [every agent skills.sh supports](https://skills.sh). Each skill does one job and loads only when the task calls for it.
 
+A Jam is a bug report recorded in the browser: the video or screenshot, console logs, network requests and user steps, on one link. These skills teach your agent to read one, and to make one.
+
+| Skill | You say | You get |
+| --- | --- | --- |
+| [jam-fix](#jam-fix) | "fix this jam.dev link" | the root cause with evidence, and the fix when you ask |
+| [jam-proof](#jam-proof) | "record a Jam showing it works" | a Jam of the change working, console and network attached |
+| [jam-annotate](#jam-annotate) | "mark what's broken and file it" | a screenshot Jam with boxes, arrows and redactions |
+| [jam-to-e2e](#jam-to-e2e) | "write a regression test for this Jam" | a failing end-to-end test in your own runner |
+
 ## Skills
 
 ### jam-fix
@@ -133,11 +142,11 @@ Sign-in, personal access tokens, what the MCP server can do, and permissions are
 
 Every `jam-*` skill needs a free Jam account and either the Jam MCP server or the [Jam CLI](https://jam.dev/cli). The skill installs the CLI and signs in when MCP is not connected. In CI or a cloud agent, set `JAM_TOKEN` to a [personal access token](https://jam.dev/docs/personal-access-tokens).
 
-`jam-proof` records on macOS and Linux (X11). Everything else runs anywhere the CLI does.
+Window and display capture in `jam-proof` need macOS or Linux (X11); its default, recording a headless browser, needs only Chrome. Everything else runs anywhere the CLI does.
 
 ## Contribute
 
-Bug in a skill, or a skill you want? [Open an issue](https://github.com/jamdotdev/skills/issues/new/choose). Pull requests are welcome; read [CONTRIBUTING.md](./CONTRIBUTING.md) first, it is short.
+Bug in a skill, or a skill you want? [Open an issue](https://github.com/jamdotdev/skills/issues/new/choose). Pull requests are welcome. Read [CONTRIBUTING.md](./CONTRIBUTING.md) first; it is short.
 
 ## Try Jam
 
