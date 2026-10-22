@@ -51,11 +51,17 @@ Then run the skill on a real task in at least one agent and say which one in the
 
 ## Releasing (maintainers)
 
-The plugin has its own version, independent of the Jam MCP server version. It is the same in `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `gemini-extension.json` and `server.json`; CI checks this.
+Two things ship from this repo, each with its own version.
 
-1. Bump the version in all five files and move **Unreleased** in the changelog under the new version.
-2. Merge to `master`.
-3. Push a `v<version>` tag. `.github/workflows/publish-mcp.yml` publishes `server.json` to the MCP Registry as `dev.jam/jam`. A registry version can't be changed after it is published.
+**The plugin.** Its version is the same in `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json` and `gemini-extension.json`; CI checks this.
+
+1. Bump the version in those four files and move **Unreleased** in the changelog under the new version.
+2. Merge to `master` and push a `v<version>` tag.
+
+**The MCP Registry entry.** `server.json` describes the remote Jam MCP server at `mcp.jam.dev`, so its `version` is the server's, not the plugin's. When the server releases:
+
+1. Set `version` in `server.json` to the server's version and merge to `master`.
+2. Push an `mcp-v<version>` tag. `.github/workflows/publish-mcp.yml` publishes `server.json` to the registry as `dev.jam/jam`. A registry version can't be changed after it is published.
 
 ### ChatGPT directory package
 

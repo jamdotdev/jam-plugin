@@ -2,25 +2,25 @@ name: Publish to MCP Registry
 
 on:
   push:
-    tags: ["v*"]
+    tags: ["mcp-v*"]
   workflow_dispatch:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    # MCP_PRIVATE_KEY is an environment secret; the environment only allows v* tags.
+    # MCP_PRIVATE_KEY is an environment secret; the environment only allows mcp-v* tags.
     environment: mcp-registry-publish
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Check server.json version matches tag
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/mcp-v')
         run: |
-          TAG="${GITHUB_REF#refs/tags/v}"
+          TAG="${GITHUB_REF#refs/tags/mcp-v}"
           V="$(jq -r .version server.json)"
-          test "$TAG" = "$V" || { echo "tag v$TAG != server.json $V"; exit 1; }
+          test "$TAG" = "$V" || { echo "tag mcp-v$TAG != server.json $V"; exit 1; }
 
       - name: Install mcp-publisher
         run: curl -sL https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz | tar xz mcp-publisher

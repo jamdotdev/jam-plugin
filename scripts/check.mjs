@@ -72,13 +72,12 @@ if (new Set(setupBlocks.values()).size > 1) {
   fail(`CLI install blocks differ across ${[...setupBlocks.keys()].join(", ")}; make them identical`);
 }
 
-// Versions
+// Versions. server.json is not here: it carries the Jam MCP server's version, not the plugin's.
 const manifests = [
   ".claude-plugin/plugin.json",
   ".codex-plugin/plugin.json",
   ".cursor-plugin/plugin.json",
   "gemini-extension.json",
-  "server.json",
 ];
 const versions = manifests.map((p) => [p, JSON.parse(read(p)).version]);
 if (new Set(versions.map(([, v]) => v)).size !== 1) {
