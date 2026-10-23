@@ -47,7 +47,7 @@ Then run the skill on a real task in at least one agent and say which one in the
 
 - One skill per pull request. Maintainers may ship a coordinated release of several in one.
 - Add a line under **Unreleased** in [CHANGELOG.md](./CHANGELOG.md).
-- A new skill also needs a card in [README.md](./README.md). CI fails without one.
+- A new skill also needs an entry in the Skills list in [README.md](./README.md). CI fails without one.
 
 ## Releasing (maintainers)
 

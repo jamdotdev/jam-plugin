@@ -27,28 +27,10 @@ A Jam is a recording of what happened on screen, with the console logs, network 
 
 ## Skills
 
-| Skill | You say | You get |
-| --- | --- | --- |
-| [jam-fix](#jam-fix) | "fix this jam.dev link" | the root cause with evidence, and the fix when you ask |
-| [jam-proof](#jam-proof) | "record a Jam showing it works" | a Jam of the change working, console and network attached |
-| [jam-annotate](#jam-annotate) | "mark what's broken and file it" | a screenshot Jam with boxes, arrows and redactions |
-| [jam-to-e2e](#jam-to-e2e) | "write an e2e test for this Jam" | a test in your own runner: guards a flow, or fails on a bug until it is fixed |
-
-### jam-fix
-
-Reads the recording's console errors, failed requests, user steps, frames and transcript, then writes a diagnosis with the evidence for it. Changes code only when you ask.
-
-### jam-proof
-
-Records the change working and hands back a Jam link for the pull request. Headless Chrome by default: it records the page, not your screen.
-
-### jam-annotate
-
-Turns a screenshot into a Jam that points at the problem: boxes, arrows, notes, redactions and blurs, with the retina math done right.
-
-### jam-to-e2e
-
-Turns a Jam into steps and a test in the project's own runner and language, whatever it is, with first-class guidance for Playwright and [tester-army/e2e](https://github.com/tester-army/e2e). A Jam of a flow becomes a test that guards it. A Jam of a bug becomes a failing test, so the fix has something to turn green.
+- [jam-fix](./skills/jam-fix/SKILL.md): "Fix this jam.dev link." Reads the recording's **console errors**, **failed requests**, **user steps**, **frames** and **transcript**, then writes the **root cause with evidence**. Changes code only when you ask.
+- [jam-proof](./skills/jam-proof/SKILL.md): "Record a Jam showing it works." Records the change working and hands back a **Jam link for the pull request**, with **console** and **network** attached. Headless Chrome by default: it records the page, not your screen.
+- [jam-annotate](./skills/jam-annotate/SKILL.md): "Mark what's broken and file it." Turns a screenshot into a Jam that points at the problem: **boxes**, **arrows**, **notes**, **redactions** and **blurs**, with the retina math done right.
+- [jam-to-e2e](./skills/jam-to-e2e/SKILL.md): "Write an e2e test for this Jam." Turns a Jam into a test in **your own runner and language**, with first-class guidance for **Playwright** and [tester-army/e2e](https://github.com/tester-army/e2e). A Jam of a flow becomes a test that **guards it**. A Jam of a bug becomes a **failing test**, so the fix has something to turn green.
 
 ## Requirements
 

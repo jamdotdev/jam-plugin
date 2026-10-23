@@ -51,7 +51,7 @@ for (const dir of skillDirs) {
     if (description.length > 1024) fail(`${skillPath}: description is ${description.length} chars, max 1024`);
   }
   if (!existsSync(join("skills", dir, "agents", "openai.yaml"))) fail(`${dir}: missing agents/openai.yaml`);
-  if (!readme.includes(`### ${dir}\n`)) fail(`${dir}: missing "### ${dir}" card in README.md`);
+  if (!readme.includes(`- [${dir}](./skills/${dir}/SKILL.md): `)) fail(`${dir}: missing "- [${dir}](./skills/${dir}/SKILL.md): " entry in README.md`);
   if (dir.startsWith("jam-")) {
     const feedback = src.match(/\n## Send feedback to Jam\n[\s\S]*?(?=\n## |$)/)?.[0];
     if (!feedback) fail(`${skillPath}: missing "## Send feedback to Jam" section; copy it from another jam-* skill`);

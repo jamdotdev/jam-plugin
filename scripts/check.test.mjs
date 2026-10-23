@@ -18,7 +18,7 @@ function fixture(t, frontmatter = "name: sample-skill\ndescription: A useful ski
   };
   write(skillPath, `---\n${frontmatter}\n---\n# Sample skill\n`);
   write("skills/sample-skill/agents/openai.yaml", "interface: {}\n");
-  write("README.md", "### sample-skill\n");
+  write("README.md", "- [sample-skill](./skills/sample-skill/SKILL.md): x\n");
   for (const file of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".cursor-plugin/plugin.json", "gemini-extension.json"]) {
     write(file, '{"version":"1.0.0"}\n');
   }
