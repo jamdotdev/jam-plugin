@@ -1,3 +1,5 @@
+[![AgentShield Security](https://merx.help/badge/A+.svg)](https://merx.help/shield)
+
 <p align="center">
   <a href="https://jam.dev">
     <img src="https://storage.googleapis.com/jam-assets/github-repo.png" alt="Jam">
